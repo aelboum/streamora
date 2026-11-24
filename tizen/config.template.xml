@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated into dist/<mode>/config.xml by scripts/build.mjs. Build mode: {{MODE}}. -->
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
+        id="https://screenshelf.invalid/{{PACKAGE_ID}}" version="{{VERSION}}" viewmodes="maximized">
+  <tizen:application id="{{PACKAGE_ID}}.{{APP_NAME}}" package="{{PACKAGE_ID}}" required_version="3.0"/>
+  <name>{{APP_NAME}}</name>
+  <content src="index.html"/>
+  <icon src="icon.png"/>
+  <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+  <tizen:profile name="tv-samsung"/>
+  <tizen:setting screen-orientation="landscape" context-menu="disable"
+                 background-support="disable" encryption="disable"
+                 install-location="auto" hwkey-event="enable"/>
+{{PRIVILEGES}}
+{{ACCESS}}
+  <tizen:content-security-policy>{{CSP}}</tizen:content-security-policy>
+</widget>

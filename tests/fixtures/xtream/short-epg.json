@@ -1,0 +1,42 @@
+{
+ "epg_listings": [
+  {
+   "id": "1",
+   "epg_id": "5",
+   "title": "TW9ybmluZyBOZXdz",
+   "lang": "en",
+   "start": "2025-11-23 07:00:00",
+   "end": "2025-11-23 08:00:00",
+   "description": "SGVhZGxpbmVzIGFuZCB3ZWF0aGVyIOKAlCBsaXZlLg==",
+   "channel_id": "news.one.uk",
+   "start_timestamp": "1763881200",
+   "stop_timestamp": "1763884800"
+  },
+  {
+   "id": "2",
+   "epg_id": "5",
+   "title": "Q2Fmw6kgw5xuw69vbg==",
+   "start_timestamp": 1763884800,
+   "stop_timestamp": 1763888400,
+   "description": "",
+   "channel_id": "news.one.uk"
+  },
+  {
+   "id": "3",
+   "title": "not-base64!!",
+   "start_timestamp": "1763888400",
+   "stop_timestamp": "1763892000",
+   "channel_id": "news.one.uk"
+  },
+  {
+   "id": "4",
+   "title": "QmFkIHRpbWVz",
+   "start_timestamp": "1763892000",
+   "stop_timestamp": "1763890000"
+  },
+  {
+   "id": "5",
+   "title": "Tm8gdGltZXM="
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>ScreenShelf Probe 2</title>
+<script>window.__T0 = Date.now();</script>
+<link rel="stylesheet" href="probe2.css">
+<script src="$WEBAPIS/webapis/webapis.js"></script>
+</head>
+<body>
+<object id="av" type="application/avplayer"></object>
+<div id="panel">
+  <h1>ScreenShelf Probe 2 <span id="phase">starting</span></h1>
+  <div id="summary"></div>
+  <div id="manual" class="hidden">
+    <h2>Manual checks</h2>
+    <p>1. Press <b>CH +</b> and <b>CH &minus;</b> on the remote (if it has them).</p>
+    <p>2. Press <b>OK</b> to open the text field, type <b>abc</b> with the on-screen keyboard, then confirm.</p>
+    <input id="ime" type="text" value="">
+    <p id="manualstate"></p>
+  </div>
+  <pre id="log"></pre>
+</div>
+<div id="imgs"></div>
+<script src="probe2.js"></script>
+</body>
+</html>

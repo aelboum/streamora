@@ -1,0 +1,262 @@
+{"from":"192.168.1.19","t":1795472721468,"level":"info","msg":"dev log sink enabled","data":{"build":"dev","version":"0.2.0"}}
+{"from":"192.168.1.19","t":1795472721527,"level":"info","msg":"platform","data":{"info":{"name":"tizen","platformVersion":"3.0","width":1920,"height":1080,"userAgent":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 (KHTML, like Gecko) Version/3.0 TV Safari/538.1"},"capabilities":{"appLifecycle":true,"keyRegistration":true,"avplay":true,"fileStore":true,"secureKeyStore":true,"webCrypto":true}}}
+{"from":"192.168.1.19","t":1795472721530,"level":"info","msg":"parental state","component":"boot","data":{"state":"none"}}
+{"from":"192.168.1.19","t":1795472725187,"level":"info","msg":"selftest PASS fileStore write/read/replace/remove 1 MB","component":"selftest","data":{"ms":2148,"detail":"atomicReplace=true listed=true removed=true"}}
+{"from":"192.168.1.19","t":1795472725342,"level":"info","msg":"selftest PASS keyStore save/overwrite/load/remove","component":"selftest","data":{"ms":146,"detail":"persistent=true removed=true"}}
+{"from":"192.168.1.19","t":1795472725510,"level":"info","msg":"selftest PASS PBKDF2-SHA256 100,000 iterations","component":"selftest","data":{"ms":165,"detail":"ms=165 bytes=32"}}
+{"from":"192.168.1.19","t":1795472725521,"level":"info","msg":"selftest PASS XHR responseURL availability","component":"selftest","data":{"ms":9,"detail":"status=404 responseURL present, equals request"}}
+{"from":"192.168.1.19","t":1795472725525,"level":"info","msg":"selftest done","component":"selftest","data":{"memory":{"availableMB":329,"totalMB":1295}}}
+{"from":"192.168.1.19","t":1795472725574,"level":"info","msg":"playlist added","component":"playlists","data":{"id":"pmwtu3pjw01","kind":"m3u","cleartext":true}}
+{"from":"192.168.1.19","t":1795472725749,"level":"info","msg":"import done","component":"playlists","data":{"id":"pmwtu3pjw01","live":4,"categories":1,"unchanged":false,"ms":170,"fetchMs":43,"storeMs":127}}
+{"from":"192.168.1.19","t":1795472725867,"level":"info","msg":"live tv ready","component":"live","data":{"channels":4,"categories":5,"loadMs":64,"renderMs":8}}
+{"from":"192.168.1.19","t":1795472726164,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwtu3pjw01","ok":true,"sources":1,"channels":4,"programmes":104,"ms":281}}
+{"from":"192.168.1.19","t":1795472726210,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":2,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472729454,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":2,"current":2,"ms":3244}}
+{"from":"192.168.1.19","t":1795472729485,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":2,"current":2,"ms":3276}}
+{"from":"192.168.1.19","t":1795472732460,"level":"warn","msg":"live: prepare stalled; reopening","component":"player","data":{"channel":"m9f4c01ae","afterMs":6266}}
+{"from":"192.168.1.19","t":1795472732593,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":3,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":6384}}
+{"from":"192.168.1.19","t":1795472732602,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":4,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472735804,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":4,"current":4,"ms":3204}}
+{"from":"192.168.1.19","t":1795472735850,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":4,"current":4,"ms":3250}}
+{"from":"192.168.1.19","t":1795472736012,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":4,"current":4,"settled":false,"ms":3412}}
+{"from":"192.168.1.19","t":1795472736561,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":4,"ms":3960}}
+{"from":"192.168.1.19","t":1795472736562,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":10367}}
+{"from":"192.168.1.19","t":1795472736568,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"start ch1","n":0,"ok":true,"ms":10387,"code":""}}
+{"from":"192.168.1.19","t":1795472736805,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":5,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4205}}
+{"from":"192.168.1.19","t":1795472737215,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":7,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472740351,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":7,"current":7,"ms":3136}}
+{"from":"192.168.1.19","t":1795472740381,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":7,"current":7,"ms":3166}}
+{"from":"192.168.1.19","t":1795472740563,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":7,"current":7,"settled":false,"ms":3348}}
+{"from":"192.168.1.19","t":1795472741108,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":7,"ms":3893}}
+{"from":"192.168.1.19","t":1795472741110,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3898}}
+{"from":"192.168.1.19","t":1795472741119,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"start ch2","n":0,"ok":true,"ms":4535,"code":""}}
+{"from":"192.168.1.19","t":1795472741293,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":8,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4078}}
+{"from":"192.168.1.19","t":1795472741704,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":10,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472752110,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":10,"current":10,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10407}}
+{"from":"192.168.1.19","t":1795472752624,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":11,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10921}}
+{"from":"192.168.1.19","t":1795472752625,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795472752632,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":1,"ok":false,"ms":11498,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472753057,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":14,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472763811,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":14,"current":14,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10754}}
+{"from":"192.168.1.19","t":1795472764324,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":15,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11267}}
+{"from":"192.168.1.19","t":1795472764325,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795472764329,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":1,"ok":false,"ms":11684,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472764752,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":18,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472767886,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":18,"current":18,"ms":3134}}
+{"from":"192.168.1.19","t":1795472767933,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":18,"current":18,"ms":3181}}
+{"from":"192.168.1.19","t":1795472768107,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":18,"current":18,"settled":false,"ms":3355}}
+{"from":"192.168.1.19","t":1795472768657,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":18,"ms":3905}}
+{"from":"192.168.1.19","t":1795472768657,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":3910}}
+{"from":"192.168.1.19","t":1795472768660,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":1,"ok":true,"ms":4319,"code":""}}
+{"from":"192.168.1.19","t":1795472768823,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":19,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4071}}
+{"from":"192.168.1.19","t":1795472769233,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":21,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472772453,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":21,"current":21,"ms":3221}}
+{"from":"192.168.1.19","t":1795472772495,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":21,"current":21,"ms":3263}}
+{"from":"192.168.1.19","t":1795472772672,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":21,"current":21,"settled":false,"ms":3440}}
+{"from":"192.168.1.19","t":1795472773217,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":21,"ms":3985}}
+{"from":"192.168.1.19","t":1795472773218,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3990}}
+{"from":"192.168.1.19","t":1795472773223,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":1,"ok":true,"ms":4552,"code":""}}
+{"from":"192.168.1.19","t":1795472773373,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":22,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4141}}
+{"from":"192.168.1.19","t":1795472773783,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":24,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472784724,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":24,"current":24,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10942}}
+{"from":"192.168.1.19","t":1795472785238,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":25,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11455}}
+{"from":"192.168.1.19","t":1795472785239,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795472785242,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":2,"ok":false,"ms":12010,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472785667,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":28,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472797312,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":28,"current":28,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11646}}
+{"from":"192.168.1.19","t":1795472797824,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":29,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":12158}}
+{"from":"192.168.1.19","t":1795472797825,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795472797828,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":2,"ok":false,"ms":12574,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472798248,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":32,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472801441,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":32,"current":32,"ms":3194}}
+{"from":"192.168.1.19","t":1795472801480,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":32,"current":32,"ms":3233}}
+{"from":"192.168.1.19","t":1795472804441,"level":"warn","msg":"live: prepare stalled; reopening","component":"player","data":{"channel":"m9f4c01ae","afterMs":6199}}
+{"from":"192.168.1.19","t":1795472804574,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":33,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":6327}}
+{"from":"192.168.1.19","t":1795472804578,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":34,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472807841,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":34,"current":34,"ms":3263}}
+{"from":"192.168.1.19","t":1795472807890,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":34,"current":34,"ms":3312}}
+{"from":"192.168.1.19","t":1795472808050,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":34,"current":34,"settled":false,"ms":3472}}
+{"from":"192.168.1.19","t":1795472808599,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":34,"ms":4021}}
+{"from":"192.168.1.19","t":1795472808600,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":10357}}
+{"from":"192.168.1.19","t":1795472808604,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":2,"ok":true,"ms":10767,"code":""}}
+{"from":"192.168.1.19","t":1795472808784,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":35,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4206}}
+{"from":"192.168.1.19","t":1795472809195,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":37,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472812381,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":37,"current":37,"ms":3187}}
+{"from":"192.168.1.19","t":1795472812449,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":37,"current":37,"ms":3255}}
+{"from":"192.168.1.19","t":1795472812609,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":37,"current":37,"settled":false,"ms":3415}}
+{"from":"192.168.1.19","t":1795472813149,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":37,"ms":3955}}
+{"from":"192.168.1.19","t":1795472813150,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3960}}
+{"from":"192.168.1.19","t":1795472813155,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":2,"ok":true,"ms":4538,"code":""}}
+{"from":"192.168.1.19","t":1795472813327,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":38,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4133}}
+{"from":"192.168.1.19","t":1795472813736,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":40,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472824886,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":40,"current":40,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11150}}
+{"from":"192.168.1.19","t":1795472825399,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":41,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11663}}
+{"from":"192.168.1.19","t":1795472825400,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795472825403,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":3,"ok":false,"ms":12239,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472825824,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":44,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472836049,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":44,"current":44,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10226}}
+{"from":"192.168.1.19","t":1795472836560,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":45,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10737}}
+{"from":"192.168.1.19","t":1795472836562,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795472836562,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":3,"ok":false,"ms":11154,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472836988,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":48,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472840237,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":48,"current":48,"ms":3250}}
+{"from":"192.168.1.19","t":1795472840274,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":48,"current":48,"ms":3287}}
+{"from":"192.168.1.19","t":1795472840457,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":48,"current":48,"settled":false,"ms":3470}}
+{"from":"192.168.1.19","t":1795472841005,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":48,"ms":4018}}
+{"from":"192.168.1.19","t":1795472841005,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":4025}}
+{"from":"192.168.1.19","t":1795472841014,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":3,"ok":true,"ms":4437,"code":""}}
+{"from":"192.168.1.19","t":1795472841175,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":49,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4188}}
+{"from":"192.168.1.19","t":1795472841586,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":51,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472844853,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":51,"current":51,"ms":3268}}
+{"from":"192.168.1.19","t":1795472844889,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":51,"current":51,"ms":3304}}
+{"from":"192.168.1.19","t":1795472847854,"level":"warn","msg":"live: prepare stalled; reopening","component":"player","data":{"channel":"m25504e78","afterMs":6275}}
+{"from":"192.168.1.19","t":1795472847982,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":52,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":6397}}
+{"from":"192.168.1.19","t":1795472847987,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":53,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472851100,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":53,"current":53,"ms":3114}}
+{"from":"192.168.1.19","t":1795472851166,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":53,"current":53,"ms":3180}}
+{"from":"192.168.1.19","t":1795472851305,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":53,"current":53,"settled":false,"ms":3319}}
+{"from":"192.168.1.19","t":1795472851850,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":53,"ms":3864}}
+{"from":"192.168.1.19","t":1795472851850,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":10271}}
+{"from":"192.168.1.19","t":1795472851856,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":3,"ok":true,"ms":10829,"code":""}}
+{"from":"192.168.1.19","t":1795472852080,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":54,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4094}}
+{"from":"192.168.1.19","t":1795472852489,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":56,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472863228,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":56,"current":56,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10739}}
+{"from":"192.168.1.19","t":1795472863739,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":57,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11250}}
+{"from":"192.168.1.19","t":1795472863740,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795472863750,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":4,"ok":false,"ms":11878,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472864170,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":60,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472875338,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":60,"current":60,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11168}}
+{"from":"192.168.1.19","t":1795472875849,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":61,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11679}}
+{"from":"192.168.1.19","t":1795472875850,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795472875853,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":4,"ok":false,"ms":12094,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472876279,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":64,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472879552,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":64,"current":64,"ms":3274}}
+{"from":"192.168.1.19","t":1795472879597,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":64,"current":64,"ms":3319}}
+{"from":"192.168.1.19","t":1795472882553,"level":"warn","msg":"live: prepare stalled; reopening","component":"player","data":{"channel":"m9f4c01ae","afterMs":6282}}
+{"from":"192.168.1.19","t":1795472882647,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":65,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":6369}}
+{"from":"192.168.1.19","t":1795472882652,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":66,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472885868,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":66,"current":66,"ms":3217}}
+{"from":"192.168.1.19","t":1795472885903,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":66,"current":66,"ms":3252}}
+{"from":"192.168.1.19","t":1795472886087,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":66,"current":66,"settled":false,"ms":3436}}
+{"from":"192.168.1.19","t":1795472886631,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":66,"ms":3980}}
+{"from":"192.168.1.19","t":1795472886632,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":10360}}
+{"from":"192.168.1.19","t":1795472886638,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":4,"ok":true,"ms":10773,"code":""}}
+{"from":"192.168.1.19","t":1795472886818,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":67,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4167}}
+{"from":"192.168.1.19","t":1795472887231,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":69,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472890288,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":69,"current":69,"ms":3058}}
+{"from":"192.168.1.19","t":1795472890325,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":69,"current":69,"ms":3095}}
+{"from":"192.168.1.19","t":1795472890494,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":69,"current":69,"settled":false,"ms":3264}}
+{"from":"192.168.1.19","t":1795472891037,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":69,"ms":3807}}
+{"from":"192.168.1.19","t":1795472891037,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3815}}
+{"from":"192.168.1.19","t":1795472891043,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":4,"ok":true,"ms":4394,"code":""}}
+{"from":"192.168.1.19","t":1795472891185,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":70,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3955}}
+{"from":"192.168.1.19","t":1795472891595,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":72,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472902987,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":72,"current":72,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11393}}
+{"from":"192.168.1.19","t":1795472903497,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":73,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11903}}
+{"from":"192.168.1.19","t":1795472903498,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795472903502,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":5,"ok":false,"ms":12449,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472903930,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":76,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472914873,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":76,"current":76,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10943}}
+{"from":"192.168.1.19","t":1795472915386,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":77,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11456}}
+{"from":"192.168.1.19","t":1795472915387,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795472915387,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":5,"ok":false,"ms":11880,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472915809,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":80,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472919116,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":80,"current":80,"ms":3308}}
+{"from":"192.168.1.19","t":1795472919147,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":80,"current":80,"ms":3339}}
+{"from":"192.168.1.19","t":1795472919334,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":80,"current":80,"settled":false,"ms":3526}}
+{"from":"192.168.1.19","t":1795472919883,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":80,"ms":4075}}
+{"from":"192.168.1.19","t":1795472919883,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":4079}}
+{"from":"192.168.1.19","t":1795472919889,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":5,"ok":true,"ms":4488,"code":""}}
+{"from":"192.168.1.19","t":1795472920048,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":81,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4240}}
+{"from":"192.168.1.19","t":1795472920459,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":83,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472923684,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":83,"current":83,"ms":3225}}
+{"from":"192.168.1.19","t":1795472923711,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":83,"current":83,"ms":3252}}
+{"from":"192.168.1.19","t":1795472923901,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":83,"current":83,"settled":false,"ms":3442}}
+{"from":"192.168.1.19","t":1795472924443,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":83,"ms":3984}}
+{"from":"192.168.1.19","t":1795472924444,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3990}}
+{"from":"192.168.1.19","t":1795472924449,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":5,"ok":true,"ms":4549,"code":""}}
+{"from":"192.168.1.19","t":1795472924588,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":84,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4129}}
+{"from":"192.168.1.19","t":1795472925000,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":86,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472936069,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":86,"current":86,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11070}}
+{"from":"192.168.1.19","t":1795472936581,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":87,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11582}}
+{"from":"192.168.1.19","t":1795472936582,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795472936583,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":6,"ok":false,"ms":12126,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472937002,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":90,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472948136,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":90,"current":90,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11134}}
+{"from":"192.168.1.19","t":1795472948646,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":91,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11644}}
+{"from":"192.168.1.19","t":1795472948647,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795472948650,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":6,"ok":false,"ms":12059,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472949072,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":94,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472952296,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":94,"current":94,"ms":3225}}
+{"from":"192.168.1.19","t":1795472952311,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":94,"current":94,"ms":3240}}
+{"from":"192.168.1.19","t":1795472952506,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":94,"current":94,"settled":false,"ms":3435}}
+{"from":"192.168.1.19","t":1795472953048,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":94,"ms":3977}}
+{"from":"192.168.1.19","t":1795472953048,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":3983}}
+{"from":"192.168.1.19","t":1795472953053,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":6,"ok":true,"ms":4392,"code":""}}
+{"from":"192.168.1.19","t":1795472953183,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":95,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4112}}
+{"from":"192.168.1.19","t":1795472953594,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":97,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472956699,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":97,"current":97,"ms":3105}}
+{"from":"192.168.1.19","t":1795472956739,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":97,"current":97,"ms":3145}}
+{"from":"192.168.1.19","t":1795472956904,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":97,"current":97,"settled":false,"ms":3310}}
+{"from":"192.168.1.19","t":1795472957446,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":97,"ms":3852}}
+{"from":"192.168.1.19","t":1795472957447,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3858}}
+{"from":"192.168.1.19","t":1795472957452,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":6,"ok":true,"ms":4389,"code":""}}
+{"from":"192.168.1.19","t":1795472957590,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":98,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3996}}
+{"from":"192.168.1.19","t":1795472958001,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":100,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472969553,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":100,"current":100,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11553}}
+{"from":"192.168.1.19","t":1795472970065,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":101,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":12065}}
+{"from":"192.168.1.19","t":1795472970068,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795472970071,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":7,"ok":false,"ms":12611,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472970499,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":104,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472982347,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":104,"current":104,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11849}}
+{"from":"192.168.1.19","t":1795472982859,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":105,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":12361}}
+{"from":"192.168.1.19","t":1795472982860,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795472982864,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":7,"ok":false,"ms":12773,"code":"connection"}}
+{"from":"192.168.1.19","t":1795472983283,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":108,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795472986531,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":108,"current":108,"ms":3249}}
+{"from":"192.168.1.19","t":1795472986572,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":108,"current":108,"ms":3290}}
+{"from":"192.168.1.19","t":1795472986767,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":108,"current":108,"settled":false,"ms":3485}}
+{"from":"192.168.1.19","t":1795472987309,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":108,"ms":4027}}
+{"from":"192.168.1.19","t":1795472987309,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":4032}}
+{"from":"192.168.1.19","t":1795472987315,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":7,"ok":true,"ms":4440,"code":""}}
+{"from":"192.168.1.19","t":1795472987477,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":109,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4195}}
+{"from":"192.168.1.19","t":1795472987889,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":111,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795472991080,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":111,"current":111,"ms":3191}}
+{"from":"192.168.1.19","t":1795472991116,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":111,"current":111,"ms":3227}}
+{"from":"192.168.1.19","t":1795472991307,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":111,"current":111,"settled":false,"ms":3418}}
+{"from":"192.168.1.19","t":1795472991844,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":111,"ms":3955}}
+{"from":"192.168.1.19","t":1795472991845,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3963}}
+{"from":"192.168.1.19","t":1795472991850,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":7,"ok":true,"ms":4525,"code":""}}
+{"from":"192.168.1.19","t":1795472992017,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":112,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4128}}
+{"from":"192.168.1.19","t":1795472992426,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":114,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795473004281,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":114,"current":114,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11855}}
+{"from":"192.168.1.19","t":1795473004796,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":115,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":12370}}
+{"from":"192.168.1.19","t":1795473004797,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795473004800,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":8,"ok":false,"ms":12941,"code":"connection"}}
+{"from":"192.168.1.19","t":1795473005218,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":118,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795473015909,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":118,"current":118,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10692}}
+{"from":"192.168.1.19","t":1795473016422,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":119,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11205}}
+{"from":"192.168.1.19","t":1795473016423,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"ma7b43c4b","code":"connection"}}
+{"from":"192.168.1.19","t":1795473016423,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail refused","n":8,"ok":false,"ms":11618,"code":"connection"}}
+{"from":"192.168.1.19","t":1795473016848,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":122,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795473019854,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":122,"current":122,"ms":3006}}
+{"from":"192.168.1.19","t":1795473019916,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":122,"current":122,"ms":3068}}
+{"from":"192.168.1.19","t":1795473020058,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":122,"current":122,"settled":false,"ms":3210}}
+{"from":"192.168.1.19","t":1795473020601,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":122,"ms":3752}}
+{"from":"192.168.1.19","t":1795473020601,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m9f4c01ae","startupMs":3759}}
+{"from":"192.168.1.19","t":1795473020609,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 recover ch1","n":8,"ok":true,"ms":4172,"code":""}}
+{"from":"192.168.1.19","t":1795473020759,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":123,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3911}}
+{"from":"192.168.1.19","t":1795473021172,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":125,"state":"NONE","ms":1}}
+{"from":"192.168.1.19","t":1795473024273,"level":"debug","msg":"avplay: buffering start","component":"avplay","data":{"sid":125,"current":125,"ms":3102}}
+{"from":"192.168.1.19","t":1795473024309,"level":"debug","msg":"avplay: buffering complete","component":"avplay","data":{"sid":125,"current":125,"ms":3138}}
+{"from":"192.168.1.19","t":1795473024478,"level":"debug","msg":"avplay: prepared","component":"avplay","data":{"sid":125,"current":125,"settled":false,"ms":3307}}
+{"from":"192.168.1.19","t":1795473025014,"level":"debug","msg":"avplay: first frame","component":"avplay","data":{"sid":125,"ms":3843}}
+{"from":"192.168.1.19","t":1795473025014,"level":"info","msg":"live: playing","component":"player","data":{"channel":"m25504e78","startupMs":3849}}
+{"from":"192.168.1.19","t":1795473025020,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 then ch2","n":8,"ok":true,"ms":4400,"code":""}}
+{"from":"192.168.1.19","t":1795473025215,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":126,"before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4044}}
+{"from":"192.168.1.19","t":1795473025623,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":128,"state":"NONE","ms":0}}
+{"from":"192.168.1.19","t":1795473035824,"level":"debug","msg":"avplay: onerror","component":"avplay","data":{"sid":128,"current":128,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10201}}
+{"from":"192.168.1.19","t":1795473036332,"level":"debug","msg":"avplay: teardown","component":"avplay","data":{"sid":129,"before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10709}}
+{"from":"192.168.1.19","t":1795473036334,"level":"warn","msg":"live: channel failed","component":"player","data":{"channel":"m0af5deb8","code":"connection"}}
+{"from":"192.168.1.19","t":1795473036336,"level":"info","msg":"recovery attempt","component":"selftest51","data":{"scenario":"S1 fail 404","n":9,"ok":false,"ms":11309,"code":"connection"}}
+{"from":"192.168.1.19","t":1795473036752,"level":"debug","msg":"avplay: open","component":"avplay","data":{"sid":132,"state":"NONE","ms":0}}

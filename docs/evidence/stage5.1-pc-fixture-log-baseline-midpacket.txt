@@ -1,0 +1,706 @@
+dev-sink listening on :8097, writing C:\Users\imran\Documents\screenshelf\logs\dev-sink
+[info] dev log sink enabled {"build":"dev","version":"0.2.0"}
+[info] platform {"info":{"name":"tizen","platformVersion":"3.0","width":1920,"height":1080,"userAgent":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 (KHTML, like Gecko) Version/3.0 TV Safari/538.1"},"capabilities":{"appLifecycle":true,"keyRegistration":true,"avplay":true,"fileStore":true,"secureKeyStore":true,"webCrypto":true}}
+[info] parental state {"state":"none"}
+[live] 2026-11-23T13:43:15.219Z GET /fixture/live.m3u
+[fixture] /fixture/live.m3u 200 1 ms
+[fixture] /fixture/guide.xml?n=4 200 1 ms
+[live] 2026-11-23T13:43:15.769Z open h264_aac clients=1
+[info] selftest PASS fileStore write/read/replace/remove 1 MB {"ms":1534,"detail":"atomicReplace=true listed=true removed=true"}
+[info] selftest PASS keyStore save/overwrite/load/remove {"ms":158,"detail":"persistent=true removed=true"}
+[info] selftest PASS PBKDF2-SHA256 100,000 iterations {"ms":148,"detail":"ms=157 bytes=32"}
+[info] selftest PASS XHR responseURL availability {"ms":110,"detail":"status=404 responseURL present, equals request"}
+[info] selftest done {"memory":{"availableMB":224,"totalMB":1295}}
+[info] playlist added {"id":"pmwtbg5lt01","kind":"m3u","cleartext":true}
+[info] import done {"id":"pmwtbg5lt01","live":4,"categories":1,"unchanged":false,"ms":157,"fetchMs":52,"storeMs":105}
+[info] live tv ready {"channels":4,"categories":5,"loadMs":47,"renderMs":8}
+[info] epg refresh {"playlist":"pmwtbg5lt01","ok":true,"sources":1,"channels":4,"programmes":104,"ms":146}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":2}
+[live] 2026-11-23T13:43:20.360Z close h264_aac after 4591 ms, 1402104 bytes, clients=0
+[live] 2026-11-23T13:43:20.858Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":2,"settled":false,"ms":4018}
+[debug] avplay: first frame {"session":"[redacted]","ms":4560}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":4575}
+[info] recovery attempt {"scenario":"start ch1","n":0,"ok":true,"ms":4595,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4733}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:43:25.357Z close h264_mp2 after 4499 ms, 1404360 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: prepared {"session":"[redacted]","current":5,"settled":false,"ms":3891}
+[debug] avplay: first frame {"session":"[redacted]","ms":4424}
+[info] live: playing {"channel":"m25504e78","startupMs":4428}
+[info] recovery attempt {"scenario":"start ch2","n":0,"ok":true,"ms":5002,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4573}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: onerror {"session":"[redacted]","current":8,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11106}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11612}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":1,"ok":false,"ms":12165,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:43:48.898Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":12,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10148}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10654}
+[warn] live: channel failed {"channel":"ma7b43c4b","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":1,"ok":false,"ms":11063,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:44:03.969Z close h264_aac after 15071 ms, 5154396 bytes, clients=0
+[live] 2026-11-23T13:44:04.434Z open h264_mp2 clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":15113}
+[warn] live: channel failed {"channel":"m9f4c01ae","code":"timeout"}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":1,"ok":false,"ms":15521,"code":"timeout"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:44:08.358Z close h264_mp2 after 3924 ms, 1382928 bytes, clients=0
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[debug] avplay: prepared {"session":"[redacted]","current":20,"settled":false,"ms":3311}
+[debug] avplay: first frame {"session":"[redacted]","ms":3848}
+[info] live: playing {"channel":"m25504e78","startupMs":3853}
+[info] recovery attempt {"scenario":"S1 then ch2","n":1,"ok":true,"ms":4260,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3988}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[live] 2026-11-23T13:44:19.986Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":23,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10224}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10734}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":2,"ok":false,"ms":11280,"code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":2,"ok":false,"ms":0,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:44:24.002Z close h264_aac after 4016 ms, 1386124 bytes, clients=0
+[live] 2026-11-23T13:44:24.471Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":28,"settled":false,"ms":3404}
+[debug] avplay: first frame {"session":"[redacted]","ms":3937}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3943}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":2,"ok":true,"ms":4352,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4076}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:44:28.522Z close h264_mp2 after 4051 ms, 1428988 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: prepared {"session":"[redacted]","current":31,"settled":false,"ms":3419}
+[debug] avplay: first frame {"session":"[redacted]","ms":3954}
+[info] live: playing {"channel":"m25504e78","startupMs":3958}
+[info] recovery attempt {"scenario":"S1 then ch2","n":2,"ok":true,"ms":4498,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4116}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: onerror {"session":"[redacted]","current":34,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10233}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10742}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":3,"ok":false,"ms":11312,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:44:51.830Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":38,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10742}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11252}
+[warn] live: channel failed {"channel":"ma7b43c4b","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":3,"ok":false,"ms":11666,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:44:55.910Z close h264_aac after 4080 ms, 1389132 bytes, clients=0
+[live] 2026-11-23T13:44:56.486Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":42,"settled":false,"ms":3431}
+[debug] avplay: first frame {"session":"[redacted]","ms":3967}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3972}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":3,"ok":true,"ms":4380,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4146}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:45:00.389Z close h264_mp2 after 3903 ms, 1356984 bytes, clients=0
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: prepared {"session":"[redacted]","current":45,"settled":false,"ms":3398}
+[debug] avplay: first frame {"session":"[redacted]","ms":3934}
+[info] live: playing {"channel":"m25504e78","startupMs":3938}
+[info] recovery attempt {"scenario":"S1 then ch2","n":3,"ok":true,"ms":4517,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4067}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: onerror {"session":"[redacted]","current":48,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10549}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11058}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":4,"ok":false,"ms":11598,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:45:24.110Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":52,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10848}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11357}
+[warn] live: channel failed {"channel":"ma7b43c4b","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":4,"ok":false,"ms":11769,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:45:28.190Z close h264_aac after 4080 ms, 1394020 bytes, clients=0
+[live] 2026-11-23T13:45:28.676Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":56,"settled":false,"ms":3463}
+[debug] avplay: first frame {"session":"[redacted]","ms":3997}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":4002}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":4,"ok":true,"ms":4413,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4145}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:45:32.806Z close h264_mp2 after 4130 ms, 1452488 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: prepared {"session":"[redacted]","current":59,"settled":false,"ms":3471}
+[debug] avplay: first frame {"session":"[redacted]","ms":4006}
+[info] live: playing {"channel":"m25504e78","startupMs":4011}
+[info] recovery attempt {"scenario":"S1 then ch2","n":4,"ok":true,"ms":4562,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4204}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[live] 2026-11-23T13:45:44.438Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":62,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10234}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10743}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":5,"ok":false,"ms":11345,"code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":5,"ok":false,"ms":0,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:45:48.433Z close h264_aac after 3995 ms, 1396840 bytes, clients=0
+[live] 2026-11-23T13:45:48.901Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":67,"settled":false,"ms":3388}
+[debug] avplay: first frame {"session":"[redacted]","ms":3923}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3929}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":5,"ok":true,"ms":4335,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4057}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:45:52.873Z close h264_mp2 after 3972 ms, 1431056 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: prepared {"session":"[redacted]","current":70,"settled":false,"ms":3346}
+[debug] avplay: first frame {"session":"[redacted]","ms":3881}
+[info] live: playing {"channel":"m25504e78","startupMs":3886}
+[info] recovery attempt {"scenario":"S1 then ch2","n":5,"ok":true,"ms":4420,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4027}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: onerror {"session":"[redacted]","current":73,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10215}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10724}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":6,"ok":false,"ms":11279,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:46:15.600Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":77,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10184}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10693}
+[warn] live: channel failed {"channel":"ma7b43c4b","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":6,"ok":false,"ms":11115,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:46:19.719Z close h264_aac after 4119 ms, 1396464 bytes, clients=0
+[live] 2026-11-23T13:46:20.191Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":81,"settled":false,"ms":3471}
+[debug] avplay: first frame {"session":"[redacted]","ms":4005}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":4009}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":6,"ok":true,"ms":4418,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4179}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:46:24.163Z close h264_mp2 after 3972 ms, 1364692 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[debug] avplay: prepared {"session":"[redacted]","current":84,"settled":false,"ms":3357}
+[debug] avplay: first frame {"session":"[redacted]","ms":3897}
+[info] live: playing {"channel":"m25504e78","startupMs":3902}
+[info] recovery attempt {"scenario":"S1 then ch2","n":6,"ok":true,"ms":4477,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4033}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: onerror {"session":"[redacted]","current":87,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10314}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10822}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":7,"ok":false,"ms":11364,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:46:47.451Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":91,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10652}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11162}
+[warn] live: channel failed {"channel":"ma7b43c4b","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":7,"ok":false,"ms":11573,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:46:51.517Z close h264_aac after 4066 ms, 1420152 bytes, clients=0
+[live] 2026-11-23T13:46:51.982Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":95,"settled":false,"ms":3453}
+[debug] avplay: first frame {"session":"[redacted]","ms":3988}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3994}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":7,"ok":true,"ms":4405,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4122}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:47:07.031Z close h264_mp2 after 15049 ms, 5327168 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":15093}
+[warn] live: channel failed {"channel":"m25504e78","code":"timeout"}
+[info] recovery attempt {"scenario":"S1 then ch2","n":7,"ok":false,"ms":15632,"code":"timeout"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: onerror {"session":"[redacted]","current":102,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10665}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11174}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail 404","n":8,"ok":false,"ms":11590,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:47:30.316Z open h264_aac clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":106,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10260}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10769}
+[warn] live: channel failed {"channel":"ma7b43c4b","code":"connection"}
+[info] recovery attempt {"scenario":"S1 fail refused","n":8,"ok":false,"ms":11189,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:47:34.271Z close h264_aac after 3955 ms, 1360556 bytes, clients=0
+[live] 2026-11-23T13:47:34.857Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":110,"settled":false,"ms":3374}
+[debug] avplay: first frame {"session":"[redacted]","ms":3913}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3918}
+[info] recovery attempt {"scenario":"S1 recover ch1","n":8,"ok":true,"ms":4332,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4041}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:47:38.752Z close h264_mp2 after 3895 ms, 1379544 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[debug] avplay: prepared {"session":"[redacted]","current":113,"settled":false,"ms":3392}
+[debug] avplay: first frame {"session":"[redacted]","ms":3929}
+[info] live: playing {"channel":"m25504e78","startupMs":3934}
+[info] recovery attempt {"scenario":"S1 then ch2","n":8,"ok":true,"ms":4463,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4074}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[live] 2026-11-23T13:47:50.395Z open h264_mp2 clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":116,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10237}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10746}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S2 fail 404","n":1,"ok":false,"ms":11297,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:47:54.276Z close h264_mp2 after 3881 ms, 1394584 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: prepared {"session":"[redacted]","current":120,"settled":false,"ms":3250}
+[debug] avplay: first frame {"session":"[redacted]","ms":3787}
+[info] live: playing {"channel":"m25504e78","startupMs":3792}
+[info] recovery attempt {"scenario":"S2 recover ch2","n":1,"ok":true,"ms":4205,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3945}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[live] 2026-11-23T13:48:06.858Z open h264_mp2 clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":123,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":11171}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":11680}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S2 fail 404","n":2,"ok":false,"ms":12242,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:48:10.726Z close h264_mp2 after 3868 ms, 1357924 bytes, clients=0
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[debug] avplay: prepared {"session":"[redacted]","current":127,"settled":false,"ms":3290}
+[debug] avplay: first frame {"session":"[redacted]","ms":3826}
+[info] live: playing {"channel":"m25504e78","startupMs":3831}
+[info] recovery attempt {"scenario":"S2 recover ch2","n":2,"ok":true,"ms":4237,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3943}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 2 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[live] 2026-11-23T13:48:22.452Z open h264_mp2 clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":130,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10308}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10817}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S2 fail 404","n":3,"ok":false,"ms":11339,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:48:26.349Z close h264_mp2 after 3897 ms, 1377664 bytes, clients=0
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: prepared {"session":"[redacted]","current":134,"settled":false,"ms":3330}
+[debug] avplay: first frame {"session":"[redacted]","ms":3866}
+[info] live: playing {"channel":"m25504e78","startupMs":3871}
+[info] recovery attempt {"scenario":"S2 recover ch2","n":3,"ok":true,"ms":4280,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3986}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[live] 2026-11-23T13:48:37.984Z open h264_mp2 clients=1
+[debug] avplay: onerror {"session":"[redacted]","current":137,"type":"PLAYER_ERROR_CONNECTION_FAILED","ms":10228}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":10737}
+[warn] live: channel failed {"channel":"m0af5deb8","code":"connection"}
+[info] recovery attempt {"scenario":"S2 fail 404","n":4,"ok":false,"ms":11261,"code":"connection"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:48:53.085Z close h264_mp2 after 15101 ms, 5318144 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":15150}
+[warn] live: channel failed {"channel":"m25504e78","code":"timeout"}
+[info] recovery attempt {"scenario":"S2 recover ch2","n":4,"ok":false,"ms":15571,"code":"timeout"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[live] 2026-11-23T13:48:56.674Z open h264_mp2 clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":2706}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[debug] avplay: prepared {"session":"[redacted]","current":148,"settled":false,"ms":3325}
+[debug] avplay: first frame {"session":"[redacted]","ms":3861}
+[info] live: playing {"channel":"m25504e78","startupMs":3866}
+[info] recovery attempt {"scenario":"S3 leave 404 early, ch2","n":1,"ok":true,"ms":4382,"code":""}
+[live] 2026-11-23T13:49:10.597Z close h264_mp2 after 13923 ms, 4894768 bytes, clients=0
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[info] recovery attempt {"scenario":"S3 ch2 unaffected 10 s later","n":1,"ok":true,"ms":10000,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":13992}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[live] 2026-11-23T13:49:14.430Z open h264_mp2 clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":2943}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[debug] avplay: prepared {"session":"[redacted]","current":154,"settled":false,"ms":3313}
+[debug] avplay: first frame {"session":"[redacted]","ms":3850}
+[info] live: playing {"channel":"m25504e78","startupMs":3854}
+[info] recovery attempt {"scenario":"S3 leave 404 early, ch2","n":2,"ok":true,"ms":4609,"code":""}
+[live] 2026-11-23T13:49:28.347Z close h264_mp2 after 13917 ms, 4884052 bytes, clients=0
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[info] recovery attempt {"scenario":"S3 ch2 unaffected 10 s later","n":2,"ok":true,"ms":10000,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":13988}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[live] 2026-11-23T13:49:32.054Z open h264_mp2 clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":2828}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[debug] avplay: prepared {"session":"[redacted]","current":160,"settled":false,"ms":3419}
+[debug] avplay: first frame {"session":"[redacted]","ms":3958}
+[info] live: playing {"channel":"m25504e78","startupMs":3963}
+[info] recovery attempt {"scenario":"S3 leave 404 early, ch2","n":3,"ok":true,"ms":4602,"code":""}
+[live] 2026-11-23T13:49:46.069Z close h264_mp2 after 14015 ms, 4923720 bytes, clients=0
+[fixture] /live/missing.ts 404 1 ms
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[info] recovery attempt {"scenario":"S3 ch2 unaffected 10 s later","n":3,"ok":true,"ms":10000,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":14074}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[fixture] /live/missing.ts 404 0 ms
+[fixture] /live/missing.ts 404 0 ms
+[live] 2026-11-23T13:49:49.753Z open h264_mp2 clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":2807}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[debug] avplay: prepared {"session":"[redacted]","current":166,"settled":false,"ms":3325}
+[debug] avplay: first frame {"session":"[redacted]","ms":3860}
+[info] live: playing {"channel":"m25504e78","startupMs":3865}
+[info] recovery attempt {"scenario":"S3 leave 404 early, ch2","n":4,"ok":true,"ms":4484,"code":""}
+[live] 2026-11-23T13:50:03.754Z close h264_mp2 after 14001 ms, 4888376 bytes, clients=0
+[live] 2026-11-23T13:50:04.505Z open h264_aac clients=1
+[info] recovery attempt {"scenario":"S3 ch2 unaffected 10 s later","n":4,"ok":true,"ms":10000,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":14050}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:50:08.484Z close h264_aac after 3979 ms, 1379356 bytes, clients=0
+[live] 2026-11-23T13:50:08.971Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":171,"settled":false,"ms":3371}
+[debug] avplay: first frame {"session":"[redacted]","ms":3895}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3898}
+[info] recovery attempt {"scenario":"S4 rapid x3 to ch1","n":1,"ok":true,"ms":4791,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4018}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:50:10.075Z close h264_mp2 after 1104 ms, 386716 bytes, clients=0
+[live] 2026-11-23T13:50:10.605Z open h264_aac clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":1170}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:50:14.444Z close h264_aac after 3839 ms, 1343260 bytes, clients=0
+[live] 2026-11-23T13:50:14.892Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":177,"settled":false,"ms":3343}
+[debug] avplay: first frame {"session":"[redacted]","ms":3872}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3875}
+[info] recovery attempt {"scenario":"S4 leave ch2 mid-open, ch1","n":1,"ok":true,"ms":4353,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3976}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:50:18.714Z close h264_mp2 after 3822 ms, 1371084 bytes, clients=0
+[live] 2026-11-23T13:50:19.526Z open h264_aac clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":180,"settled":false,"ms":3215}
+[debug] avplay: first frame {"session":"[redacted]","ms":3738}
+[info] live: playing {"channel":"m25504e78","startupMs":3741}
+[info] recovery attempt {"scenario":"S4 then ch2","n":1,"ok":true,"ms":4245,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3867}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:50:23.522Z close h264_aac after 3996 ms, 1378040 bytes, clients=0
+[live] 2026-11-23T13:50:23.973Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":185,"settled":false,"ms":3453}
+[debug] avplay: first frame {"session":"[redacted]","ms":3977}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3980}
+[info] recovery attempt {"scenario":"S4 rapid x3 to ch1","n":2,"ok":true,"ms":4813,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4095}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:50:25.068Z close h264_mp2 after 1095 ms, 423940 bytes, clients=0
+[live] 2026-11-23T13:50:25.503Z open h264_aac clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":1124}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:50:29.479Z close h264_aac after 3976 ms, 1352284 bytes, clients=0
+[live] 2026-11-23T13:50:30.072Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":191,"settled":false,"ms":3350}
+[debug] avplay: first frame {"session":"[redacted]","ms":3875}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3878}
+[info] recovery attempt {"scenario":"S4 leave ch2 mid-open, ch1","n":2,"ok":true,"ms":4309,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4019}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:50:34.001Z close h264_mp2 after 3929 ms, 1356044 bytes, clients=0
+[live] 2026-11-23T13:50:34.825Z open h264_aac clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":194,"settled":false,"ms":3435}
+[debug] avplay: first frame {"session":"[redacted]","ms":3974}
+[info] live: playing {"channel":"m25504e78","startupMs":3977}
+[info] recovery attempt {"scenario":"S4 then ch2","n":2,"ok":true,"ms":4522,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4122}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:50:49.804Z close h264_aac after 14979 ms, 5155900 bytes, clients=0
+[live] 2026-11-23T13:50:50.276Z open h264_mp2 clients=1
+[live] 2026-11-23T13:50:51.398Z close h264_mp2 after 1122 ms, 355320 bytes, clients=0
+[live] 2026-11-23T13:50:51.842Z open h264_aac clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":15077}
+[warn] live: channel failed {"channel":"m9f4c01ae","code":"timeout"}
+[info] recovery attempt {"scenario":"S4 rapid x3 to ch1","n":3,"ok":false,"ms":15937,"code":"timeout"}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":1169}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:50:55.919Z close h264_aac after 4077 ms, 1380108 bytes, clients=0
+[live] 2026-11-23T13:50:56.388Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":206,"settled":false,"ms":3443}
+[debug] avplay: first frame {"session":"[redacted]","ms":3982}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3986}
+[info] recovery attempt {"scenario":"S4 leave ch2 mid-open, ch1","n":3,"ok":true,"ms":4467,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4132}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:51:00.320Z close h264_mp2 after 3932 ms, 1361496 bytes, clients=0
+[live] 2026-11-23T13:51:01.102Z open h264_aac clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":209,"settled":false,"ms":3268}
+[debug] avplay: first frame {"session":"[redacted]","ms":3807}
+[info] live: playing {"channel":"m25504e78","startupMs":3812}
+[info] recovery attempt {"scenario":"S4 then ch2","n":3,"ok":true,"ms":4361,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":3994}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:51:05.120Z close h264_aac after 4018 ms, 1381612 bytes, clients=0
+[live] 2026-11-23T13:51:05.683Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":214,"settled":false,"ms":3413}
+[debug] avplay: first frame {"session":"[redacted]","ms":3948}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3952}
+[info] recovery attempt {"scenario":"S4 rapid x3 to ch1","n":4,"ok":true,"ms":4846,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4084}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:51:06.691Z close h264_mp2 after 1008 ms, 330128 bytes, clients=0
+[live] 2026-11-23T13:51:07.143Z open h264_aac clients=1
+[debug] avplay: teardown {"session":"[redacted]","before":"IDLE","stopThrew":false,"closeThrew":false,"after":"NONE","ms":1141}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":1}
+[live] 2026-11-23T13:51:11.229Z close h264_aac after 4086 ms, 1441960 bytes, clients=0
+[live] 2026-11-23T13:51:11.702Z open h264_mp2 clients=1
+[debug] avplay: prepared {"session":"[redacted]","current":220,"settled":false,"ms":3435}
+[debug] avplay: first frame {"session":"[redacted]","ms":3973}
+[info] live: playing {"channel":"m9f4c01ae","startupMs":3978}
+[info] recovery attempt {"scenario":"S4 leave ch2 mid-open, ch1","n":4,"ok":true,"ms":4430,"code":""}
+[debug] avplay: teardown {"session":"[redacted]","before":"PLAYING","stopThrew":false,"closeThrew":false,"after":"NONE","ms":4146}
+[debug] avplay: open {"session":"[redacted]","state":"NONE","ms":0}
+[live] 2026-11-23T13:51:15.552Z close h264_mp2 after 3850 ms, 1373528 bytes, clients=0
+[debug] avplay: prepared {"session":"[redacted]","current":223,"settled":false,"ms":3253}
+[debug] avplay: first frame {"session":"[redacted]","ms":3787}
+[info] live: playing {"channel":"m25504e78","startupMs":3792}
+[info] recovery attempt {"scenario":"S4 then ch2","n":4,"ok":true,"ms":4366,"code":""}
+[info] playlist removed {"id":"pmwtbg5lt01"}
+[info] selftest PASS playback recovery (synthetic LAN streams, real AVPlay) {"ms":482004,"detail":{"summary":"[depth]","afterBack":"live-tv","freeMB":256}}
+[info] stage 5.1 self-test done {"memory":{"availableMB":250,"totalMB":1295}}

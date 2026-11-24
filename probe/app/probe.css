@@ -1,0 +1,18 @@
+/* Probe page. Body stays transparent so the AVPlay video plane shows through. */
+html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; overflow: hidden;
+  background: transparent; color: #f5f5f7; font-family: sans-serif; }
+#av { position: absolute; left: 960px; top: 0; width: 960px; height: 540px; }
+#panel { position: absolute; left: 0; top: 0; width: 940px; height: 1080px; padding: 24px;
+  box-sizing: border-box; background: #0b0b0f; overflow: hidden; }
+h1 { font-size: 34px; margin: 0 0 12px; }
+h2 { font-size: 26px; margin: 8px 0; }
+#phase { font-size: 22px; color: #4f8cff; margin-left: 12px; }
+#summary { font-size: 22px; line-height: 30px; }
+#log { font-size: 18px; line-height: 22px; white-space: pre-wrap; color: #a1a1aa; margin: 8px 0 0; }
+.hidden { display: none; }
+.k { display: inline-block; padding: 6px 12px; margin: 4px; border-radius: 6px; background: #1f1f29; font-size: 22px; }
+.k.ok { background: #1d7a3a; }
+.hint { font-size: 20px; color: #a1a1aa; }
+#lab { position: absolute; left: 960px; top: 560px; width: 960px; height: 520px; overflow: hidden; background: #16161d; }
+#subs { position: absolute; left: 960px; top: 470px; width: 960px; text-align: center; font-size: 28px;
+  color: #fff; text-shadow: 0 0 4px #000; }

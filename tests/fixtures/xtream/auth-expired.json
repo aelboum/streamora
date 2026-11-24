@@ -1,0 +1,19 @@
+{
+ "user_info": {
+  "username": "demo_user",
+  "password": "demo_pass_9f3k",
+  "auth": 1,
+  "status": "Expired",
+  "exp_date": "1600000000",
+  "is_trial": "0",
+  "active_cons": "0",
+  "max_connections": "1",
+  "allowed_output_formats": [
+   "ts"
+  ]
+ },
+ "server_info": {
+  "timezone": "UTC",
+  "timestamp_now": 1763856000
+ }
+}

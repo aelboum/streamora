@@ -1,0 +1,29 @@
+{
+  // Type-check configuration for application code (src/). Emits nothing.
+  // ES5 target and a narrow lib are deliberate: see docs/ARCHITECTURE.md D3 and docs/PROBE-REPORT.md §4.
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ES2015",
+    "moduleResolution": "bundler",
+    // Only what the probe verified on the TV. ES2017+ libs stay out so that
+    // Object.values/entries, padStart and Promise.prototype.finally do not type-check.
+    "lib": ["ES5", "ES2015.Promise", "ES2015.Collection", "DOM"],
+    "types": [],
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    // Node runs the same sources in tests via type stripping, so only erasable TS syntax is allowed.
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "downlevelIteration": false,
+    "importHelpers": false,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts"]
+}

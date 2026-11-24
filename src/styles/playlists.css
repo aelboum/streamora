@@ -1,0 +1,184 @@
+/* Playlist management screens (Stage 4B). Flexbox + margins only; focus is always a thick white
+   border plus the accent background, visible from across the room. */
+
+.ss-body {
+  display: flex;
+  flex-direction: column;
+  height: 820px;
+  overflow: hidden;
+}
+
+.ss-panel--wide {
+  width: 1600px;
+}
+
+.ss-empty {
+  margin: 24px 0 0;
+  font-size: 30px;
+  color: {{color.textMuted}};
+}
+
+.ss-message {
+  margin-top: 16px;
+  min-height: 40px;
+  font-size: 28px;
+  color: {{color.textMuted}};
+}
+
+.ss-tone--error { color: {{color.error}}; }
+.ss-tone--ok { color: {{color.ok}}; }
+.ss-muted { color: {{color.textMuted}}; }
+
+/* Rows (playlist list, form fields) */
+.ss-rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+.ss-row {
+  position: relative;
+  margin: 0 0 12px;
+  padding: 16px 28px;
+  border-radius: 8px;
+  border: 4px solid transparent;
+  background: {{color.surface}};
+}
+
+.ss-row.is-focused {
+  border-color: {{color.text}};
+  background: {{color.accent}};
+}
+
+.ss-row__primary {
+  font-size: 32px;
+  color: {{color.text}};
+}
+
+.ss-row__secondary {
+  margin-top: 6px;
+  font-size: 24px;
+  color: {{color.textMuted}};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ss-row.is-focused .ss-row__secondary {
+  color: {{color.text}};
+}
+
+.ss-row__badge {
+  position: absolute;
+  right: 28px;
+  top: 18px;
+  padding: 4px 16px;
+  border-radius: 20px;
+  background: {{color.ok}};
+  color: {{color.bg}};
+  font-size: 22px;
+}
+
+.ss-rows--form .ss-row {
+  padding: 12px 28px;
+}
+
+.ss-rows--form .ss-row__primary {
+  font-size: 24px;
+  color: {{color.textMuted}};
+}
+
+.ss-rows--form .ss-row__secondary {
+  font-size: 30px;
+  color: {{color.text}};
+}
+
+/* Dialogs */
+.ss-dialog--import,
+.ss-dialog--warning {
+  left: 410px;
+  top: 300px;
+  width: 1100px;
+}
+
+.ss-dialog--warning {
+  border-left: 8px solid {{color.error}};
+}
+
+.ss-dialog__text {
+  margin: 0 0 16px;
+  font-size: 28px;
+  line-height: 40px;
+  color: {{color.text}};
+}
+
+.ss-dialog__status {
+  margin: 8px 0 12px;
+  font-size: 32px;
+  line-height: 44px;
+}
+
+.ss-dialog__buttons {
+  margin-top: 8px;
+}
+
+/* On-screen keyboard */
+.ss-kb {
+  position: absolute;
+  left: 260px;
+  top: 150px;
+  width: 1400px;
+  padding: 40px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: {{color.surface}};
+}
+
+.ss-kb__value {
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  min-height: 48px;
+  border-radius: 8px;
+  background: {{color.bg}};
+  font-size: 34px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ss-kb__keys {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1320px;
+}
+
+.ss-key {
+  width: 104px;
+  height: 72px;
+  margin: 0 8px 8px 0;
+  border-radius: 8px;
+  border: 4px solid transparent;
+  box-sizing: border-box;
+  background: {{color.bg}};
+  color: {{color.text}};
+  font-size: 30px;
+  line-height: 64px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.ss-key--wide {
+  width: 176px;
+  font-size: 24px;
+}
+
+.ss-key.is-on {
+  background: {{color.textMuted}};
+  color: {{color.bg}};
+}
+
+.ss-key.is-focused {
+  border-color: {{color.text}};
+  background: {{color.accent}};
+  color: {{color.text}};
+}

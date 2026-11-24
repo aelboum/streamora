@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ScreenShelf Device Probe 2 (IPTV): temporary diagnostic app, not the product. -->
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
+        id="http://screenshelf.local/probe2" version="0.2.0" viewmodes="maximized">
+  <tizen:application id="SSProbe002.Probe2" package="SSProbe002" required_version="3.0"/>
+  <name>ScreenShelf Probe 2</name>
+  <content src="index.html"/>
+  <icon src="icon.png"/>
+  <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+  <tizen:profile name="tv-samsung"/>
+  <tizen:setting screen-orientation="landscape" context-menu="disable"
+                 background-support="disable" encryption="disable"
+                 install-location="auto" hwkey-event="enable"/>
+  <tizen:privilege name="http://tizen.org/privilege/internet"/>
+  <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+  <!-- PROBE ONLY: tested for availability; the product requests them only if adopted. -->
+  <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+  <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
+  <tizen:privilege name="http://tizen.org/privilege/keymanager"/>
+  <tizen:privilege name="http://tizen.org/privilege/unlimitedstorage"/>
+  <!-- PROBE ONLY: plain-HTTP LAN test server on the dev PC. -->
+  <access origin="*" subdomains="true"/>
+</widget>

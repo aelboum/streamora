@@ -1,0 +1,296 @@
+/* Movies and series (Stage 6): poster grid, details, VOD player bar. Flexbox + margins only
+   (no grid, gap or custom properties on Tizen 3.0). Reuses .ss-live, .ss-cat and .ss-player. */
+
+.ss-vod__main {
+  width: 1304px;
+}
+
+.ss-vod__grid {
+  height: 930px;
+}
+
+.ss-vod__row {
+  display: flex;
+  flex-direction: row;
+  height: 304px;
+  margin-bottom: 8px;
+}
+
+.ss-card {
+  width: 165px;
+  height: 300px;
+  margin-right: 16px;
+  box-sizing: border-box;
+}
+
+.ss-card__art {
+  position: relative;
+  width: 165px;
+  height: 248px;
+  border-radius: 8px;
+  border: 4px solid transparent;
+  box-sizing: border-box;
+  background: {{color.surface}};
+  overflow: hidden;
+}
+
+.ss-card.is-focused .ss-card__art {
+  border-color: {{color.text}};
+}
+
+.ss-card__img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 157px;
+  height: 240px;
+}
+
+.ss-card__ph {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 141px;
+  height: 224px;
+  overflow: hidden;
+  font-size: 22px;
+  line-height: 28px;
+  color: {{color.textMuted}};
+}
+
+.ss-card__title {
+  height: 48px;
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 20px;
+  line-height: 24px;
+  color: {{color.textMuted}};
+}
+
+.ss-card.is-focused .ss-card__title {
+  color: {{color.text}};
+}
+
+.ss-vod__message {
+  margin-top: 24px;
+  font-size: 28px;
+  color: {{color.textMuted}};
+}
+
+/* ------------------------------------------------------------ details */
+
+.ss-details {
+  width: 1920px;
+  height: 1080px;
+  box-sizing: border-box;
+  padding: 54px {{space.safeX}} 0;
+  background: {{color.bg}};
+}
+
+.ss-details__top {
+  display: flex;
+  flex-direction: row;
+  height: 600px;
+}
+
+.ss-details__top--series {
+  height: 420px;
+}
+
+.ss-details__art {
+  position: relative;
+  width: 360px;
+  height: 540px;
+  margin-right: 48px;
+  border-radius: 8px;
+  background: {{color.surface}};
+  overflow: hidden;
+}
+
+.ss-details__top--series .ss-details__art {
+  width: 240px;
+  height: 360px;
+}
+
+.ss-details__poster {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ss-details__ph {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  right: 16px;
+  font-size: 28px;
+  line-height: 36px;
+  color: {{color.textMuted}};
+}
+
+.ss-details__text {
+  width: 1200px;
+}
+
+.ss-details__title {
+  font-size: 48px;
+  line-height: 60px;
+  font-weight: bold;
+  color: {{color.text}};
+  max-height: 120px;
+  overflow: hidden;
+}
+
+.ss-details__meta {
+  margin-top: 12px;
+  font-size: 28px;
+  color: {{color.textMuted}};
+}
+
+.ss-details__plot {
+  margin-top: 24px;
+  font-size: 26px;
+  line-height: 38px;
+  color: {{color.text}};
+  max-height: 228px;
+  overflow: hidden;
+}
+
+.ss-details__top--series .ss-details__plot {
+  max-height: 152px;
+}
+
+.ss-details__credits {
+  margin-top: 16px;
+  font-size: 22px;
+  line-height: 32px;
+  color: {{color.textMuted}};
+  max-height: 64px;
+  overflow: hidden;
+}
+
+.ss-details__note {
+  margin-top: 16px;
+  font-size: 24px;
+  color: {{color.textMuted}};
+}
+
+.ss-details__actions {
+  margin-top: 32px;
+}
+
+.ss-details__bottom {
+  display: flex;
+  flex-direction: row;
+  height: 560px;
+}
+
+.ss-details__seasons {
+  width: 400px;
+  margin-right: 24px;
+}
+
+.ss-details__eps {
+  width: 1300px;
+}
+
+.ss-ep {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  margin-bottom: 6px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: 4px solid transparent;
+  box-sizing: border-box;
+  background: {{color.surface}};
+  font-size: 26px;
+}
+
+.ss-ep.is-focused {
+  border-color: {{color.text}};
+  background: {{color.accent}};
+}
+
+.ss-ep__name {
+  width: 1100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: {{color.text}};
+}
+
+.ss-ep__dur {
+  width: 140px;
+  text-align: right;
+  color: {{color.textMuted}};
+}
+
+.ss-details__epplot {
+  margin-top: 12px;
+  font-size: 22px;
+  line-height: 32px;
+  max-height: 64px;
+  overflow: hidden;
+  color: {{color.textMuted}};
+}
+
+/* ------------------------------------------------------------ VOD player bar */
+
+.ss-vbar {
+  position: absolute;
+  left: {{space.safeX}};
+  bottom: 54px;
+  width: 1728px;
+  padding: 24px 32px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: rgba(16, 17, 22, 0.88);
+}
+
+.ss-vbar.is-hidden {
+  display: none;
+}
+
+.ss-vbar__title {
+  font-size: 34px;
+  line-height: 44px;
+  color: {{color.text}};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ss-vbar__line {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.ss-vbar__track {
+  width: 1400px;
+  height: 10px;
+  margin-right: 24px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+
+.ss-vbar__fill {
+  width: 0;
+  height: 10px;
+  background: {{color.accent}};
+}
+
+.ss-vbar__time {
+  font-size: 26px;
+  color: {{color.text}};
+}
+
+.ss-vbar__state {
+  margin-top: 8px;
+  font-size: 24px;
+  color: {{color.textMuted}};
+}

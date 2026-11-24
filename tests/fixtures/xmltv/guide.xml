@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tv SYSTEM "xmltv.dtd">
+<!-- Synthetic guide for tests. 2025-11-23, times in several offsets. -->
+<tv generator-info-name="screenshelf-fixture">
+  <channel id="news.one.uk">
+    <display-name lang="en">News One HD</display-name>
+    <icon src="http://logos.example.org/uk/news-one.png"/>
+  </channel>
+  <channel id="SPORT.MAX.UK"><display-name>Sport Max 1</display-name></channel>
+  <channel id="docs.xmltv.id"><display-name>Docs Channel</display-name></channel>
+  <channel id="kids.fun.nl"><display-name>Kids Fun</display-name></channel>
+  <channel id="not.in.playlist"><display-name>Unknown TV</display-name></channel>
+  <programme start="20251123110000 +0000" stop="20251123120000 +0000" channel="news.one.uk">
+    <title lang="en">Morning News</title>
+    <desc lang="en">Headlines &amp; weather &#8212; live &lt;studio&gt;.</desc>
+  </programme>
+  <programme start="20251123130000 +0100" stop="20251123133000 +0100" channel="news.one.uk">
+    <title>Midday &quot;Special&quot;</title>
+    <sub-title>Part 1</sub-title>
+    <desc><![CDATA[Raw <b>text</b> & more]]></desc>
+    <category>News</category>
+    <credits><presenter>Someone</presenter></credits>
+  </programme>
+  <programme start="20251123073000 -0500" stop="20251123080000 -0500" channel="news.one.uk">
+    <title>Afternoon Report</title>
+  </programme>
+  <programme start="20251123120000Z" stop="20251123140000Z" channel="sport.max.uk"><title>Live Football</title></programme>
+  <programme start="202511231400" stop="202511231600" channel="SPORT.MAX.UK"><title>Highlights (no seconds, no offset)</title></programme>
+  <programme start="20251123110000 +0000" stop="20251123130000 +0000" channel="docs.xmltv.id"><title>Planet Docs</title></programme>
+  <programme start="20251123110000 +0000" stop="20251123130000 +0000" channel="not.in.playlist"><title>Ignored</title></programme>
+  <programme start="20251123110000 +0000" stop="20251123100000 +0000" channel="kids.fun.nl"><title>Stop before start</title></programme>
+  <programme start="garbage" stop="20251123130000 +0000" channel="kids.fun.nl"><title>Bad start</title></programme>
+  <programme start="20251123110000 +0000" stop="20251123130000 +0000"><title>No channel</title></programme>
+  <programme start="20251120110000 +0000" stop="20251120120000 +0000" channel="kids.fun.nl"><title>Three days ago</title></programme>
+  <programme start="20251123120000 +0000" stop="20251123130000 +0000" channel="kids.fun.nl"><title>Cartoons &#x1F600;</title><desc/></programme>
+</tv>

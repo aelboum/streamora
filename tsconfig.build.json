@@ -1,0 +1,12 @@
+{
+  // Emits ES5 JavaScript (with ES2015 import/export for esbuild to bundle) into build/tsc.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "build/tsc",
+    "rootDir": "src",
+    "sourceMap": false,
+    "removeComments": true
+  },
+  "include": ["src/**/*.ts"]
+}

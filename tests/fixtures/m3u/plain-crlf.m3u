@@ -1,0 +1,6 @@
+﻿http://stream.example.org/live/channel-one.ts
+
+http://stream.example.org/live/channel-two.m3u8
+# a comment
+https://stream.example.org/vod/film.mp4
+rtmp://stream.example.org/live/three

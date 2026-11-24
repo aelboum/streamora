@@ -1,0 +1,27 @@
+/* Fixed 1920x1080 logical layout. Flexbox + margins only (no grid, gap, var(), sticky). */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: {{color.bg}};
+  color: {{color.text}};
+  font-family: {{font.family}};
+}
+
+#ss-root {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+}
+
+.ss-boot-status {
+  position: absolute;
+  left: {{space.safeX}};
+  top: {{space.safeY}};
+  font-size: 34px;
+  color: {{color.textMuted}};
+}

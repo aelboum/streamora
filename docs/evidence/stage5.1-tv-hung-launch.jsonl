@@ -1,0 +1,7 @@
+{"from":"192.168.1.19","t":1795443242875,"level":"info","msg":"dev log sink enabled","data":{"build":"dev","version":"0.2.0"}}
+{"from":"192.168.1.19","t":1795443242912,"level":"info","msg":"platform","data":{"info":{"name":"tizen","platformVersion":"3.0","width":1920,"height":1080,"userAgent":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 (KHTML, like Gecko) Version/3.0 TV Safari/538.1"},"capabilities":{"appLifecycle":true,"keyRegistration":true,"avplay":true,"fileStore":true,"secureKeyStore":true,"webCrypto":true}}}
+{"from":"192.168.1.19","t":1795443242915,"level":"info","msg":"parental state","component":"boot","data":{"state":"none"}}
+{"from":"192.168.1.19","t":1795471865786,"level":"info","msg":"boot marker: start"}
+{"from":"192.168.1.19","t":1795471866173,"level":"info","msg":"boot marker: platform detected"}
+{"from":"192.168.1.19","t":1795471866545,"level":"info","msg":"boot marker: context created"}
+{"from":"192.168.1.19","t":1795471866653,"level":"info","msg":"boot marker: app started"}

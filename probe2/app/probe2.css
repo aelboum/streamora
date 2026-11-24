@@ -1,0 +1,13 @@
+html, body { margin: 0; width: 1920px; height: 1080px; background: transparent; color: #f5f5f7; font-family: sans-serif; overflow: hidden; }
+#av { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+#panel { position: absolute; left: 40px; top: 30px; width: 880px; height: 1020px; background: rgba(11, 11, 15, 0.88); padding: 20px; box-sizing: border-box; }
+h1 { font-size: 30px; margin: 0 0 10px 0; }
+h2 { font-size: 24px; margin: 6px 0; }
+p { font-size: 20px; margin: 4px 0; }
+#phase { color: #4f8cff; font-size: 24px; }
+#summary { font-size: 20px; color: #a1a1aa; margin-bottom: 8px; }
+#log { font-size: 17px; line-height: 22px; white-space: pre-wrap; margin: 0; }
+#ime { font-size: 26px; width: 600px; padding: 6px; }
+.hidden { display: none; }
+#imgs { position: absolute; left: 960px; top: 600px; width: 900px; height: 400px; overflow: hidden; }
+#imgs img { width: 40px; height: 40px; margin: 2px; }

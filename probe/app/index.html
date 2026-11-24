@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>ScreenShelf Device Probe</title>
+<script>window.__T0 = Date.now();</script>
+<link rel="stylesheet" href="probe.css">
+<script src="$WEBAPIS/webapis/webapis.js"></script>
+</head>
+<body>
+<object id="av" type="application/avplayer"></object>
+<div id="panel">
+  <h1>ScreenShelf Device Probe <span id="phase">starting</span></h1>
+  <div id="summary"></div>
+  <div id="keys" class="hidden">
+    <h2>Remote test: press each key on the physical remote</h2>
+    <div id="keylist"></div>
+    <p class="hint">Hold RIGHT for 3 seconds to test key repeat. Press BACK last.</p>
+  </div>
+  <pre id="log"></pre>
+</div>
+<div id="lab"></div>
+<div id="subs"></div>
+<script src="probe.js"></script>
+</body>
+</html>

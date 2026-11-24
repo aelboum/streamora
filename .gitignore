@@ -1,0 +1,20 @@
+node_modules/
+build/
+dist/
+logs/
+# probe build output (the probe sources and raw results stay tracked)
+probe/build/
+probe/build256/
+probe/build-tz/
+probe/dist/
+# signing material must never be committed
+*.p12
+*.pem
+*.pri
+*.pwd
+*.csr
+*.wgt
+# probe 2: generated media and build output (sources and raw results stay tracked)
+probe2/media/
+probe2/dist/
+probe2/results/next-cmd.txt

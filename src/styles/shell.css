@@ -1,0 +1,140 @@
+.ss-shell {
+  display: flex;
+  flex-direction: column;
+  width: 1920px;
+  height: 1080px;
+  box-sizing: border-box;
+  padding: {{space.safeY}} {{space.safeX}};
+}
+
+.ss-header {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 48px;
+}
+
+.ss-title {
+  margin: 0;
+  font-size: 72px;
+  font-weight: bold;
+  color: {{color.text}};
+}
+
+.ss-subtitle {
+  margin-left: 24px;
+  font-size: 26px;
+  color: {{color.textMuted}};
+}
+
+.ss-panel {
+  width: 1100px;
+  padding: 32px 40px;
+  border-radius: 8px;
+  border-left: 8px solid {{color.accent}};
+  background: {{color.surface}};
+}
+
+.ss-panel__label {
+  font-size: 22px;
+  color: {{color.textMuted}};
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.ss-status {
+  margin-top: 8px;
+  font-size: 48px;
+}
+
+.ss-status--starting { color: {{color.textMuted}}; }
+.ss-status--ready { color: {{color.ok}}; }
+.ss-status--error { color: {{color.error}}; }
+
+.ss-details {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 28px 0 0;
+}
+
+.ss-details dt {
+  width: 260px;
+  margin: 0 0 12px;
+  font-size: 26px;
+  color: {{color.textMuted}};
+}
+
+.ss-details dd {
+  width: 760px;
+  margin: 0 0 12px;
+  font-size: 26px;
+  color: {{color.text}};
+}
+
+/* Router layers: one per screen; overlays sit above and dim the screen below. */
+.ss-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+}
+
+.ss-layer--overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.ss-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.ss-buttons--row {
+  flex-direction: row;
+}
+
+.ss-button {
+  min-width: 200px;
+  margin: 0 24px 12px 0;
+  padding: 14px 32px;
+  border-radius: 40px;
+  border: 4px solid transparent;
+  background: {{color.bg}};
+  color: {{color.text}};
+  font-size: 28px;
+  text-align: center;
+}
+
+.ss-button.is-focused {
+  border-color: {{color.text}};
+  background: {{color.accent}};
+}
+
+.ss-dialog {
+  position: absolute;
+  left: 560px;
+  top: 340px;
+  width: 800px;
+  padding: 48px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: {{color.surface}};
+}
+
+.ss-dialog__title {
+  font-size: 40px;
+  margin-bottom: 24px;
+}
+
+.ss-log {
+  margin-top: 32px;
+  width: 1700px;
+  font-size: 20px;
+  color: {{color.textMuted}};
+}
+
+.ss-log__line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,31 @@
+{
+  "name": "screenshelf",
+  "version": "0.2.0",
+  "private": true,
+  "description": "ScreenShelf IPTV player for Samsung Tizen 3.0 TVs (Stage 3 foundation)",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "compat": "node scripts/compat-check.mjs",
+    "build:dev": "node scripts/build.mjs dev",
+    "build:release": "node scripts/build.mjs release",
+    "check:release": "node scripts/release-check.mjs",
+    "test": "node --test --test-timeout=20000 \"tests/unit/**/*.test.mjs\"",
+    "test:build": "node --test --test-concurrency=1 --test-timeout=300000 \"tests/build/**/*.test.mjs\"",
+    "test:all": "npm test && npm run test:build",
+    "check": "npm run typecheck && npm run compat && npm run test:all",
+    "tv:package": "node scripts/tv.mjs package",
+    "tv:install": "node scripts/tv.mjs install",
+    "tv:run": "node scripts/tv.mjs run",
+    "tv:uninstall": "node scripts/tv.mjs uninstall",
+    "dev-sink": "node scripts/dev-sink.mjs"
+  },
+  "devDependencies": {
+    "acorn": "8.19.0",
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3"
+  }
+}

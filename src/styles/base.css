@@ -73,13 +73,11 @@ html, body {
   align-items: center;
 }
 
-.ss-lockup__word {
-  margin-left: 16px;
-  font-family: {{font.display}};
-  font-size: 38px;
-  line-height: 36px;
-  letter-spacing: 0.02em;
+/* "elitestream" wordmark image (brand-assets.ts, 72 px high source shown at 36 px). */
+.ss-wordmark {
+  display: block;
+  flex-shrink: 0;
+  height: 36px;
+  width: auto;
+  margin-left: 14px;
 }
-
-.ss-lockup__elite { font-weight: bold; color: {{color.text}}; }
-.ss-lockup__stream { font-weight: 500; color: {{color.textMuted}}; }

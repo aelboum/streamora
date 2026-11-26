@@ -400,7 +400,7 @@ const focusedBar = (env) => env.layer().findAll('ss-bar__item').filter((x) => /i
 test('Home hub (design 01): tiles, focus order, sections, Add account, bottom bar, Back', async () => {
   const env = await setup();
   env.router.resetTo('home');
-  assert.match(env.layer().textContent, /ELITE/);
+  assert.equal(env.layer().findAll('ss-wordmark').length, 1, 'Home logo: the EliteStream wordmark image');
   assert.match(env.layer().textContent, /Provider/, 'provider chip shows the active account');
   assert.deepEqual(focusedTile(env), ['live'], 'default focus: Live TV');
   assert.equal(env.layer().findAll('is-focused').length, 1, 'one focus indicator');

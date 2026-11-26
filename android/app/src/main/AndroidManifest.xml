@@ -12,8 +12,8 @@
 
     <application
         android:label="EliteStream"
-        android:icon="@drawable/ic_mark"
-        android:banner="@drawable/banner"
+        android:icon="@drawable/ic_launcher"
+        android:banner="@drawable/tv_banner"
         android:allowBackup="false"
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"

@@ -60,7 +60,7 @@ test('start: keys registered, root screen mounted, Back opens exit dialog, No cl
   assert.ok(app.registeredKeys.includes('ChannelUp'));
   assert.deepEqual(app.router.stack(), ['home'], 'Stage 7B.1: the Home hub is the root screen');
   assert.equal(doc.body.childNodes.length, 1);
-  assert.match(doc.body.textContent, /ELITE/);
+  assert.equal(doc.body.findAll('ss-wordmark')[0].attributes.alt, 'EliteStream', 'Home logo: the EliteStream wordmark image');
   assert.match(doc.body.textContent, /Add account/);
   assert.match(doc.body.textContent, /Settings/);
   // Without secure storage there is no playlist service: the diagnostics screen is the root.

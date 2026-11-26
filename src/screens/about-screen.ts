@@ -31,7 +31,7 @@ export function createAboutScreen(d: AboutDeps, _nav: Router): Screen {
       list = h(d.doc, 'dl', { className: 'ss-details ss-details--diag ss-about__list' });
       (layer.element as HTMLElement).appendChild(h(d.doc, 'div', { className: 'ss-shell ss-about' }, [
         h(d.doc, 'header', { className: 'ss-header' }, [
-          h(d.doc, 'h1', { className: 'ss-title', text: 'ScreenShelf' }),
+          h(d.doc, 'h1', { className: 'ss-title', text: 'EliteStream' }),
           h(d.doc, 'div', { className: 'ss-subtitle', text: d.t('set.about') })
         ]),
         h(d.doc, 'div', { className: 'ss-panel ss-about__panel' }, [list]),

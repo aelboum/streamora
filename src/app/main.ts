@@ -19,7 +19,7 @@ function showFatal(message: string): void {
   const el = document.getElementById('ss-boot-status');
   if (el) {
     el.className = 'ss-boot-status ss-status--error';
-    el.textContent = 'ScreenShelf could not start: ' + message;
+    el.textContent = 'EliteStream could not start: ' + message;
   }
 }
 

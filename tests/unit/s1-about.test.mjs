@@ -1,4 +1,4 @@
-// S1: Settings → "About ScreenShelf" opens a read-only About screen (real start-up and router).
+// S1: Settings → "About EliteStream" opens a read-only About screen (real start-up and router).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createAppContext, startApp } from '../../src/app/bootstrap.ts';
@@ -43,13 +43,13 @@ async function toAboutRow(env) {
   assert.equal(focusedRow(env), 'about', 'the About row is focusable with ▼');
 }
 
-test('S1: Settings shows one "About ScreenShelf" row (version as value) instead of the information rows', async () => {
+test('S1: Settings shows one "About EliteStream" row (version as value) instead of the information rows', async () => {
   const env = await boot();
   await toAboutRow(env);
   const ids = env.doc.body.findAll('ss-set__row').map((r) => r.attributes['data-row']);
   assert.ok(ids.includes('about'));
   assert.equal(ids.filter((i) => /^about-/.test(i)).length, 0, 'old information rows gone');
-  assert.match(layerText(env), /About ScreenShelf0\.2\.0/);
+  assert.match(layerText(env), /About EliteStream0\.2\.0/);
   assert.ok(ids.indexOf('diagnostics') === ids.indexOf('about') + 1, 'Diagnostics stays right after About');
 });
 
@@ -75,7 +75,7 @@ test('S1: OK opens the About screen with version, platform, screen, storage and 
 test('S1: Dutch labels; no missing translations', async () => {
   const env = await boot('nl');
   await toAboutRow(env);
-  assert.match(layerText(env), /Over ScreenShelf0\.2\.0/);
+  assert.match(layerText(env), /Over EliteStream0\.2\.0/);
   env.fp.press(13);
   await settle();
   const text = layerText(env);

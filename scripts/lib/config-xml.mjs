@@ -17,6 +17,8 @@ export const CSP = "default-src 'self'; script-src 'self'; style-src 'self'; img
 /** Temporary development identifiers. Not the permanent package namespace (open question). */
 export const TEMP_PACKAGE_ID = 'SShelfDev1';
 export const APP_NAME = 'ScreenShelf';
+/** Name shown in the TV launcher. APP_NAME stays: it is part of the application ID (upgrade identity). */
+export const DISPLAY_NAME = 'EliteStream';
 
 function escapeXml(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -40,6 +42,7 @@ export function renderConfig(template, opts) {
   return template
     .split('{{PACKAGE_ID}}').join(TEMP_PACKAGE_ID)
     .split('{{APP_NAME}}').join(APP_NAME)
+    .split('{{DISPLAY_NAME}}').join(DISPLAY_NAME)
     .split('{{VERSION}}').join(opts.version)
     .split('{{MODE}}').join(opts.mode)
     .split('{{PRIVILEGES}}').join(privileges)

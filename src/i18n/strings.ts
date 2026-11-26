@@ -3,10 +3,10 @@
 export type Lang = 'en' | 'nl';
 
 const EN: Record<string, string> = {
-  'app.title': 'ScreenShelf',
+  'app.title': 'EliteStream',
   'common.cancel': 'Cancel',
   "signin.title": "Sign in again",
-  "signin.text": "This device has no secure password storage, so ScreenShelf does not keep the login of “{name}” after the app closes. Enter it again to watch.",
+  "signin.text": "This device has no secure password storage, so EliteStream does not keep the login of “{name}” after the app closes. Enter it again to watch.",
   "signin.now": "Sign in",
   "signin.later": "Later",
   "form.sessionOnly": "This device has no secure password storage: the login is kept only until the app closes, then asked for again. It is never stored in plain text.",
@@ -57,7 +57,7 @@ const EN: Record<string, string> = {
   'sub.basis.no-server-time': "TV clock (no server time available)",
   'sub.basis.server-time-implausible': "TV clock (the server time is not plausible)",
   // S1: About screen
-  'set.aboutRow': "About ScreenShelf",
+  'set.aboutRow': "About EliteStream",
   'about.fonts': "Fonts",
   'about.fontsValue': "Barlow, Barlow Condensed (SIL Open Font License 1.1) · Material Symbols (Apache License 2.0)",
   'about.back': "Press Back to return to Settings.",
@@ -86,7 +86,7 @@ const EN: Record<string, string> = {
   'home.storageSub': "Playlist storage needs attention",
   'home.addLocked': "Paused while playlists are protected",
   'storage.title': "Your playlists are protected",
-  'storage.text': "ScreenShelf couldn’t read its saved playlist list on this TV. Nothing has been deleted: the stored data is kept so it can be recovered. Adding and removing playlists is paused until this is resolved.",
+  'storage.text': "EliteStream couldn’t read its saved playlist list on this TV. Nothing has been deleted: the stored data is kept so it can be recovered. Adding and removing playlists is paused until this is resolved.",
   'storage.why.read-error': "The TV’s storage couldn’t be read.",
   'storage.why.corrupt': "The saved list is damaged.",
   'storage.why.malformed': "The saved list is damaged.",
@@ -511,10 +511,10 @@ const EN: Record<string, string> = {
 };
 
 const NL: Record<string, string> = {
-  'app.title': 'ScreenShelf',
+  'app.title': 'EliteStream',
   'common.cancel': 'Annuleren',
   "signin.title": "Opnieuw inloggen",
-  "signin.text": "Dit apparaat heeft geen beveiligde opslag voor wachtwoorden, dus ScreenShelf bewaart de login van “{name}” niet na het sluiten van de app. Vul hem opnieuw in om te kijken.",
+  "signin.text": "Dit apparaat heeft geen beveiligde opslag voor wachtwoorden, dus EliteStream bewaart de login van “{name}” niet na het sluiten van de app. Vul hem opnieuw in om te kijken.",
   "signin.now": "Inloggen",
   "signin.later": "Later",
   "form.sessionOnly": "Dit apparaat heeft geen beveiligde opslag voor wachtwoorden: de login blijft alleen bewaard tot de app sluit en wordt daarna opnieuw gevraagd. Hij wordt nooit als leesbare tekst opgeslagen.",
@@ -565,7 +565,7 @@ const NL: Record<string, string> = {
   'sub.basis.no-server-time': "Klok van de tv (geen servertijd beschikbaar)",
   'sub.basis.server-time-implausible': "Klok van de tv (de servertijd is niet aannemelijk)",
   // S1: Over-scherm
-  'set.aboutRow': "Over ScreenShelf",
+  'set.aboutRow': "Over EliteStream",
   'about.fonts': "Lettertypen",
   'about.fontsValue': "Barlow, Barlow Condensed (SIL Open Font License 1.1) · Material Symbols (Apache-licentie 2.0)",
   'about.back': "Druk op Terug om naar Instellingen te gaan.",
@@ -594,7 +594,7 @@ const NL: Record<string, string> = {
   'home.storageSub': "Opslag van afspeellijsten vraagt aandacht",
   'home.addLocked': "Gepauzeerd zolang afspeellijsten beschermd zijn",
   'storage.title': "Je afspeellijsten zijn beschermd",
-  'storage.text': "ScreenShelf kon de opgeslagen lijst met afspeellijsten op deze tv niet lezen. Er is niets verwijderd: de opgeslagen gegevens zijn bewaard zodat ze hersteld kunnen worden. Afspeellijsten toevoegen en verwijderen is gepauzeerd tot dit is opgelost.",
+  'storage.text': "EliteStream kon de opgeslagen lijst met afspeellijsten op deze tv niet lezen. Er is niets verwijderd: de opgeslagen gegevens zijn bewaard zodat ze hersteld kunnen worden. Afspeellijsten toevoegen en verwijderen is gepauzeerd tot dit is opgelost.",
   'storage.why.read-error': "De opslag van de tv kon niet worden gelezen.",
   'storage.why.corrupt': "De opgeslagen lijst is beschadigd.",
   'storage.why.malformed': "De opgeslagen lijst is beschadigd.",

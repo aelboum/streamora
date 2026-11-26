@@ -125,7 +125,7 @@ export function createDiagnosticsScreen(doc: Document, data: DiagnosticsData, na
       viewport = h(doc, 'div', { className: 'ss-diag-scroll' }, [inner]);
       root.appendChild(h(doc, 'div', { className: 'ss-shell' }, [
         h(doc, 'header', { className: 'ss-header' }, [
-          h(doc, 'h1', { className: 'ss-title', text: 'ScreenShelf' }),
+          h(doc, 'h1', { className: 'ss-title', text: 'EliteStream' }),
           h(doc, 'div', { className: 'ss-subtitle', text: data.title })
         ]),
         h(doc, 'div', { className: 'ss-diag-actions' }, [buttons.element]),

@@ -24,7 +24,7 @@ export function createExitDialog(doc: Document, nav: Router, exitApp: () => void
   return {
     mount: function (layer: HostLayer) {
       (layer.element as HTMLElement).appendChild(h(doc, 'div', { className: 'ss-dialog' }, [
-        h(doc, 'div', { className: 'ss-dialog__title', text: 'Exit ScreenShelf?' }),
+        h(doc, 'div', { className: 'ss-dialog__title', text: 'Exit EliteStream?' }),
         buttons.element
       ]));
       focus.focus('choice', 0);

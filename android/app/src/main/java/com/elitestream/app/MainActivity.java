@@ -56,6 +56,10 @@ public class MainActivity extends Activity {
         keys.put(KeyEvent.KEYCODE_INFO, 457);
         keys.put(KeyEvent.KEYCODE_MENU, 457);
         keys.put(KeyEvent.KEYCODE_GUIDE, 458); // TV guide (Stage 7B.2)
+        // CP2 F5: keys the Samsung remote has an equivalent for.
+        keys.put(KeyEvent.KEYCODE_LAST_CHANNEL, 10190);   // previous channel (Samsung PRE-CH)
+        keys.put(KeyEvent.KEYCODE_MEDIA_NEXT, 427);       // next: channel up / list page down, as CH+
+        keys.put(KeyEvent.KEYCODE_MEDIA_PREVIOUS, 428);   // previous: channel down / list page up, as CH-
         for (int d = 0; d <= 9; d++) {
             keys.put(KeyEvent.KEYCODE_0 + d, 48 + d);
         }

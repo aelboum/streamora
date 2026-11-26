@@ -116,14 +116,35 @@ public class PlayerBridge {
         return "unknown";
     }
 
-    private ExoPlayer ensurePlayer() {
-        if (player != null) {
+    /** Buffer (ms) the current player was built with; -1 when there is no player. */
+    private int playerBufferMs = -1;
+
+    /**
+     * CP2 F3: the buffer requested by the app (config player.liveBufferSec), with the same meaning as
+     * AVPlay's PLAYER_BUFFER_FOR_PLAY / FOR_RESUME on the TV: media buffered before playback starts
+     * and before it resumes after a stall. 0 = player defaults (2 s start, 3 s after a stall).
+     */
+    static int[] bufferDurations(int bufferMs) {
+        int start = bufferMs > 0 ? Math.max(500, Math.min(15000, bufferMs)) : 2000;
+        int resume = bufferMs > 0 ? start : 3000;
+        return new int[] { 15000, 50000, start, resume };
+    }
+
+    private ExoPlayer ensurePlayer(int bufferMs) {
+        if (player != null && bufferMs == playerBufferMs) {
             return player;
         }
+        if (player != null) {
+            // ExoPlayer's LoadControl is fixed per instance: rebuild only when the request changes.
+            view.setPlayer(null);
+            player.release();
+            player = null;
+        }
+        int[] d = bufferDurations(bufferMs);
         DefaultLoadControl load = new DefaultLoadControl.Builder()
-                // 2 s before starting, as the TV build uses for live (rev 3 §5.2).
-                .setBufferDurationsMs(15000, 50000, 2000, 3000)
+                .setBufferDurationsMs(d[0], d[1], d[2], d[3])
                 .build();
+        playerBufferMs = bufferMs;
         player = new ExoPlayer.Builder(activity).setLoadControl(load).build();
         player.setPlayWhenReady(true);
         player.addListener(new Player.Listener() {
@@ -194,7 +215,7 @@ public class PlayerBridge {
         main.post(new Runnable() {
             @Override
             public void run() {
-                ExoPlayer p = ensurePlayer();
+                ExoPlayer p = ensurePlayer(bufferMs);
                 sid = newSid;
                 prepared = false;
                 firstFrame = false;

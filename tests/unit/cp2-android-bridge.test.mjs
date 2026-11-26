@@ -78,3 +78,20 @@ test('CP2 F11: the first Xtream playlist can be added on a fresh Android install
   assert.match(await bridgeKeyStore(b).load('ss_pl_' + r.playlist.id), /"password":"pw-SECRET-9"/, 'login stored in the key store');
   assert.equal(JSON.stringify(svc.list()).includes('pw-SECRET-9'), false, 'no password in the playlist definition');
 });
+
+// CP2 F5: every key the Android activity forwards must mean something to the web app (the same
+// codes as the Samsung remote), and the keys added for parity map to the Samsung actions.
+test('CP2 F5: every Android key in MainActivity maps to an app key; LAST_CHANNEL = previous channel', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { mapKeyCode } = await import('../../src/navigation/keys.ts');
+  const java = readFileSync(new URL('../../android/app/src/main/java/com/elitestream/app/MainActivity.java', import.meta.url), 'utf8');
+  const pairs = [...java.matchAll(/keys\.put\(KeyEvent\.(KEYCODE_\w+),\s*(\d+)\)/g)].map((m) => [m[1], Number(m[2])]);
+  assert.ok(pairs.length >= 30, 'key table parsed (' + pairs.length + ')');
+  for (const [name, code] of pairs) {
+    assert.ok(mapKeyCode(code, false, 'android'), name + ' -> ' + code + ' has no app meaning');
+  }
+  const byName = Object.fromEntries(pairs);
+  assert.equal(mapKeyCode(byName.KEYCODE_LAST_CHANNEL, false, 'android').key, 'prevChannel');
+  assert.equal(mapKeyCode(byName.KEYCODE_MEDIA_NEXT, false, 'android').key, 'chUp');
+  assert.equal(mapKeyCode(byName.KEYCODE_MEDIA_PREVIOUS, false, 'android').key, 'chDown');
+});

@@ -1,6 +1,6 @@
 {
   "name": "screenshelf",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "private": true,
   "description": "ScreenShelf IPTV player for Samsung Tizen 3.0 TVs (Stage 3 foundation)",
   "type": "module",

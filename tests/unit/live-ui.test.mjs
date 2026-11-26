@@ -351,9 +351,20 @@ test('Keyboard strategy: Samsung IME preferred, Back closes the IME first, Done/
   assert.equal(pw.attributes.type, 'password');
   assert.equal(pw.attributes.autocomplete, 'off');
   pw.value = 'secret1';
-  env.press('back');
+  env.press('back'); // close the IME; focus on Done
+  // Show / Hide: the password is visible only on request.
+  env.press('right');
+  assert.deepEqual(env.focused(), ['Show']);
+  env.press('ok');
+  assert.equal(pw.attributes.type, 'text', 'Show reveals the password');
+  assert.deepEqual(env.focused(), ['Hide']);
+  env.press('ok');
+  assert.equal(pw.attributes.type, 'password', 'Hide masks it again');
+  env.press('ok'); // show again, then cancel: closing hides it again
+  assert.equal(pw.attributes.type, 'text');
   env.press('back');
   assert.equal(env.router.overlay(), null);
+  assert.equal(pw.attributes.type, 'password', 'closing the dialog hides the password again');
   assert.equal(pw.value, '', 'cancelled password cleared');
   assert.match(env.layer().textContent, /PasswordNot set/);
   assert.equal(JSON.stringify(env.log.entries()).includes('secret1'), false);

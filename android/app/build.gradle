@@ -11,9 +11,9 @@ android {
         // Android 5.0+: Android TV boxes and phones. Secrets need Android 6.0+ (Keystore AES).
         minSdk 21
         targetSdk 34
-        // versionCode = MAJOR*10000 + MINOR*100 + PATCH (CP2 identity proposal §6). History: 1 = 0.2.0, 2 = 0.3.0, 301 = 0.3.1-beta.1, 302 = 0.3.2-beta.1.
-        versionCode 303
-        versionName '0.3.3-beta.1'
+        // versionCode = MAJOR*10000 + MINOR*100 + PATCH (CP2 identity proposal §6). History: 1 = 0.2.0, 2 = 0.3.0, 301 = 0.3.1-beta.1, 302 = 0.3.2-beta.1, 303 = 0.3.3-beta.1.
+        versionCode 304
+        versionName '0.3.4-beta.1'
     }
 
     // Release signing: the EliteStream production key lives OUTSIDE the repository. Its path and

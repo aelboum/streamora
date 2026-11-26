@@ -3,7 +3,8 @@
 //   2. the app's own keyboard (keyboard-overlay.ts) stays available as the fallback ("On-screen
 //      keyboard" button) and is used directly where no IME exists (browser, tests);
 //   3. password fields use <input type="password">, autocomplete off; the value is read only on
-//      Done and the field is cleared on close; nothing is logged;
+//      Done and the field is cleared on close; nothing is logged. A Show / Hide button switches
+//      the field to plain text on request (hidden by default and again on close);
 //   4. Back while the IME is open closes the IME first (stays in this dialog); Back again cancels.
 // While the input has focus the key router passes only Back (textInput.active), so arrows, OK and
 // digits reach the IME. Samsung IME keys: Done 65376, Cancel 65385 [A: Samsung documentation; the
@@ -42,7 +43,18 @@ export function createTextEntryOverlay(d: TextEntryDeps, p: KeyboardParams, nav:
   let editing = false;
   let closed = false;
   let fieldFocused = false;
-  const buttons = createButtonList(d.doc, [t('kb.done'), t('ime.appKeyboard'), t('kb.cancel')], true);
+  // Password fields get a Show / Hide button (the app keyboard has the same key). Hidden by default
+  // and hidden again whenever the dialog closes.
+  const secret = p.mode === 'secret';
+  let reveal = false;
+  const actions: Array<'done' | 'show' | 'appKeyboard' | 'cancel'> = secret
+    ? ['done', 'show', 'appKeyboard', 'cancel'] : ['done', 'appKeyboard', 'cancel'];
+  const labels: string[] = [];
+  for (let i = 0; i < actions.length; i++) {
+    labels.push(actions[i] === 'done' ? t('kb.done') : actions[i] === 'show' ? t('kb.show')
+      : actions[i] === 'appKeyboard' ? t('ime.appKeyboard') : t('kb.cancel'));
+  }
+  const buttons = createButtonList(d.doc, labels, true);
   const fieldRow = h(d.doc, 'div', { className: 'ss-ime__field' });
 
   function paintField(): void {
@@ -73,12 +85,24 @@ export function createTextEntryOverlay(d: TextEntryDeps, p: KeyboardParams, nav:
     }
   }
 
+  function setReveal(on: boolean): void {
+    reveal = on;
+    if (input && secret) {
+      input.setAttribute('type', on ? 'text' : 'password');
+    }
+    const i = actions.indexOf('show');
+    if (i >= 0) {
+      buttons.setLabel(i, on ? t('kb.hide') : t('kb.show'));
+    }
+  }
+
   function take(): string {
     const v = input ? String(input.value || '').substring(0, p.maxLength) : '';
     closed = true;
     stopEditing();
     d.textInput.active = false;
     if (input) { input.value = ''; }
+    if (reveal) { setReveal(false); }
     return v;
   }
 
@@ -113,7 +137,10 @@ export function createTextEntryOverlay(d: TextEntryDeps, p: KeyboardParams, nav:
   focus.register({ id: 'field', kind: 'row', size: function () { return 1; }, neighbours: { down: 'buttons' }, onSelect: startEditing });
   focus.register({
     id: 'buttons', kind: 'row', size: function () { return buttons.size(); }, neighbours: { up: 'field' },
-    onSelect: function (i) { if (i === 0) { finish(true); } else if (i === 1) { fallback(); } else { finish(false); } }
+    onSelect: function (i) {
+      const a = actions[i];
+      if (a === 'done') { finish(true); } else if (a === 'show') { setReveal(!reveal); } else if (a === 'appKeyboard') { fallback(); } else { finish(false); }
+    }
   });
 
   function onKeyDown(ev: Event): void {

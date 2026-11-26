@@ -5,6 +5,8 @@ export interface ButtonList {
   readonly element: HTMLElement;
   size(): number;
   setFocused(index: number, focused: boolean): void;
+  /** Replaces a button's label (e.g. Show / Hide). */
+  setLabel(index: number, text: string): void;
 }
 
 export function createButtonList(doc: Document, labels: string[], horizontal: boolean): ButtonList {
@@ -20,6 +22,12 @@ export function createButtonList(doc: Document, labels: string[], horizontal: bo
       const b = buttons[index];
       if (b) {
         b.className = 'ss-button' + (focused ? ' is-focused' : '');
+      }
+    },
+    setLabel: function (index, text) {
+      const b = buttons[index];
+      if (b && b.textContent !== text) {
+        b.textContent = text;
       }
     }
   };

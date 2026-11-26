@@ -1,0 +1,10 @@
+{"t":1795590745279,"path":"thumb.mp4","range":"bytes=0-99","status":206,"ua":"curl/8.21.0"}
+{"t":1795590791553,"path":"lang-long.mp4","range":"bytes=0-65535","status":206,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 ("}
+{"t":1795590791645,"path":"lang-long.mp4","range":"bytes=65536-131071","status":206,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 ("}
+{"t":1795590791758,"path":"lang-long.mp4","range":"bytes=0-","status":206,"ua":"samsung-agent/1.1"}
+{"t":1795590799666,"path":"lang-long.mkv","range":"bytes=0-65535","status":206,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 ("}
+{"t":1795590799725,"path":"lang-long.mkv","range":"bytes=0-","status":206,"ua":"samsung-agent/1.1"}
+{"t":1795590799801,"path":"lang-long.mkv","range":"bytes=4067059-","status":206,"ua":"samsung-agent/1.1"}
+{"t":1795590799819,"path":"lang-long.mkv","range":"bytes=98304-","status":206,"ua":"samsung-agent/1.1"}
+{"t":1795590864924,"path":"thumb.mp4","range":"bytes=0-","status":206,"ua":"samsung-agent/1.1"}
+{"t":1795590868786,"path":"thumb.mp4","range":"bytes=0-","status":206,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 ("}

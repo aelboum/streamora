@@ -1,4 +1,5 @@
-/* Fixed 1920x1080 logical layout. Flexbox + margins only (no grid, gap, var(), sticky). */
+/* Fixed 1920x1080 logical layout. Flexbox + margins only (no grid, gap, var(), sticky).
+   Stage 7B.1: EliteStream "Glass Hub" foundation (navy ground + two atmosphere glows). */
 html, body {
   margin: 0;
   padding: 0;
@@ -8,6 +9,7 @@ html, body {
   background: {{color.bg}};
   color: {{color.text}};
   font-family: {{font.family}};
+  -webkit-font-smoothing: antialiased;
 }
 
 #ss-root {
@@ -16,6 +18,7 @@ html, body {
   top: 0;
   width: 1920px;
   height: 1080px;
+  background: radial-gradient(120% 90% at 85% 0%, #2A2A5C 0%, rgba(42, 42, 92, 0) 55%), radial-gradient(90% 80% at 10% 100%, #10324A 0%, rgba(16, 50, 74, 0) 60%), {{color.bg}};
 }
 
 .ss-boot-status {
@@ -25,3 +28,58 @@ html, body {
   font-size: 34px;
   color: {{color.textMuted}};
 }
+
+/* Brand mark and icons (components/brand.ts) */
+.ss-icon,
+.ss-mark {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Material Symbols Rounded glyph (FILL 1, 400); size = font-size, colour inherits unless set. */
+.ss-ms {
+  display: block;
+  flex-shrink: 0;
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.ss-tile__icon { font-size: 96px; }
+.ss-tile--settings .ss-tile__icon { font-size: 72px; }
+.ss-tile--add .ss-tile__icon { font-size: 48px; }
+.ss-home__person { font-size: 28px; }
+.ss-bar__icon { font-size: 32px; }
+.ss-rail__icon { font-size: 38px; }
+.ss-cat__icon { font-size: 26px; }
+.ss-chip__icon { font-size: 26px; }
+.ss-toast__icon { font-size: 34px; }
+.ss-find__icon { font-size: 30px; }
+
+.ss-mark--56 { width: 56px; height: 56px; }
+.ss-mark--64 { width: 64px; height: 64px; }
+
+.ss-lockup {
+  display: flex;
+  align-items: center;
+}
+
+.ss-lockup__word {
+  margin-left: 16px;
+  font-family: {{font.display}};
+  font-size: 38px;
+  line-height: 36px;
+  letter-spacing: 0.02em;
+}
+
+.ss-lockup__elite { font-weight: bold; color: {{color.text}}; }
+.ss-lockup__stream { font-weight: 500; color: {{color.textMuted}}; }

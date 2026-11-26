@@ -1,0 +1,159 @@
+{"from":"192.168.1.19","t":1795629209474,"level":"info","msg":"9 start","component":"selftest9","data":{"memMB":188,"accounts":1}}
+{"from":"192.168.1.19","t":1795629214556,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":1,"memMB":181,"top":"live-tv","cache":"no"}}
+{"from":"192.168.1.19","t":1795629216425,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2249,"renderMs":130,"cached":false}}
+{"from":"192.168.1.19","t":1795629219004,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"http","sources":1,"channels":0,"programmes":0,"ms":308}}
+{"from":"192.168.1.19","t":1795629219481,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":2,"memMB":199,"top":"live-tv","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629219605,"level":"info","msg":"9 S1 live open","component":"selftest9","data":{"n":0,"cold":true,"ready":true,"toReadyMs":2419,"loadMs":2249,"renderMs":130,"cached":false,"channels":21986,"categories":374,"providerRequestsIn3s":2,"orderHash":"[redacted]","favourites":2,"favResolved":2,"memBeforeMB":207,"memAfterMB":199,"cacheChars":2345762,"cacheHits":1,"cacheMisses":1,"errors":0}}
+{"from":"192.168.1.19","t":1795629221378,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":69,"renderMs":121,"cached":true}}
+{"from":"192.168.1.19","t":1795629221600,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"http","sources":1,"channels":0,"programmes":0,"ms":197}}
+{"from":"192.168.1.19","t":1795629223764,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284583","startupMs":1440}}
+{"from":"192.168.1.19","t":1795629224478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":3,"memMB":189,"top":"live-tv","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629224670,"level":"info","msg":"9 S1 live open","component":"selftest9","data":{"n":1,"cold":false,"ready":true,"toReadyMs":229,"loadMs":69,"renderMs":121,"cached":true,"channels":21986,"categories":374,"providerRequestsIn3s":1,"orderHash":"[redacted]","favourites":2,"favResolved":2,"memBeforeMB":198,"memAfterMB":188,"cacheChars":2345762,"cacheHits":3,"cacheMisses":1,"errors":0}}
+{"from":"192.168.1.19","t":1795629226505,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":49,"renderMs":101,"cached":true}}
+{"from":"192.168.1.19","t":1795629226767,"level":"warn","msg":"epg: download stopped, device memory low","component":"epg","data":{"freeMB":188,"floorMB":200,"chars":0}}
+{"from":"192.168.1.19","t":1795629226769,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"low-memory","sources":1,"channels":0,"programmes":0,"ms":252}}
+{"from":"192.168.1.19","t":1795629228732,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284583","startupMs":1244}}
+{"from":"192.168.1.19","t":1795629229479,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":4,"memMB":176,"top":"live-tv","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629229773,"level":"info","msg":"9 S1 live open","component":"selftest9","data":{"n":2,"cold":false,"ready":true,"toReadyMs":163,"loadMs":49,"renderMs":101,"cached":true,"channels":21986,"categories":374,"providerRequestsIn3s":1,"orderHash":"[redacted]","favourites":2,"favResolved":2,"memBeforeMB":210,"memAfterMB":179,"cacheChars":2345762,"cacheHits":5,"cacheMisses":1,"errors":0}}
+{"from":"192.168.1.19","t":1795629231591,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":51,"renderMs":89,"cached":true}}
+{"from":"192.168.1.19","t":1795629233724,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284583","startupMs":1416}}
+{"from":"192.168.1.19","t":1795629234478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":5,"memMB":176,"top":"live-tv","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629234706,"level":"info","msg":"9 S1 live open","component":"selftest9","data":{"n":3,"cold":false,"ready":true,"toReadyMs":154,"loadMs":51,"renderMs":89,"cached":true,"channels":21986,"categories":374,"providerRequestsIn3s":0,"orderHash":"[redacted]","favourites":2,"favResolved":2,"memBeforeMB":195,"memAfterMB":176,"cacheChars":2345762,"cacheHits":7,"cacheMisses":1,"errors":0}}
+{"from":"192.168.1.19","t":1795629234707,"level":"info","msg":"9 S1 account switch","component":"selftest9","data":{"skipped":true,"accounts":1}}
+{"from":"192.168.1.19","t":1795629239480,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":6,"memMB":198,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629239827,"level":"info","msg":"9 S1 outside live","component":"selftest9","data":{"memMB":198,"cached":"yes"}}
+{"from":"192.168.1.19","t":1795629244604,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":7,"memMB":177,"top":"search","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629246441,"level":"info","msg":"live cache released","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629249337,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"common","queryLen":4,"firstCardMs":227,"completeMs":7856,"rows":"Zenders · 23 | Films · 40 | Series · 40","message":"","maxStallMs":319,"memMB":166,"errors":0}}
+{"from":"192.168.1.19","t":1795629249501,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":8,"memMB":145,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629253252,"level":"info","msg":"live cache skipped","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629254758,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":9,"memMB":204,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629259354,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"common2","queryLen":5,"firstCardMs":2744,"completeMs":8280,"rows":"Zenders · 36 | Films · 40 | Series · 40","message":"","maxStallMs":983,"memMB":248,"errors":0}}
+{"from":"192.168.1.19","t":1795629259512,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":10,"memMB":230,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629264558,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":11,"memMB":205,"top":"search","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629267098,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"none","queryLen":6,"firstCardMs":-1,"completeMs":6046,"rows":"","message":"Niets gevonden voor “zqxvjw”.","maxStallMs":453,"memMB":146,"errors":0}}
+{"from":"192.168.1.19","t":1795629268752,"level":"info","msg":"live cache released","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629269895,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":12,"memMB":271,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629274831,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":13,"memMB":224,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629278247,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"arabic","queryLen":2,"firstCardMs":2936,"completeMs":9470,"rows":"Zenders · 7 | Films · 40 | Series · 40","message":"","maxStallMs":702,"memMB":196,"errors":0}}
+{"from":"192.168.1.19","t":1795629279480,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":14,"memMB":160,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629282672,"level":"info","msg":"live cache skipped","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629284961,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":15,"memMB":222,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629289602,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":16,"memMB":157,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629294481,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":17,"memMB":209,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629295603,"level":"info","msg":"9 S2 rapid","component":"selftest9","data":{"rows":"Zenders · 23 | Films · 40 | Series · 40","titlesMatchingSecondQuery":"love,love,love,love,love,love,love,love","recentNow":"love,night","errors":0}}
+{"from":"192.168.1.19","t":1795629299478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":18,"memMB":191,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629304478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":19,"memMB":177,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629310272,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":20,"memMB":193,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629314478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":21,"memMB":190,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629319478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":22,"memMB":186,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629324480,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":23,"memMB":185,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629329478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":24,"memMB":175,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629334576,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":25,"memMB":172,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629340277,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":26,"memMB":171,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629344478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":27,"memMB":184,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629349478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":28,"memMB":182,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629354478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":29,"memMB":179,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629359478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":30,"memMB":179,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629364478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":31,"memMB":180,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629369477,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":32,"memMB":188,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629374480,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":33,"memMB":191,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629379478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":34,"memMB":195,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629384478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":35,"memMB":187,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629389479,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":36,"memMB":174,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629394478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":37,"memMB":171,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629396708,"level":"info","msg":"vod: refresh","component":"vod","data":{"playlist":"pmwuiieey01","section":"series","ok":true,"items":25502,"categories":97,"invalid":0,"unchanged":false,"requests":97,"ms":100995,"phases":{"readIndexMs":160,"cleanupMs":1807,"maxPageWriteMs":1108,"maxPageEncodeMs":94}}}
+{"from":"192.168.1.19","t":1795629396916,"level":"info","msg":"9 S3 update","component":"selftest9","data":{"gate":false,"ok":true,"code":"","items":25502,"unchanged":false,"ms":100995,"maxPageWriteMs":1108,"keys":149,"stallsDuringUse":9,"maxStallDuringUseMs":945,"stallsIdle":5,"maxStallIdleMs":904,"gateWaited":0,"gateCapped":0,"gatePressured":0,"gateMaxWaitMs":0,"minFreeMB":165,"memMB":163,"errors":0}}
+{"from":"192.168.1.19","t":1795629397840,"level":"info","msg":"vod: index loaded","component":"vod","data":{"playlist":"pmwuiieey01","section":"series","items":25502,"categories":97,"pages":26,"ms":80}}
+{"from":"192.168.1.19","t":1795629399478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":38,"memMB":159,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629404478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":39,"memMB":162,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629409478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":40,"memMB":157,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629414478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":41,"memMB":161,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629419479,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":42,"memMB":160,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629424479,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":43,"memMB":159,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629429489,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":44,"memMB":170,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629434478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":45,"memMB":172,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629439478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":46,"memMB":170,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629444478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":47,"memMB":197,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629449478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":48,"memMB":194,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629454479,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":49,"memMB":192,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629459478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":50,"memMB":192,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629464479,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":51,"memMB":207,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629469478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":52,"memMB":209,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629474478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":53,"memMB":203,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629479478,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":54,"memMB":187,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629484825,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":55,"memMB":188,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629486103,"level":"info","msg":"vod: refresh","component":"vod","data":{"playlist":"pmwuiieey01","section":"series","ok":true,"items":25502,"categories":97,"invalid":0,"unchanged":true,"requests":97,"ms":89146,"phases":{"readIndexMs":96,"cleanupMs":375,"maxPageWriteMs":1582,"maxPageEncodeMs":102}}}
+{"from":"192.168.1.19","t":1795629486298,"level":"info","msg":"9 S3 update","component":"selftest9","data":{"gate":true,"ok":true,"code":"","items":25502,"unchanged":true,"ms":89146,"maxPageWriteMs":1582,"keys":132,"stallsDuringUse":13,"maxStallDuringUseMs":328,"stallsIdle":11,"maxStallIdleMs":570,"gateWaited":84,"gateCapped":0,"gatePressured":83,"gateMaxWaitMs":1249,"minFreeMB":156,"memMB":182,"errors":0}}
+{"from":"192.168.1.19","t":1795629486326,"level":"info","msg":"9 done","component":"selftest9","data":{"memMB":182,"errors":0}}
+{"from":"192.168.1.19","t":1795629560431,"level":"info","msg":"dev log sink enabled","data":{"build":"dev","version":"0.2.0"}}
+{"from":"192.168.1.19","t":1795629560560,"level":"info","msg":"platform","data":{"info":{"name":"tizen","platformVersion":"3.0","width":1920,"height":1080,"userAgent":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 (KHTML, like Gecko) Version/3.0 TV Safari/538.1"},"capabilities":{"appLifecycle":true,"keyRegistration":true,"avplay":true,"fileStore":true,"secureKeyStore":true,"webCrypto":true}}}
+{"from":"192.168.1.19","t":1795629560563,"level":"info","msg":"parental state","component":"boot","data":{"state":"none"}}
+{"from":"192.168.1.19","t":1795629561562,"level":"info","msg":"vod: index loaded","component":"vod","data":{"playlist":"pmwuiieey01","section":"movie","items":108565,"categories":143,"pages":109,"ms":214}}
+{"from":"192.168.1.19","t":1795629561580,"level":"info","msg":"vod: index loaded","component":"vod","data":{"playlist":"pmwuiieey01","section":"series","items":25502,"categories":97,"pages":26,"ms":232}}
+{"from":"192.168.1.19","t":1795629562076,"level":"info","msg":"9 start","component":"selftest9","data":{"memMB":149,"accounts":1}}
+{"from":"192.168.1.19","t":1795629567376,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":1,"memMB":153,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629572315,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":2,"memMB":136,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629574764,"level":"info","msg":"live cache skipped","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629577121,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":3,"memMB":140,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629579988,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"common","queryLen":4,"firstCardMs":1989,"completeMs":13254,"rows":"Zenders · 23 | Films · 40 | Series · 40","message":"","maxStallMs":975,"memMB":168,"errors":0}}
+{"from":"192.168.1.19","t":1795629582313,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":4,"memMB":152,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629587270,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":5,"memMB":178,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629588595,"level":"info","msg":"live cache skipped","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629591843,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"common2","queryLen":5,"firstCardMs":836,"completeMs":10091,"rows":"Zenders · 36 | Films · 40 | Series · 40","message":"","maxStallMs":871,"memMB":169,"errors":0}}
+{"from":"192.168.1.19","t":1795629592081,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":6,"memMB":159,"top":"home","cache":"no"}}
+{"from":"192.168.1.19","t":1795629597205,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":7,"memMB":163,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629598334,"level":"info","msg":"live cache skipped","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629600485,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"none","queryLen":6,"firstCardMs":-1,"completeMs":6975,"rows":"","message":"Niets gevonden voor “zqxvjw”.","maxStallMs":565,"memMB":194,"errors":0}}
+{"from":"192.168.1.19","t":1795629602080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":8,"memMB":168,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629607200,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":9,"memMB":143,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629607580,"level":"info","msg":"live cache skipped","component":"playlists","data":{"id":"pmwuiieey01","reason":"low-memory","chars":2345762}}
+{"from":"192.168.1.19","t":1795629610732,"level":"info","msg":"9 S2 search","component":"selftest9","data":{"label":"arabic","queryLen":2,"firstCardMs":2800,"completeMs":8600,"rows":"Zenders · 7 | Films · 40 | Series · 40","message":"","maxStallMs":538,"memMB":218,"errors":0}}
+{"from":"192.168.1.19","t":1795629612082,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":10,"memMB":174,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629617256,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":11,"memMB":136,"top":"search","cache":"no"}}
+{"from":"192.168.1.19","t":1795629622174,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":12,"memMB":135,"top":"search","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629627080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":13,"memMB":230,"top":"search","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629628058,"level":"info","msg":"9 S2 rapid","component":"selftest9","data":{"rows":"Zenders · 23 | Films · 40 | Series · 40","titlesMatchingSecondQuery":"love,love,love,love,love,love,love,love","recentNow":"love,night","errors":0}}
+{"from":"192.168.1.19","t":1795629632079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":14,"memMB":225,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629637080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":15,"memMB":224,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629642079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":16,"memMB":223,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629647080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":17,"memMB":223,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629652080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":18,"memMB":221,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629657080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":19,"memMB":219,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629662079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":20,"memMB":219,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629667082,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":21,"memMB":203,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629672132,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":22,"memMB":191,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629677079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":23,"memMB":191,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629682079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":24,"memMB":188,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629687080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":25,"memMB":187,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629692080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":26,"memMB":187,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629697081,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":27,"memMB":184,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629702080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":28,"memMB":188,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629707080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":29,"memMB":188,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629712079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":30,"memMB":194,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629716773,"level":"info","msg":"vod: refresh","component":"vod","data":{"playlist":"pmwuiieey01","section":"series","ok":true,"items":25502,"categories":97,"invalid":0,"unchanged":true,"requests":97,"ms":88648,"phases":{"readIndexMs":111,"cleanupMs":365,"maxPageWriteMs":829,"maxPageEncodeMs":280}}}
+{"from":"192.168.1.19","t":1795629716988,"level":"info","msg":"9 S3 update","component":"selftest9","data":{"gate":false,"ok":true,"code":"","items":25502,"unchanged":true,"ms":88648,"maxPageWriteMs":829,"keys":133,"stallsDuringUse":3,"maxStallDuringUseMs":413,"stallsIdle":1,"maxStallIdleMs":443,"gateWaited":0,"gateCapped":0,"gatePressured":0,"gateMaxWaitMs":0,"minFreeMB":180,"memMB":191,"errors":0}}
+{"from":"192.168.1.19","t":1795629717115,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":31,"memMB":191,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629722080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":32,"memMB":195,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629727113,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":33,"memMB":193,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629732080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":34,"memMB":192,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629737079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":35,"memMB":192,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629742079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":36,"memMB":192,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629747081,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":37,"memMB":198,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629752080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":38,"memMB":197,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629757080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":39,"memMB":203,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629762080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":40,"memMB":199,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629767079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":41,"memMB":206,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629772089,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":42,"memMB":205,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629777079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":43,"memMB":211,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629782091,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":44,"memMB":212,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629787079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":45,"memMB":212,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629792079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":46,"memMB":212,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629797080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":47,"memMB":225,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629802080,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":48,"memMB":218,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629807089,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":49,"memMB":211,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629812079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":50,"memMB":201,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629817079,"level":"info","msg":"9 beat","component":"selftest9","data":{"n":51,"memMB":201,"top":"home","cache":"yes"}}
+{"from":"192.168.1.19","t":1795629821042,"level":"info","msg":"vod: refresh","component":"vod","data":{"playlist":"pmwuiieey01","section":"series","ok":true,"items":25502,"categories":97,"invalid":0,"unchanged":true,"requests":97,"ms":104031,"phases":{"readIndexMs":115,"cleanupMs":338,"maxPageWriteMs":3593,"maxPageEncodeMs":81}}}
+{"from":"192.168.1.19","t":1795629821238,"level":"info","msg":"9 S3 update","component":"selftest9","data":{"gate":true,"ok":true,"code":"","items":25502,"unchanged":true,"ms":104031,"maxPageWriteMs":3593,"keys":154,"stallsDuringUse":3,"maxStallDuringUseMs":278,"stallsIdle":8,"maxStallIdleMs":958,"gateWaited":12,"gateCapped":0,"gatePressured":0,"gateMaxWaitMs":3449,"minFreeMB":183,"memMB":196,"errors":0}}
+{"from":"192.168.1.19","t":1795629821276,"level":"info","msg":"9 done","component":"selftest9","data":{"memMB":196,"errors":0}}

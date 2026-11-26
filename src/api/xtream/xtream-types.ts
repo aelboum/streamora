@@ -273,6 +273,12 @@ export interface XtreamEpisode {
   plot: string;
   durationSec: number | null;
   image: string;
+  /**
+   * Stage 11: true only when the provider stated the episode number and the season (in the
+   * episode itself or as the numeric key it is listed under). Numbers filled in from the list
+   * position or a default season are not used to choose a next episode.
+   */
+  exact: boolean;
 }
 export interface XtreamSeason { number: number; name: string; cover: string; episodes: XtreamEpisode[] }
 export interface XtreamSeriesInfo { info: XtreamMediaInfo; seasons: XtreamSeason[]; invalid: number }
@@ -425,7 +431,7 @@ export function parseVodInfo(x: unknown): XtreamVodInfo | null {
   };
 }
 
-function parseEpisode(x: unknown, seasonHint: number, index: number): XtreamEpisode | null {
+function parseEpisode(x: unknown, seasonHint: number, index: number, hintStated: boolean): XtreamEpisode | null {
   const e = obj(x);
   if (!e) {
     return null;
@@ -445,7 +451,8 @@ function parseEpisode(x: unknown, seasonHint: number, index: number): XtreamEpis
     ext: toExt(e.container_extension),
     plot: str(i.plot, MAX_DESC),
     durationSec: toDuration(i.duration_secs, i.duration),
-    image: imageUrl(i.movie_image) || imageUrl(i.cover_big)
+    image: imageUrl(i.movie_image) || imageUrl(i.cover_big),
+    exact: num !== null && num >= 0 && num < 100000 && ((season !== null && season >= 0 && season < 10000) || hintStated)
   };
 }
 
@@ -468,20 +475,20 @@ export function parseSeriesInfo(x: unknown, fallbackName: string): XtreamSeriesI
     }
     return bySeason[k];
   }
-  function addList(list: unknown, hint: number): void {
+  function addList(list: unknown, hint: number, hintStated: boolean): void {
     if (Object.prototype.toString.call(list) !== '[object Array]') {
       return;
     }
     const a = list as unknown[];
     for (let i = 0; i < a.length; i++) {
       if (Object.prototype.toString.call(a[i]) === '[object Array]') {
-        addList(a[i], hint); // array of arrays
+        addList(a[i], hint, hintStated); // array of arrays
         continue;
       }
       if (total >= MAX_EPISODES) {
         return;
       }
-      const ep = parseEpisode(a[i], hint, i);
+      const ep = parseEpisode(a[i], hint, i, hintStated);
       if (!ep) {
         invalid++;
         continue;
@@ -496,13 +503,13 @@ export function parseSeriesInfo(x: unknown, fallbackName: string): XtreamSeriesI
   }
   const eps = root.episodes;
   if (Object.prototype.toString.call(eps) === '[object Array]') {
-    addList(eps, 1);
+    addList(eps, 1, false); // no season key: the default season 1 is not a stated number
   } else if (obj(eps)) {
     const o = eps as Record<string, unknown>;
     for (const k in o) {
       if (Object.prototype.hasOwnProperty.call(o, k)) {
         const n = toInt(k);
-        addList(o[k], n !== null && n >= 0 ? n : 1);
+        addList(o[k], n !== null && n >= 0 ? n : 1, n !== null && n >= 0);
       }
     }
   }

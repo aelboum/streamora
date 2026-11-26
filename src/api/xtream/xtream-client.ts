@@ -76,13 +76,13 @@ export interface XtreamClient {
   /** get_vod_categories (Stage 6). */
   vodCategories(): XtreamHandle<XtreamCategory[]>;
   /** Streams get_vod_streams element by element to `onItem`. */
-  vodStreams(onItem: (s: XtreamVodStream) => void): XtreamHandle<LiveStreamsSummary>;
+  vodStreams(onItem: (s: XtreamVodStream) => void, categoryId?: string): XtreamHandle<LiveStreamsSummary>;
   /** get_vod_info for one movie. */
   vodInfo(streamId: string): XtreamHandle<XtreamVodInfo>;
   /** get_series_categories. */
   seriesCategories(): XtreamHandle<XtreamCategory[]>;
   /** Streams get_series element by element to `onItem`. */
-  seriesList(onItem: (s: XtreamSeries) => void): XtreamHandle<LiveStreamsSummary>;
+  seriesList(onItem: (s: XtreamSeries) => void, categoryId?: string): XtreamHandle<LiveStreamsSummary>;
   /** get_series_info for one series: info, seasons and episodes. */
   seriesInfo(seriesId: string, fallbackName: string): XtreamHandle<XtreamSeriesInfo>;
 }
@@ -343,6 +343,12 @@ export function createXtreamClient(o: XtreamClientOptions): XtreamClient {
     };
   }
 
+  function badCategory(categoryId: string | undefined): XtreamHandle<LiveStreamsSummary> | null {
+    return categoryId !== undefined && !ID_RE.test(categoryId)
+      ? { result: Promise.resolve(bad<LiveStreamsSummary>('invalid-url', 'invalid category id')), abort: function () { /* nothing */ } }
+      : null;
+  }
+
   /** One small JSON object response for an item id (vod info, series info). */
   function itemCall<T>(action: string, param: string, id: string, parse: (d: unknown) => T | null, what: string): XtreamHandle<T> {
     const pre = precheck<T>();
@@ -404,9 +410,9 @@ export function createXtreamClient(o: XtreamClientOptions): XtreamClient {
       return categories('get_vod_categories');
     },
 
-    vodStreams: function (onItem) {
-      const pre = precheck<LiveStreamsSummary>();
-      return pre || streamList<XtreamVodStream>('get_vod_streams', '', parseVodStream, onItem);
+    vodStreams: function (onItem, categoryId) {
+      const pre = precheck<LiveStreamsSummary>() || badCategory(categoryId);
+      return pre || streamList<XtreamVodStream>('get_vod_streams', categoryId !== undefined ? '&category_id=' + categoryId : '', parseVodStream, onItem);
     },
 
     vodInfo: function (streamId) {
@@ -417,9 +423,9 @@ export function createXtreamClient(o: XtreamClientOptions): XtreamClient {
       return categories('get_series_categories');
     },
 
-    seriesList: function (onItem) {
-      const pre = precheck<LiveStreamsSummary>();
-      return pre || streamList<XtreamSeries>('get_series', '', parseSeries, onItem);
+    seriesList: function (onItem, categoryId) {
+      const pre = precheck<LiveStreamsSummary>() || badCategory(categoryId);
+      return pre || streamList<XtreamSeries>('get_series', categoryId !== undefined ? '&category_id=' + categoryId : '', parseSeries, onItem);
     },
 
     seriesInfo: function (seriesId, fallbackName) {

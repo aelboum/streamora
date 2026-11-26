@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android TV launcher banner (320×180 dp): navy with the Signal Play mark. The launcher shows the
+     app name next to it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+    <path
+        android:fillColor="#080C18"
+        android:pathData="M0,0 L320,0 L320,180 L0,180 Z" />
+    <group android:translateX="110" android:translateY="40">
+        <path
+            android:fillColor="@color/markBlue"
+            android:strokeColor="@color/markBlue"
+            android:strokeWidth="8"
+            android:strokeLineJoin="round"
+            android:pathData="M20,24 L20,76 L58,50 Z" />
+        <path
+            android:strokeColor="@color/markLight"
+            android:strokeWidth="8"
+            android:strokeLineCap="round"
+            android:pathData="M67.9,40.1 A14,14 0 0,1 67.9,59.9" />
+        <path
+            android:strokeColor="@color/markCyan"
+            android:strokeWidth="8"
+            android:strokeLineCap="round"
+            android:pathData="M76.4,31.6 A26,26 0 0,1 76.4,68.4" />
+    </group>
+</vector>

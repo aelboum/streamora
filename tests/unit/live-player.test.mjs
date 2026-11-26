@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createLiveController } from '../../src/player/live-controller.ts';
-import { createAvplayEngine } from '../../src/player/avplay-engine.ts';
+import { createAvplayEngine, mapAvTracks } from '../../src/player/avplay-engine.ts';
 import { createLogger } from '../../src/utils/log.ts';
 import { createFakeClock } from '../fakes/fake-clock.mjs';
 import { createFakeEngine } from '../fakes/fake-engine.mjs';
@@ -202,7 +202,8 @@ function fakeAvplay() {
     suspend: () => calls.push('suspend'),
     restore: () => calls.push('restore'),
     prepareAsync: (ok, err) => { calls.push('prepareAsync'); av.ok = ok; av.err = err; },
-    fire: (name, arg) => listener && listener[name](arg)
+    fire: (name, arg) => listener && listener[name](arg),
+    fireN: (name, ...args) => listener && listener[name](...args)
   };
   return av;
 }
@@ -240,4 +241,109 @@ test('AVPlay engine: verified call order, 2 s buffering, user agent, error mappi
   eng.stop(); // never throws, even though avplay.stop throws
   eng.destroy();
   assert.equal(doc.body.childNodes.length, 0, 'video object removed');
+});
+
+test('AVPlay tracks: extra_info mapped, audio/text selection, subtitles off by default, cues with duration', async () => {
+  const all = [
+    { type: 'VIDEO', index: 0, extra_info: '{"fourCC":"H264"}' },
+    { type: 'AUDIO', index: 1, extra_info: '{"language":"eng","channels":"6","fourCC":"AC3"}' },
+    { type: 'AUDIO', index: 2, extra_info: '{"language":"dut","channels":"2"}' },
+    { type: 'TEXT', index: 3, extra_info: '{"track_lang":"nld","subtitle_type":"text"}' },
+    { type: 'TEXT', index: 4, extra_info: 'not json' }
+  ];
+  assert.deepEqual(mapAvTracks(all, [{ type: 'AUDIO', index: 2 }], -1), [
+    // Stage 7E: channels, sample rate, bitrate and the unambiguous codecs are passed on (0 / '' = not stated).
+    { kind: 'audio', id: 1, language: 'eng', label: '5.1 · AC3', selected: false, channels: 6, sampleRate: 0, bitrate: 0, codec: 'ac3' },
+    { kind: 'audio', id: 2, language: 'dut', label: 'Stereo', selected: true, channels: 2, sampleRate: 0, bitrate: 0, codec: '' },
+    { kind: 'text', id: 3, language: 'nld', label: '', selected: false },
+    { kind: 'text', id: 4, language: '', label: '', selected: false }
+  ]);
+  const av = fakeAvplay();
+  let silent = null;
+  av.getTotalTrackInfo = () => all;
+  av.getCurrentStreamInfo = () => [{ type: 'AUDIO', index: 1 }];
+  av.setSelectTrack = (type, i) => av.calls.push('select ' + type + ' ' + i);
+  av.setSilentSubtitle = (b) => { silent = b; };
+  const eng = createAvplayEngine({ webapis: { avplay: av }, document: createFakeDocument() });
+  const events = [];
+  eng.on((e) => events.push(e));
+  const p = eng.load({ url: 'http://s.example/1.mkv', type: 'mkv', live: false }, { bufferSec: 0 });
+  av.ok();
+  await p;
+  assert.equal(silent, true, 'subtitles start off');
+  assert.ok(events.some((e) => e.type === 'tracks'));
+  av.fireN('onsubtitlechange', 2000, 'ignored while off');
+  assert.ok(!events.some((e) => e.type === 'subtitle'));
+  eng.selectTrack('text', 3);
+  assert.ok(av.calls.includes('select TEXT 3'));
+  assert.equal(silent, false);
+  assert.equal(eng.tracks().find((t) => t.id === 3).selected, true);
+  av.fireN('onsubtitlechange', 30, '<i>Hallo</i>');
+  assert.deepEqual(events.filter((e) => e.type === 'subtitle').map((e) => e.text), ['<i>Hallo</i>']);
+  await new Promise((r) => setTimeout(r, 60));
+  assert.deepEqual(events.filter((e) => e.type === 'subtitle').map((e) => e.text), ['<i>Hallo</i>', ''], 'cleared after its duration');
+  eng.selectTrack('audio', 2);
+  assert.ok(av.calls.includes('select AUDIO 2'));
+  eng.selectTrack('text', -1);
+  assert.equal(silent, true);
+  eng.stop();
+});
+
+test('AVPlay seek: done callback; a failing seek marks the title not seekable (seek-failed, no further seekTo); start position seeks before play', async () => {
+  const av = fakeAvplay();
+  let mode = 'ok';
+  const seeks = [];
+  av.seekTo = (ms, ok, err) => { seeks.push(ms); if (mode === 'ok') { ok(); } else if (mode === 'err') { err({ name: 'PLAYER_ERROR_SEEK_FAILED' }); } };
+  av.getCurrentTime = () => 1000;
+  const eng = createAvplayEngine({ webapis: { avplay: av }, document: createFakeDocument() });
+  const events = [];
+  eng.on((e) => events.push(e.type));
+  let p = eng.load({ url: 'http://s.example/1.mkv', type: 'mkv', live: false }, { bufferSec: 0 });
+  av.ok();
+  await p;
+  eng.seek(30000);
+  assert.deepEqual(seeks, [30000]);
+  assert.ok(!events.includes('seek-failed'));
+  mode = 'err';
+  eng.seek(60000);
+  assert.ok(events.includes('seek-failed'));
+  eng.seek(90000);
+  assert.deepEqual(seeks, [30000, 60000], 'no seekTo after a failure on the same title');
+  assert.equal(events.filter((x) => x === 'seek-failed').length, 2, 'each attempt is reported');
+  // Next title: seekable again; a start position is applied after prepare and before play.
+  mode = 'ok';
+  av.calls.length = 0;
+  p = eng.load({ url: 'http://s.example/2.mkv', type: 'mkv', live: false }, { bufferSec: 0, startMs: 120000 });
+  av.calls.push('prepared');
+  av.ok();
+  await p;
+  assert.deepEqual(seeks.slice(-1), [120000]);
+  const order = av.calls.filter((c) => c === 'prepared' || c === 'play');
+  assert.deepEqual(order, ['prepared', 'play'], 'play only after the start seek answered');
+  eng.stop();
+});
+
+test('AVPlay seek queue: one seekTo at a time (AVPlay drops overlapping ones); queued target runs after the answer; slow answers are not "not seekable"', async () => {
+  const av = fakeAvplay();
+  const calls = [];
+  const pending = [];
+  av.seekTo = (ms, ok) => { calls.push(ms); pending.push(ok); }; // answers only when the test says so
+  av.getCurrentTime = () => 5000;
+  const eng = createAvplayEngine({ webapis: { avplay: av }, document: createFakeDocument() });
+  const events = [];
+  eng.on((e) => events.push(e.type));
+  const p = eng.load({ url: 'http://s.example/q.mp4', type: 'mp4', live: false }, { bufferSec: 0 });
+  av.ok();
+  await p;
+  eng.seek(15000);
+  eng.seek(25000);
+  eng.seek(35000);
+  assert.deepEqual(calls, [15000], 'only one seek in flight');
+  await new Promise((r) => setTimeout(r, 4500));
+  assert.ok(!events.includes('seek-failed'), 'a seek answering after 4.5 s is not a failure');
+  pending.shift()();
+  assert.deepEqual(calls, [15000, 35000], 'after the answer the latest queued target runs (25 s skipped)');
+  pending.shift()();
+  assert.ok(!events.includes('seek-failed'));
+  eng.stop();
 });

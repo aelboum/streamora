@@ -85,7 +85,8 @@ export interface RefreshJob {
 }
 
 export type LiveLoad =
-  | { status: 'ok'; catalogue: LiveCatalogue; meta: CatalogueMeta; ms: number }
+  /** cached: Stage 9, served from the in-memory live cache (no channel-file read). */
+  | { status: 'ok'; catalogue: LiveCatalogue; meta: CatalogueMeta; ms: number; cached?: boolean }
   | { status: 'missing' }
   | { status: 'inconsistent' | 'corrupt'; reason: string }
   | { status: 'error'; message: string };
@@ -111,6 +112,31 @@ export interface PlaylistServiceOptions {
     idleTimeoutMs: number;
     totalTimeoutMs: number;
   };
+  /**
+   * Stage 9: in-memory cache of the active playlist's decoded live catalogue, so reopening Live TV
+   * (or Search) does not re-read and re-decode the channel file. Absent = no cache (old behaviour).
+   */
+  liveCache?: LiveCacheOptions;
+}
+
+export interface LiveCacheOptions {
+  /** Largest channel file (characters) whose decoded form may be kept. */
+  maxChars: number;
+  /** Free device memory (MB) below which the cache is released; 0 = no memory check. */
+  minFreeMB: number;
+  /** Free device memory in MB, −1 when unknown (unknown never releases on its own). */
+  memoryMB: () => number;
+  /** How often the memory is checked while something is cached (ms). */
+  checkMs: number;
+}
+
+/** Stage 9: what the live cache holds and why it last let go (diagnostics and tests). */
+export interface LiveCacheInfo {
+  playlistId: string | null;
+  chars: number;
+  hits: number;
+  misses: number;
+  lastRelease: string;
 }
 
 export interface PlaylistService {
@@ -127,6 +153,10 @@ export interface PlaylistService {
   refresh(id: string, onProgress?: (p: ImportProgress) => void): RefreshJob;
   importing(): string | null;
   loadLive(id: string): Promise<LiveLoad>;
+  /** Stage 9: live cache state (diagnostics). */
+  liveCacheInfo(): LiveCacheInfo;
+  /** Stage 9: releases the cached live catalogue (also done automatically; see LiveCacheOptions). */
+  releaseLiveCache(reason: string): void;
   /** True for an http:// playlist whose cleartext notice has not been shown yet. */
   needsCleartextNotice(id: string): boolean;
   markCleartextNoticeSeen(id: string): void;
@@ -191,6 +221,114 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
   // Imports parse in ≤ 16 ms slices between events (rev 3 §6.2), so the UI stays responsive.
   const slice = { setTimer: o.timers.setTimer, clearTimer: o.timers.clearTimer, now: o.now };
   let seq = 0;
+
+  // ---------------------------------------------------------------- Stage 9: live cache
+  // One playlist's decoded live catalogue, kept after the screen that loaded it is gone. It is
+  // only ever returned after the small meta file confirms that the stored channel file still has
+  // the checksum the cached copy was decoded from, so a refresh, a recovery or an interrupted
+  // import can never serve stale channels. Released on account switch/removal, after a refresh
+  // that changed the list, and when free memory falls below the floor (checked periodically).
+  interface LiveCacheEntry { id: string; hash: string; chars: number; catalogue: LiveCatalogue }
+  const lc = o.liveCache || null;
+  let cached: LiveCacheEntry | null = null;
+  let cacheTimer: unknown = null;
+  let cacheGen = 0; // bumps on every release: a load that started before it does not refill the cache
+  const cacheStats: LiveCacheInfo = { playlistId: null, chars: 0, hits: 0, misses: 0, lastRelease: '' };
+  const inflight: Record<string, Promise<LiveLoad>> = {};
+
+  function memoryLow(): boolean {
+    if (!lc || lc.minFreeMB <= 0) { return false; }
+    const mb = lc.memoryMB();
+    return mb >= 0 && mb < lc.minFreeMB;
+  }
+
+  function stopCacheTimer(): void {
+    if (cacheTimer !== null) { o.timers.clearTimer(cacheTimer); cacheTimer = null; }
+  }
+
+  function releaseCache(reason: string): void {
+    cacheGen++;
+    stopCacheTimer();
+    if (cached) {
+      log.info('live cache released', { id: cached.id, reason: reason, chars: cached.chars });
+      cacheStats.lastRelease = reason;
+    }
+    cached = null;
+    cacheStats.playlistId = null;
+    cacheStats.chars = 0;
+  }
+
+  function watchMemory(): void {
+    stopCacheTimer();
+    if (!lc || lc.minFreeMB <= 0 || !cached) { return; }
+    cacheTimer = o.timers.setTimer(function () {
+      cacheTimer = null;
+      if (!cached) { return; }
+      if (memoryLow()) { releaseCache('low-memory'); return; }
+      watchMemory();
+    }, lc.checkMs);
+  }
+
+  function keepInCache(id: string, hash: string, chars: number, catalogue: LiveCatalogue): void {
+    if (!lc) { return; }
+    if (chars > lc.maxChars) { log.info('live cache skipped', { id: id, reason: 'too-large', chars: chars }); return; }
+    if (memoryLow()) { log.info('live cache skipped', { id: id, reason: 'low-memory', chars: chars }); return; }
+    if (cached && cached.id !== id) { releaseCache('other-playlist'); }
+    cached = { id: id, hash: hash, chars: chars, catalogue: catalogue };
+    cacheStats.playlistId = id;
+    cacheStats.chars = chars;
+    watchMemory();
+  }
+
+  function loadLiveFromFiles(id: string): Promise<LiveLoad> {
+    const t0 = o.now();
+    const gen0 = cacheGen;
+    return o.catalogue.load<CatalogueMeta>(id, 'meta', isCatalogueMeta).then(function (m): LiveLoad | Promise<LiveLoad> {
+      if (m.status === 'error') {
+        return { status: 'error', message: m.message };
+      }
+      // Stage 9: a cached copy whose checksum the stored metadata still names is the same data.
+      if (cached && cached.id === id && m.status === 'ok' && m.data.liveHash === cached.hash) {
+        if (memoryLow()) {
+          releaseCache('low-memory');
+        } else {
+          cacheStats.hits++;
+          return { status: 'ok', catalogue: cached.catalogue, meta: m.data, ms: o.now() - t0, cached: true };
+        }
+      } else if (cached && cached.id === id) {
+        releaseCache(m.status === 'ok' ? 'changed' : 'metadata-missing');
+      }
+      if (lc) { cacheStats.misses++; }
+      return o.catalogue.load(id, 'live', isLivePayload).then(function (l): LiveLoad {
+        if (l.status === 'missing' && m.status === 'missing') {
+          return { status: 'missing' };
+        }
+        if (l.status === 'error') {
+          return { status: 'error', message: l.message };
+        }
+        if (l.status === 'corrupt') {
+          return { status: 'corrupt', reason: l.reason };
+        }
+        if (m.status !== 'ok' || l.status !== 'ok') {
+          return { status: 'inconsistent', reason: m.status !== 'ok' ? 'catalogue metadata missing' : 'channel list missing' };
+        }
+        if (l.checksum !== m.data.liveHash) {
+          return { status: 'inconsistent', reason: 'channel list belongs to an interrupted import' };
+        }
+        const cat = decodeLive(l.data);
+        if (!cat) {
+          return { status: 'corrupt', reason: 'malformed channel rows' };
+        }
+        // Only the active playlist is kept, and only when nothing was invalidated meanwhile.
+        if (gen0 === cacheGen && readActive() === id) { keepInCache(id, l.checksum, l.chars, cat); }
+        return { status: 'ok', catalogue: cat, meta: m.data, ms: o.now() - t0 };
+      });
+    });
+  }
+
+  function readActive(): string | null {
+    return o.kv.get<string | null>(KV_ACTIVE, isActive, null);
+  }
 
   function readList(): PlaylistDef[] {
     return o.kv.get<PlaylistDef[]>(KV_LIST, isPlaylistList, []);
@@ -431,6 +569,7 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
     },
 
     remove: function (id) {
+      if (cached && cached.id === id) { releaseCache('removed'); }
       const list = readList();
       const i = find(list, id);
       if (i >= 0) {
@@ -447,6 +586,11 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       o.kv.remove('fav.' + id);
       o.kv.remove('recent.' + id);
       o.kv.remove('vod.' + id); // movie/series catalogue state (services/vod-service.ts)
+      o.kv.remove('mylist.movie.' + id); // Stage 11: My List of this account (services/my-list.ts)
+      o.kv.remove('mylist.series.' + id);
+      o.kv.remove('catprefs.live.' + id); // Stage 14: category order / hidden (content/category-prefs.ts)
+      o.kv.remove('catprefs.movie.' + id);
+      o.kv.remove('catprefs.series.' + id);
       return o.secrets.remove(id).then(null, function () { /* already gone */ }).then(function () {
         return o.catalogue.removePlaylist(id);
       }).then(function () {
@@ -460,7 +604,10 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
     },
 
     setActive: function (id) {
-      return find(readList(), id) >= 0 && o.kv.set(KV_ACTIVE, id);
+      const ok = find(readList(), id) >= 0 && o.kv.set(KV_ACTIVE, id);
+      // Stage 9: another account's channels never survive a switch.
+      if (ok && cached && cached.id !== id) { releaseCache('account-switch'); }
+      return ok;
     },
 
     importing: function () { return busy; },
@@ -513,6 +660,9 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
           d.lastStatus = status;
           if (res.ok) { d.lastLoadedAt = status.at; }
         });
+        // Stage 9: a refresh that rewrote the list frees the old copy at once (the checksum check
+        // would reject it anyway). An unchanged or failed refresh keeps it: the files still match.
+        if (res.ok && !res.unchanged && cached && cached.id === id) { releaseCache('refreshed'); }
         if (res.ok) {
           log.info('import done', { id: id, live: res.counts.live, categories: res.categories, unchanged: res.unchanged, ms: res.ms, fetchMs: res.fetchMs, storeMs: res.storeMs });
         } else {
@@ -539,35 +689,21 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       if (!isPlaylistId(id)) {
         return Promise.resolve<LiveLoad>({ status: 'error', message: 'invalid playlist id' });
       }
-      const t0 = o.now();
-      return o.catalogue.load<CatalogueMeta>(id, 'meta', isCatalogueMeta).then(function (m): LiveLoad | Promise<LiveLoad> {
-        if (m.status === 'error') {
-          return { status: 'error', message: m.message };
-        }
-        return o.catalogue.load(id, 'live', isLivePayload).then(function (l): LiveLoad {
-          if (l.status === 'missing' && m.status === 'missing') {
-            return { status: 'missing' };
-          }
-          if (l.status === 'error') {
-            return { status: 'error', message: l.message };
-          }
-          if (l.status === 'corrupt') {
-            return { status: 'corrupt', reason: l.reason };
-          }
-          if (m.status !== 'ok' || l.status !== 'ok') {
-            return { status: 'inconsistent', reason: m.status !== 'ok' ? 'catalogue metadata missing' : 'channel list missing' };
-          }
-          if (l.checksum !== m.data.liveHash) {
-            return { status: 'inconsistent', reason: 'channel list belongs to an interrupted import' };
-          }
-          const cat = decodeLive(l.data);
-          if (!cat) {
-            return { status: 'corrupt', reason: 'malformed channel rows' };
-          }
-          return { status: 'ok', catalogue: cat, meta: m.data, ms: o.now() - t0 };
-        });
-      });
+      // Stage 9: concurrent loads of the same playlist (Live TV and Search) share one file read.
+      const k = 'k' + id;
+      if (Object.prototype.hasOwnProperty.call(inflight, k)) { return inflight[k]; }
+      const p = loadLiveFromFiles(id);
+      inflight[k] = p;
+      function done(): void { delete inflight[k]; }
+      p.then(done, done);
+      return p;
     },
+
+    liveCacheInfo: function () {
+      return { playlistId: cacheStats.playlistId, chars: cacheStats.chars, hits: cacheStats.hits, misses: cacheStats.misses, lastRelease: cacheStats.lastRelease };
+    },
+
+    releaseLiveCache: function (reason) { releaseCache(reason); },
 
     needsCleartextNotice: function (id) {
       const d = getDef(id);
@@ -723,7 +859,9 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
         running.abort();
       }
       const wait: Promise<unknown> = running ? running.result : Promise.resolve();
+      releaseCache('remove-all');
       return wait.then(function () {
+        releaseCache('remove-all');
         const list = readList();
         let chain: Promise<void> = Promise.resolve();
         for (let i = 0; i < list.length; i++) {
@@ -731,6 +869,11 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
           o.kv.remove('fav.' + id);
           o.kv.remove('recent.' + id);
           o.kv.remove('vod.' + id);
+          o.kv.remove('mylist.movie.' + id);
+          o.kv.remove('mylist.series.' + id);
+          o.kv.remove('catprefs.live.' + id); // Stage 14: category order / hidden (content/category-prefs.ts)
+          o.kv.remove('catprefs.movie.' + id);
+          o.kv.remove('catprefs.series.' + id);
           chain = chain.then(function () {
             return o.secrets.remove(id).then(null, function () { /* already gone */ }).then(function () {
               return o.catalogue.removePlaylist(id);
@@ -765,6 +908,7 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
         ids.push(list[i].id);
       }
       return o.catalogue.cleanup(ids).then(function (r) {
+        if (r.removed > 0) { releaseCache('recovery'); }
         return { interrupted: interrupted, removedFiles: r.removed };
       });
     }

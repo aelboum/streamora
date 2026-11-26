@@ -19,7 +19,7 @@ import { checkSinkUrl } from '../src/dev/sink-url.ts';
 import { tokens } from '../src/styles/tokens.ts';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const CSS_ORDER = ['base.css', 'shell.css', 'playlists.css', 'live.css', 'vod.css'];
+const CSS_ORDER = ['fonts.css', 'base.css', 'shell.css', 'playlists.css', 'live.css', 'vod.css'];
 
 /** Release: resolve every import of dev/dev-hooks to the no-op stub. */
 function releaseDevStub(tscDir) {
@@ -103,6 +103,8 @@ export async function build(mode, env) {
   // 5. Static files and config
   cpSync(join(root, 'src', 'index.html'), join(out, 'index.html'));
   cpSync(join(root, 'tizen', 'icon.png'), join(out, 'icon.png'));
+  // Bundled fonts (WOFF2 + licence files), referenced by app.css as fonts/<file>.
+  cpSync(join(root, 'src', 'fonts'), join(out, 'fonts'), { recursive: true });
   const template = readFileSync(join(root, 'tizen', 'config.template.xml'), 'utf8');
   writeFileSync(join(out, 'config.xml'), renderConfig(template, { mode, version, sinkOrigin: sink.origin || undefined }));
 

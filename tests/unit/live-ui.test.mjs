@@ -99,7 +99,9 @@ async function setup(opts = {}) {
   registerPlaylistScreens(router, { doc, playlists, t, now: clockNow, ...timers, openText: textOpener(!!opts.ime), live: true });
   registerLiveScreens(router, {
     doc, t, playlists, epg, lists, lifecycle, engine: fe.engine, textInput, preferIme: !!opts.ime, now: clockNow, ...timers, log,
-    player: { bufferSec: 2, prepareTimeoutMs: 15000, zapDebounceMs: 40, retryDelaysMs: [50, 50, 50] }
+    player: { bufferSec: 2, prepareTimeoutMs: 15000, zapDebounceMs: 40, retryDelaysMs: [50, 50, 50] },
+    preview: opts.preview ? { debounceMs: 60 } : null,
+    parental: opts.parental || null
   });
   router.register('diagnostics', () => ({ mount() {}, onShow() {}, onHide() {}, onKey: () => false, onBack: () => false, destroy() {} }));
   let k = 0;
@@ -136,7 +138,7 @@ test('Live TV: channel list, logos, current programme, channel details, channel 
   await openLive(env);
   const names = rowNames(env);
   assert.equal(names[0], 'News One HD');
-  assert.equal(names.length, 10);
+  assert.equal(names.length, 8, 'Stage 7B.1: 8 rows of 100 in the channel panel');
   const first = rows(env)[0];
   assert.equal(first.findAll('ss-ch__logo')[0].attributes.src, 'http://logos.example.org/uk/news-one.png');
   assert.equal(first.findAll('ss-ch__now')[0].textContent, 'Midday "Special"', 'current programme from the EPG');
@@ -156,7 +158,9 @@ test('Live TV: channel list, logos, current programme, channel details, channel 
   env.press('down', 30);
   assert.equal(focusedRow(env).findAll('ss-ch__name')[0].textContent, 'Grouped By EXTGRP', 'stops at the last channel');
   env.press('chUp');
-  assert.equal(focusedRow(env).findAll('ss-ch__name')[0].textContent, 'News One HD', 'CH+ pages up');
+  assert.equal(focusedRow(env).findAll('ss-ch__name')[0].textContent, 'News Two', 'CH+ pages up by 8 rows (Stage 7B.1)');
+  env.press('chUp');
+  assert.equal(focusedRow(env).findAll('ss-ch__name')[0].textContent, 'News One HD', 'CH+ stops at the first channel');
   await sleep(150);
   const news2 = (await env.playlists.loadLive(env.pl.id)).catalogue.channels.find((c) => c.name === 'News Two');
   assert.deepEqual(env.epg.nowNext(news2), { now: null, next: null });
@@ -367,7 +371,7 @@ for (const n of [1000, 10000, 50000]) {
     await until(() => env.epg.status().state === 'ready' && !env.epg.status().refreshing, 120000, 'guide');
     const guideMs = Date.now() - guideT0;
     const screen = env.layer();
-    assert.equal(screen.findAll('ss-ch').length, 11, 'pooled rows: DOM size independent of the channel count');
+    assert.equal(screen.findAll('ss-ch').length, 8, 'pooled rows: DOM size independent of the channel count');
     assert.equal(screen.findAll('is-focused').length, 1, 'one focus indicator');
     let m = Date.now();
     env.press('down', 200);
@@ -394,3 +398,136 @@ for (const n of [1000, 10000, 50000]) {
     assert.ok(navMs < 20, 'navigation handled in < 20 ms per key press');
   });
 }
+
+// ---------------------------------------------------------------- Stage 7E: mini live preview
+const FULL_RECT = [0, 0, 1920, 1080];
+const htmlPlaying = (env) => / ?ss-playing/.test(env.doc.body.className) && / ?ss-playing/.test(env.doc.documentElement.className);
+const slot = (env) => env.layer().findAll('ss-preview')[0];
+const ground = (env) => env.layer().findAll('ss-ground')[0];
+
+test('Stage 7E preview: the focused channel plays in the slot after the focus rests; picture makes the slot a hole', async () => {
+  const env = await setup({ preview: true });
+  await openLive(env);
+  assert.ok(slot(env), 'preview slot in the details column');
+  assert.equal(env.layer().findAll('ss-info__logo').length, 0, 'the logo moved into the slot');
+  await until(() => env.fe.loads().length === 1, 2000, 'preview load');
+  assert.equal(env.fe.loads()[0].bufferSec, 2);
+  const r = env.fe.rects[env.fe.rects.length - 1];
+  assert.deepEqual([r[2], r[3]], [556, 313], 'video rectangle = slot');
+  assert.equal(htmlPlaying(env), true, 'page transparent while the preview is active');
+  assert.doesNotMatch(ground(env).className, /is-hidden/, 'ground strips repaint the background around the slot');
+  assert.match(slot(env).textContent, /Loading preview/);
+  env.fe.prepared();
+  env.fe.picture();
+  await sleep(10);
+  assert.match(slot(env).className, /is-live/);
+  assert.equal(env.lists.recent(env.pl.id).length, 0, 'a preview is not "recently watched"');
+});
+
+test('Stage 7E preview: rapid ↑↓ opens only the channel the focus rests on; every change stops the old stream first', async () => {
+  const env = await setup({ preview: true });
+  await openLive(env);
+  await until(() => env.fe.loads().length === 1, 2000, 'first preview');
+  env.fe.prepared();
+  env.fe.picture();
+  const before = env.fe.calls.length;
+  env.press('down', 4);
+  await sleep(400);
+  const after = env.fe.calls.slice(before);
+  assert.equal(after.filter((c) => c.op === 'load').length, 1, 'one load for 4 fast moves');
+  assert.equal(after[0].op, 'stop', 'old stream stopped before the next one opens');
+  assert.equal(env.fe.pendingUrl(), env.fe.loads()[1].url, 'the open load is the rested-on channel');
+  assert.notEqual(env.fe.loads()[1].url, env.fe.loads()[0].url);
+});
+
+test('Stage 7E preview: OK hands the decoder to the full-screen player; Back resumes the preview; leaving releases everything', async () => {
+  const env = await setup({ preview: true });
+  await openLive(env);
+  await until(() => env.fe.loads().length === 1, 2000, 'preview');
+  env.fe.prepared();
+  env.fe.picture();
+  env.press('ok');
+  assert.deepEqual(env.router.stack().slice(-1), ['player']);
+  assert.deepEqual(env.fe.rects[env.fe.rects.length - 1], FULL_RECT, 'full-screen rectangle restored before the player opens');
+  await until(() => env.fe.loads().length === 2, 2000, 'player load');
+  env.fe.prepared();
+  env.fe.picture();
+  await sleep(20);
+  assert.equal(env.fe.loads().length, 2, 'the stopped preview does not react to the player picture');
+  assert.equal(env.lists.recent(env.pl.id).length, 1, 'the player records history');
+  env.press('back');
+  assert.deepEqual(env.router.stack().slice(-1), ['live-tv']);
+  await until(() => env.fe.loads().length === 3, 2000, 'preview again');
+  env.fe.prepared();
+  env.fe.picture();
+  await sleep(10);
+  assert.match(slot(env).className, /is-live/);
+  env.press('back'); // channels -> categories: the preview keeps playing
+  assert.match(slot(env).className, /is-live/);
+  env.router.push('diagnostics'); // another screen on top (Live TV is the root here, Back cannot leave)
+  assert.deepEqual(env.fe.rects[env.fe.rects.length - 1], FULL_RECT);
+  assert.equal(htmlPlaying(env), false, 'page opaque again');
+  assert.equal(env.fe.calls[env.fe.calls.length - 1].op, 'stop', 'decoder released');
+});
+
+test('Stage 7E preview: a failed channel shows "Preview not available" and is not retried', async () => {
+  const env = await setup({ preview: true });
+  await openLive(env);
+  await until(() => env.fe.loads().length === 1, 2000, 'preview');
+  env.fe.failPrepare('connection');
+  await sleep(300);
+  assert.equal(env.fe.loads().length, 1, 'no reconnect loop while browsing');
+  assert.match(slot(env).textContent, /Preview not available/);
+  assert.equal(htmlPlaying(env), false, 'page opaque again after the failure');
+});
+
+test('Stage 7E preview: without the option the Live TV screen is unchanged (logo in the details, no playback while browsing)', async () => {
+  const env = await setup();
+  await openLive(env);
+  await sleep(300);
+  assert.equal(env.fe.loads().length, 0);
+  assert.equal(env.layer().findAll('ss-preview').length, 0);
+});
+
+// ---------------------------------------------------------------- Stage 7F: no logo over the picture
+const logoEl = (env) => slot(env).findAll('ss-preview__logo')[0];
+
+test('Stage 7F preview: the logo disappears when the picture starts and stays hidden on re-renders; failure brings logo + message back', async () => {
+  const env = await setup({ preview: true });
+  await openLive(env);
+  await until(() => env.fe.loads().length === 1, 2000, 'preview');
+  assert.doesNotMatch(slot(env).className, /is-live/, 'loading: logo shown');
+  assert.match(slot(env).textContent, /Loading preview/);
+  assert.equal(logoEl(env).style.visibility || '', '', 'no inline visibility (it used to beat the is-live rule)');
+  env.fe.prepared();
+  env.fe.picture();
+  await sleep(10);
+  assert.match(slot(env).className, /is-live/, 'picture: logo and note hidden by the is-live class');
+  // Re-render while live (focus to the actions and back re-renders the details).
+  env.press('right');
+  env.press('left');
+  await sleep(200);
+  assert.match(slot(env).className, /is-live/, 'still live after re-renders: no stale logo over the picture');
+  assert.equal(logoEl(env).style.visibility || '', '');
+  // Next channel: the old picture stops, the new logo shows until its picture starts.
+  env.press('down');
+  await sleep(200); // details re-render 120 ms after the focus move
+  assert.doesNotMatch(slot(env).className, /is-live/, 'new channel: logo, not the old picture');
+  await until(() => env.fe.loads().length === 2, 2000, 'next preview');
+  env.fe.failPrepare('connection');
+  await sleep(20);
+  assert.doesNotMatch(slot(env).className, /is-live/);
+  assert.match(slot(env).textContent, /Preview not available/, 'failure: logo + message');
+});
+
+test('Stage 7F preview: a channel without a logo gets the no-logo class (empty box, no broken image)', async () => {
+  const m3u = '#EXTM3U\n#EXTINF:-1 tvg-id="a" group-title="G",No Logo One\nhttp://s.example/live/1.ts\n#EXTINF:-1 tvg-id="b" group-title="G",No Logo Two\nhttp://s.example/live/2.ts\n';
+  const env = await setup({ preview: true, m3u });
+  await openLive(env);
+  await until(() => env.fe.loads().length === 1, 2000, 'preview');
+  assert.match(slot(env).className, /no-logo/);
+  env.fe.prepared();
+  env.fe.picture();
+  await sleep(10);
+  assert.match(slot(env).className, /is-live/);
+});

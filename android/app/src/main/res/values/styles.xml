@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Full screen, navy behind the WebView while it loads (bg/0 #080C18). -->
+    <style name="EliteTheme" parent="android:Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <color name="bg">#080C18</color>
+    <color name="markBlue">#2F8BF0</color>
+    <color name="markLight">#4FA8FF</color>
+    <color name="markCyan">#3FC6FF</color>
+</resources>

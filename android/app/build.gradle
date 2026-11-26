@@ -1,0 +1,35 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.elitestream.app'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.elitestream.app'
+        // Android 5.0+: Android TV boxes and phones. Secrets need Android 6.0+ (Keystore AES).
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName '0.2.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    def media3 = '1.3.1'
+    implementation "androidx.media3:media3-exoplayer:$media3"
+    implementation "androidx.media3:media3-exoplayer-hls:$media3"
+    implementation "androidx.media3:media3-ui:$media3"
+}

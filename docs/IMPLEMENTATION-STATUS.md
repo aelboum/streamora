@@ -173,7 +173,7 @@ Reused without duplication: `HttpClient.request/stream`, `withRetry`, `checkUrl`
 | L26 | During Stage 5.1 the TV once stopped running the app after a self-test file write and launches stayed silent until the TV was restarted; the cause was not determined (report §6). |
 | L27 | Fixed in Stage 5.2: catalogue files with non-ASCII text were corrupted by the TV FileStream (Xtream list could not be opened); now stored as ASCII-escaped JSON. Other FileStore users must not write non-ASCII text (TIZEN-COMPATIBILITY §8). |
 | L28 | Movies/series: no seeking, no resume points, no subtitle or audio-track selection (Stage 7/8). The Home key uses AVPlay suspend/restore for VOD (position kept) — unverified on the TV. |
-| L29 | A provider with ~108,000 movies produces a 12.6 M character section (over the 5 M budget): download 34.5 s, opening Movies 11 s, one UI freeze of ≈ 3.3 s while the list is parsed, lowest free memory 71 MB during the download. The architecture's "index only" fallback is not implemented. |
+| L29 | Stage 6.1 (paged index-only storage, `docs/STAGE-6.1-REPORT.md`): opening Movies with 108,522 titles now 0.1–0.2 s to the screen and 0.2–0.7 s to the first titles (was 11.8 s); lowest free memory during the download 165 MB or more (was 71 MB). Still open: list updates 3–9× slower (one request per category) and UI stalls of 0.5–2.7 s during an update (TV FileStream writes); browse stalls 105–164 ms. |
 | L30 | Adult categories/titles are flagged but not hidden (parental UI is Stage 8, as for Live TV). Movies/series of M3U playlists are not stored. |
 | L13 | Real provider playlists and a real Xtream panel are untested (synthetic fixtures only; Q8). |
 

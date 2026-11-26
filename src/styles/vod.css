@@ -1,90 +1,353 @@
-/* Movies and series (Stage 6): poster grid, details, VOD player bar. Flexbox + margins only
-   (no grid, gap or custom properties on Tizen 3.0). Reuses .ss-live, .ss-cat and .ss-player. */
+/* Movies and series (Stage 6 structure; Stage 7B.1 design 06/07/09/10/23–25). Flexbox + margins
+   only (no grid, gap or custom properties on Tizen 3.0). Reuses .ss-live, .ss-cat, .ss-player. */
 
+.ss-vod__spacer { flex: 1; }
+
+/* Category column (320) + position counter */
+.ss-vod__side {
+  width: 320px;
+  margin-right: 56px;
+  flex-shrink: 0;
+}
+
+.ss-vod__side .ss-live__cats {
+  width: 320px;
+  height: 740px;
+  margin-right: 0;
+}
+
+.ss-vod .ss-cat {
+  height: 68px;
+  font-size: 25px;
+}
+
+.ss-cat__icon {
+  width: 26px;
+  height: 26px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.ss-vod__catpos {
+  height: 40px;
+  padding: 0 22px;
+  font-size: 20px;
+  line-height: 40px;
+  color: {{color.textTertiary}};
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Poster grid (design 06): 5 columns × 220, column gap 40, row pitch 420 (330 poster + 90 for the
+   focused title). Two rows are fully visible; the third peeks. */
 .ss-vod__main {
-  width: 1304px;
+  width: 1264px;
 }
 
 .ss-vod__grid {
-  height: 930px;
+  height: 914px;
+  padding-top: 10px;
+  padding-left: 8px; /* Stage 11 (TV): room for the focus ring of the left column */
+  box-sizing: border-box;
 }
 
 .ss-vod__row {
   display: flex;
   flex-direction: row;
-  height: 304px;
-  margin-bottom: 8px;
+  height: 400px;
+  margin-bottom: 20px;
 }
 
 .ss-card {
-  width: 165px;
-  height: 300px;
-  margin-right: 16px;
-  box-sizing: border-box;
+  width: 220px;
+  height: 400px;
+  margin-right: 38px; /* Stage 11: 40 → 38, so the 8 px left padding still fits five cards */
+  flex-shrink: 0;
 }
+
+.ss-card:last-child { margin-right: 0; }
 
 .ss-card__art {
   position: relative;
-  width: 165px;
-  height: 248px;
-  border-radius: 8px;
-  border: 4px solid transparent;
-  box-sizing: border-box;
-  background: {{color.surface}};
+  width: 220px;
+  height: 330px;
+  border-radius: 14px;
+  background: {{color.plate}};
   overflow: hidden;
+  -webkit-transition: -webkit-transform 150ms {{ease}};
+  transition: transform 150ms {{ease}};
 }
 
 .ss-card.is-focused .ss-card__art {
-  border-color: {{color.text}};
+  box-shadow: {{ring}};
+  -webkit-transform: scale(1.04);
+  transform: scale(1.04);
+}
+
+/* Stage 11 (TV): the outer columns grow inwards, so the grid's edge never cuts the focused card. */
+.ss-card:first-child .ss-card__art {
+  -webkit-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+}
+
+.ss-card:last-child .ss-card__art {
+  -webkit-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
 }
 
 .ss-card__img {
   position: absolute;
   left: 0;
   top: 0;
-  width: 157px;
-  height: 240px;
+  width: 220px;
+  height: 330px;
+  object-fit: cover;
 }
 
+/* Title plate: name known, no or failed poster (condensed caps 30, #8A93A6, centred). */
 .ss-card__ph {
   position: absolute;
-  left: 8px;
-  top: 8px;
-  width: 141px;
-  height: 224px;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 330px;
+  padding: 0 18px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  font-family: {{font.display}};
+  font-size: 30px;
+  line-height: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: {{color.textTertiary}};
+  background: {{color.plate}};
+}
+
+/* Blank card: the title page hasn't been read yet (same size, white 6 %). */
+.ss-card__ph:empty {
+  background: {{color.glass}};
+}
+
+/* Title + meta appear below the focused card only (space is reserved by the 400 card height). */
+.ss-card__title {
+  height: 56px;
+  margin-top: 14px;
   overflow: hidden;
   font-size: 22px;
   line-height: 28px;
-  color: {{color.textMuted}};
-}
-
-.ss-card__title {
-  height: 48px;
-  margin-top: 4px;
-  overflow: hidden;
-  font-size: 20px;
-  line-height: 24px;
-  color: {{color.textMuted}};
+  font-weight: 600;
+  color: {{color.text}};
+  visibility: hidden;
 }
 
 .ss-card.is-focused .ss-card__title {
-  color: {{color.text}};
+  visibility: visible;
 }
 
 .ss-vod__message {
   margin-top: 24px;
-  font-size: 28px;
+  font-size: 24px;
+  line-height: 36px;
   color: {{color.textMuted}};
 }
 
-/* ------------------------------------------------------------ details */
+/* Update chip (design 25a): 52 high pill next to the clock area, not focusable. */
+.ss-chip {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 22px;
+  border-radius: 26px;
+  background: {{color.glass2}};
+  font-size: 21px;
+  color: {{color.textBody}};
+  white-space: nowrap;
+  align-self: center;
+}
 
-.ss-details {
+.ss-chip.is-hidden { display: none; }
+.ss-chip__icon { width: 26px; height: 26px; margin-right: 12px; }
+
+/* Toast (bottom-right, 3 s, not focusable) */
+.ss-toast {
+  position: absolute;
+  right: {{space.safeX}};
+  bottom: 64px;
+  display: flex;
+  align-items: center;
+  padding: 18px 28px 18px 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: {{color.surface}};
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.ss-toast.is-hidden { display: none; }
+.ss-toast__icon { width: 34px; height: 34px; margin-right: 16px; }
+.ss-toast__title { font-size: 24px; font-weight: 600; color: {{color.text}}; }
+.ss-toast__body { margin-top: 2px; font-size: 20px; color: {{color.textMuted}}; }
+
+/* ------------------------------------------------------------ side sheet + Find a category (23a) */
+.ss-sheet {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  bottom: 32px;
+  width: 640px;
+  padding: 40px 24px 24px;
+  box-sizing: border-box;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: {{color.surface}};
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.ss-sheet__title {
+  padding: 0 12px;
+  font-family: {{font.display}};
+  font-size: 44px;
+  line-height: 48px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: {{color.text}};
+}
+
+.ss-sheet__sub {
+  padding: 4px 12px 14px;
+  font-size: 21px;
+  color: {{color.textTertiary}};
+}
+
+.ss-find {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 10;
+}
+
+.ss-find.is-hidden { display: none; }
+
+.ss-find__scrim {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  background: {{color.scrim}};
+}
+
+.ss-find__field {
+  display: flex;
+  align-items: center;
+  height: 72px;
+  margin-bottom: 10px;
+  padding: 0 26px;
+  border-radius: 36px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 26px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ss-find__field.is-focused { box-shadow: {{ring}}; }
+.ss-find__icon { width: 30px; height: 30px; margin-right: 14px; }
+.ss-find__query { font-weight: 600; color: {{color.text}}; }
+.ss-find__matches { margin-left: 10px; color: {{color.textTertiary}}; }
+
+.ss-find__none {
+  padding: 0 12px;
+  font-size: 22px;
+  color: {{color.textMuted}};
+}
+
+.ss-find__list { height: 760px; }
+
+.ss-find__row {
+  display: flex;
+  align-items: center;
+  height: 76px;
+  margin-bottom: 6px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-radius: 14px;
+}
+
+.ss-find__row.is-focused {
+  background: {{color.accentFill}};
+  box-shadow: {{ring}};
+}
+
+.ss-find__name {
+  flex: 1;
+  font-size: 26px;
+  color: {{color.text}};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ss-find__count {
+  margin-left: 12px;
+  font-size: 20px;
+  color: {{color.textTertiary}};
+}
+
+/* ------------------------------------------------------------ details (design 07 / 09 / 10) */
+
+div.ss-details {
+  position: relative;
   width: 1920px;
   height: 1080px;
   box-sizing: border-box;
-  padding: 54px {{space.safeX}} 0;
+  padding: 140px {{space.safeX}} 0;
+  overflow: hidden;
   background: {{color.bg}};
+}
+
+/* Backdrop: right-aligned 1500×844; a poster fallback is dimmed (no blur on Tier B sets). */
+.ss-details__backdrop {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1500px;
+  height: 844px;
+  object-fit: cover;
+}
+
+.ss-details__backdrop.is-fallback {
+  opacity: 0.35;
+}
+
+.ss-details__scrim {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  background: linear-gradient(90deg, rgba(8, 12, 24, 0.97) 0%, rgba(8, 12, 24, 0.85) 45%, rgba(8, 12, 24, 0) 85%), linear-gradient(0deg, #080C18 0%, rgba(8, 12, 24, 0) 45%);
+}
+
+.ss-details__top,
+.ss-details__bottom {
+  position: relative;
+}
+
+.ss-details__over {
+  margin-bottom: 14px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: {{color.focus}};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ss-details__top {
@@ -94,17 +357,19 @@
 }
 
 .ss-details__top--series {
-  height: 420px;
+  height: 440px;
 }
 
 .ss-details__art {
   position: relative;
-  width: 360px;
-  height: 540px;
-  margin-right: 48px;
-  border-radius: 8px;
-  background: {{color.surface}};
+  width: 300px;
+  height: 450px;
+  margin-right: 56px;
+  border-radius: 16px;
+  background: {{color.plate}};
   overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
 }
 
 .ss-details__top--series .ss-details__art {
@@ -118,104 +383,131 @@
   top: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .ss-details__ph {
   position: absolute;
-  left: 16px;
-  top: 16px;
-  right: 16px;
-  font-size: 28px;
-  line-height: 36px;
-  color: {{color.textMuted}};
+  left: 18px;
+  right: 18px;
+  top: 40%;
+  text-align: center;
+  font-family: {{font.display}};
+  font-size: 30px;
+  line-height: 34px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: {{color.textTertiary}};
 }
 
 .ss-details__text {
-  width: 1200px;
+  width: 1100px;
 }
 
 .ss-details__title {
-  font-size: 48px;
-  line-height: 60px;
+  font-family: {{font.display}};
+  font-size: 88px;
+  line-height: 86px;
   font-weight: bold;
+  text-transform: uppercase;
   color: {{color.text}};
-  max-height: 120px;
+  max-height: 172px;
   overflow: hidden;
+}
+
+.ss-details__top--series .ss-details__title {
+  font-size: 72px;
+  line-height: 72px;
+  max-height: 144px;
 }
 
 .ss-details__meta {
-  margin-top: 12px;
-  font-size: 28px;
-  color: {{color.textMuted}};
-}
-
-.ss-details__plot {
-  margin-top: 24px;
-  font-size: 26px;
-  line-height: 38px;
-  color: {{color.text}};
-  max-height: 228px;
-  overflow: hidden;
-}
-
-.ss-details__top--series .ss-details__plot {
-  max-height: 152px;
-}
-
-.ss-details__credits {
-  margin-top: 16px;
-  font-size: 22px;
-  line-height: 32px;
-  color: {{color.textMuted}};
-  max-height: 64px;
-  overflow: hidden;
-}
-
-.ss-details__note {
   margin-top: 16px;
   font-size: 24px;
   color: {{color.textMuted}};
 }
 
+.ss-details__plot {
+  margin-top: 18px;
+  font-size: 24px;
+  line-height: 35px;
+  color: {{color.textBody}};
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.ss-details__top--series .ss-details__plot {
+  max-height: 105px;
+}
+
+.ss-details__credits {
+  margin-top: 14px;
+  font-size: 22px;
+  line-height: 30px;
+  color: {{color.textMuted}};
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.ss-details__note {
+  margin-top: 14px;
+  font-size: 22px;
+  color: {{color.textMuted}};
+}
+
 .ss-details__actions {
-  margin-top: 32px;
+  margin-top: 28px;
+}
+
+/* Primary action (Play) uses the primary button: accent fill. */
+.ss-details__actions .ss-button {
+  border-color: {{color.accent}};
+  background: {{color.accent}};
+  color: {{color.text}};
+  font-weight: 600;
+}
+
+.ss-details__actions .ss-button.is-focused {
+  border-color: #2F80F0;
+  background: #2F80F0;
 }
 
 .ss-details__bottom {
   display: flex;
   flex-direction: row;
-  height: 560px;
+  height: 500px;
 }
 
 .ss-details__seasons {
-  width: 400px;
-  margin-right: 24px;
+  width: 320px;
+  margin-right: 32px;
+  flex-shrink: 0;
 }
 
 .ss-details__eps {
-  width: 1300px;
+  width: 1376px;
 }
 
+/* Episode row (DS channel/episode row: rows never scale) */
 .ss-ep {
   display: flex;
   align-items: center;
-  height: 60px;
+  height: 68px;
   margin-bottom: 6px;
-  padding: 0 20px;
-  border-radius: 8px;
-  border: 4px solid transparent;
+  padding: 0 22px;
   box-sizing: border-box;
-  background: {{color.surface}};
+  border-radius: 14px;
+  background: {{color.glass}};
   font-size: 26px;
 }
 
 .ss-ep.is-focused {
-  border-color: {{color.text}};
-  background: {{color.accent}};
+  background: {{color.accentFill}};
+  box-shadow: {{ring}};
 }
 
 .ss-ep__name {
-  width: 1100px;
+  flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -225,6 +517,7 @@
 .ss-ep__dur {
   width: 140px;
   text-align: right;
+  font-size: 22px;
   color: {{color.textMuted}};
 }
 
@@ -237,60 +530,419 @@
   color: {{color.textMuted}};
 }
 
-/* ------------------------------------------------------------ VOD player bar */
+/* ------------------------------------------------------------ VOD player bar (design 12, existing
+   functions only: title, progress and state; no seek, tracks or subtitles in this build) */
 
 .ss-vbar {
   position: absolute;
-  left: {{space.safeX}};
-  bottom: 54px;
-  width: 1728px;
-  padding: 24px 32px;
-  box-sizing: border-box;
-  border-radius: 8px;
-  background: rgba(16, 17, 22, 0.88);
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
 }
 
 .ss-vbar.is-hidden {
   display: none;
 }
 
+/* Top band: title (left) and clock (right) over a 260 scrim */
+.ss-vbar__top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 260px;
+  padding: 56px {{space.safeX}} 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  background: linear-gradient(180deg, rgba(4, 6, 12, 0.85), rgba(4, 6, 12, 0));
+}
+
 .ss-vbar__title {
-  font-size: 34px;
-  line-height: 44px;
+  flex: 1;
+  font-family: {{font.display}};
+  font-size: 56px;
+  line-height: 60px;
+  font-weight: bold;
   color: {{color.text}};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.ss-vbar__line {
-  display: flex;
-  align-items: center;
-  margin-top: 16px;
+/* Stage 7F: no time-of-day clock in the player (removed). */
+
+/* Bottom band: progress (top 800), times, control row (top 904) over a 480 scrim */
+.ss-vbar__bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 480px;
+  padding: 200px {{space.safeX}} 0;
+  box-sizing: border-box;
+  background: linear-gradient(0deg, rgba(4, 6, 12, 0.95) 0%, rgba(4, 6, 12, 0.7) 55%, rgba(4, 6, 12, 0) 100%);
 }
 
 .ss-vbar__track {
-  width: 1400px;
-  height: 10px;
-  margin-right: 24px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.25);
-  overflow: hidden;
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Scrubber knob: shown while the scrubber has focus (◀▶ seek). */
+.ss-vbar__knob {
+  position: absolute;
+  top: -8px;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border-radius: 12px;
+  background: #EEF2F8;
+  visibility: hidden;
+}
+
+.ss-vbar__track.is-focused .ss-vbar__knob {
+  visibility: visible;
+  box-shadow: {{ring}};
+}
+
+/* Stage 7E: seek cursor (◀▶ move it while the title keeps playing; OK jumps, Back cancels) and its
+   time bubble. There is no preview picture: this TV cannot decode a second video (docs/STAGE-7E…). */
+.ss-vbar__cursor {
+  position: absolute;
+  top: -14px;
+  width: 6px;
+  height: 36px;
+  margin-left: -3px;
+  border-radius: 3px;
+  background: #FFFFFF;
+  box-shadow: {{ring}};
+}
+
+.ss-vbar__cursor.is-hidden,
+.ss-vbar__bubble.is-hidden {
+  display: none;
+}
+
+.ss-vbar__bubble {
+  position: absolute;
+  bottom: 34px;
+  width: 420px;
+  margin-left: -210px;
+  padding: 14px 20px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background: rgba(8, 12, 24, 0.92);
+  text-align: center;
+}
+
+.ss-vbar__bubble-time {
+  font-size: 44px;
+  line-height: 52px;
+  color: #FFFFFF;
+}
+
+.ss-vbar__bubble-hint {
+  font-size: 24px;
+  line-height: 32px;
+  color: {{color.textMuted}};
 }
 
 .ss-vbar__fill {
   width: 0;
-  height: 10px;
-  background: {{color.accent}};
+  height: 8px;
+  border-radius: 4px;
+  background: {{color.focus}};
+}
+
+.ss-vbar__line {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
 }
 
 .ss-vbar__time {
-  font-size: 26px;
+  font-family: {{font.display}};
+  font-size: 28px;
+  font-weight: 600;
+  color: {{color.textMuted}};
+  white-space: nowrap;
+}
+
+.ss-vbar__time--left {
   color: {{color.text}};
 }
 
+.ss-vbar__controls {
+  display: flex;
+  align-items: center;
+  margin-top: 36px;
+}
+
+/* Transport buttons: 76 (±10 s) and 92 (play/pause) circles; focused = light fill + ring + 1.08. */
+.ss-vbar__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  margin-right: 20px;
+  border-radius: 46px;
+  background: rgba(255, 255, 255, 0.12);
+  color: {{color.text}};
+  -webkit-transition: -webkit-transform 150ms {{ease}};
+  transition: transform 150ms {{ease}};
+}
+
+.ss-vbar__button--small {
+  width: 76px;
+  height: 76px;
+  border-radius: 38px;
+}
+
+.ss-vbar__button.is-focused {
+  background: #EEF2F8;
+  color: {{color.bg}};
+  box-shadow: {{ring}};
+  -webkit-transform: scale(1.08);
+  transform: scale(1.08);
+}
+
+.ss-vbar__button.is-disabled { opacity: 0.4; }
+
+.ss-vbar__icon { font-size: 52px; }
+.ss-vbar__icon--small { font-size: 38px; }
+
 .ss-vbar__state {
-  margin-top: 8px;
+  margin-left: 28px;
   font-size: 24px;
   color: {{color.textMuted}};
 }
+
+/* ------------------------------------------------------------ Subtitles (Stage 7B.2)
+   Drawn by the app on both platforms: white Barlow 600 on a soft dark plate, bottom centre;
+   raised above the control bar while it is shown. */
+.ss-subs {
+  position: absolute;
+  left: 160px;
+  right: 160px;
+  bottom: 96px;
+  text-align: center;
+}
+
+.ss-subs--raised { bottom: 330px; }
+
+.ss-subs__line {
+  display: table;
+  margin: 6px auto 0 auto;
+  padding: 4px 18px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.62);
+  font-size: 44px;
+  line-height: 56px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: pre-wrap;
+}
+
+
+/* ------------------------------------------------------------ Audio & subtitles side sheet */
+.ss-tracks {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 600px;
+  padding: 72px 48px 48px 48px;
+  background: {{color.surface}};
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: -30px 0 80px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.ss-tracks.is-hidden { display: none; }
+
+.ss-tracks__title {
+  margin-bottom: 28px;
+  font-size: 40px;
+  font-weight: 600;
+  color: {{color.text}};
+}
+
+.ss-tracks__head {
+  margin: 26px 0 10px 4px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: {{color.textTertiary}};
+}
+
+.ss-tracks__row {
+  display: flex;
+  align-items: center;
+  height: 72px;
+  margin-bottom: 8px;
+  padding: 0 24px;
+  border-radius: 14px;
+  font-size: 28px;
+  color: {{color.textBody}};
+}
+
+.ss-tracks__row.is-selected { color: {{color.text}}; }
+
+.ss-tracks__row.is-focused {
+  background: #EEF2F8;
+  color: {{color.bg}};
+  box-shadow: {{ring}};
+}
+
+.ss-tracks__name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ss-tracks__check { width: 40px; font-size: 36px; text-align: right; }
+.ss-tracks__row.is-focused .ss-tracks__check { color: {{color.bg}}; }
+
+.ss-tracks__empty {
+  font-size: 26px;
+  line-height: 36px;
+  color: {{color.textMuted}};
+}
+
+/* Stage 11: next-episode prompt (top right, 2 min before the end or at the end; no countdown). */
+.ss-nextep {
+  position: absolute;
+  right: {{space.safeX}};
+  top: 90px; /* top right: clear of the controls and the subtitles at the bottom */
+  width: 720px;
+  padding: 30px 36px;
+  box-sizing: border-box;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 12, 22, 0.55); /* Stage 11 (your check): see-through, the episode stays visible */
+}
+
+.ss-nextep.is-hidden {
+  display: none;
+}
+
+.ss-nextep__title {
+  font-size: 24px;
+  color: {{color.textMuted}};
+}
+
+.ss-nextep__name {
+  margin: 8px 0 24px;
+  font-size: 34px;
+  color: {{color.text}};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ss-nextep__buttons {
+  display: flex;
+}
+
+.ss-nextep__button {
+  margin-right: 20px;
+  padding: 16px 32px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 28px;
+  color: {{color.text}};
+}
+
+.ss-nextep__button.is-focused {
+  background: {{color.accentFill}};
+  box-shadow: {{ring}};
+}
+
+/* Stage 11: "Sort: …" button in the header above the movie grid (▲ from the first row). */
+.ss-vod__sortbtn {
+  -webkit-align-self: center;
+  align-self: center; /* Stage 11 (TV): fully inside the 60 px header, ring included */
+  margin-right: 24px;
+  padding: 4px 24px;
+  line-height: 34px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 24px;
+  color: {{color.textMuted}};
+  white-space: nowrap;
+}
+
+.ss-vod__sortbtn.is-focused {
+  background: {{color.accentFill}};
+  box-shadow: {{ring}};
+  color: {{color.text}};
+}
+
+.ss-vod__sortbtn.is-hidden {
+  display: none;
+}
+
+/* Stage 11 (your request): the series My List button is the movie button in the text column; the
+   series header grows 440 → 480 px and its lists shrink 500 → 460 px (5 rows), plot 2 lines, credits 1. */
+.ss-details__top--series.has-actions {
+  height: 480px;
+}
+
+.ss-details__top--series.has-actions .ss-details__plot {
+  max-height: 70px;
+}
+
+.ss-details__top--series.has-actions .ss-details__credits {
+  max-height: 30px;
+}
+
+.ss-details__top--series.has-actions + .ss-details__bottom {
+  height: 460px;
+}
+
+/* ------------------------------------------------------------ Manage categories (Stage 14) */
+.ss-catman__restore {
+  height: 64px;
+  margin: 0 0 12px;
+  padding: 0 24px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 64px;
+  color: {{color.text}};
+}
+.ss-catman__restore.is-focused { background: {{color.accentFill}}; box-shadow: {{ring}}; }
+.ss-catman__list { height: 666px; }
+.ss-catman__row {
+  display: flex;
+  align-items: center;
+  height: 68px;
+  margin-bottom: 6px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-radius: 14px;
+}
+.ss-catman__row.is-focused { background: {{color.accentFill}}; box-shadow: {{ring}}; }
+.ss-catman__row.is-moving { background: rgba(240, 179, 87, 0.28); box-shadow: 0 0 0 4px {{color.warning}}; }
+.ss-catman__name {
+  flex: 1;
+  font-size: 25px;
+  color: {{color.text}};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ss-catman__row.is-off .ss-catman__name { color: {{color.textTertiary}}; text-decoration: line-through; }
+.ss-catman__state { margin-left: 12px; font-size: 19px; font-weight: 600; color: {{color.warning}}; }
+.ss-catman__count { margin-left: 12px; font-size: 19px; color: {{color.textTertiary}}; }
+.ss-catman__note { height: 30px; padding: 6px 12px 0; font-size: 21px; color: {{color.textMuted}}; }
+.ss-catman__note.is-warn { color: {{color.warning}}; }
+.ss-catman__hint { padding: 6px 12px 0; font-size: 21px; color: {{color.textTertiary}}; }

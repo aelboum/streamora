@@ -1,0 +1,18 @@
+// EliteStream Android app (Stage 8): WebView shell around the same web app as the Samsung TV
+// build, with Media3 ExoPlayer for video. Built by scripts/android.mjs.
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "EliteStream"
+include ':app'

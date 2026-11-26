@@ -18,13 +18,22 @@ import type { PlaylistService } from '../services/playlist-service.ts';
 import type { EpgJob, EpgService } from '../services/epg-service.ts';
 import type { UserLists } from '../services/user-lists.ts';
 import { createChannelIndex } from '../content/channel-index.ts';
+import type { Parental } from '../services/parental.ts';
+import { isLocked, withParental } from './parental-gate.ts';
 import type { ChannelIndex } from '../content/channel-index.ts';
 import type { Channel, Programme } from '../models/content.ts';
 import type { Translate } from '../i18n/strings.ts';
 import type { KeyboardParams } from './keyboard-overlay.ts';
 import type { Logger } from '../utils/log.ts';
 import { formatCount } from './format.ts';
+import { createRail } from '../components/rail.ts';
 import { clear, h } from '../utils/dom.ts';
+import type { LivePreview } from './live-preview.ts';
+import { arrange, emptyPrefs } from '../content/category-prefs.ts';
+import type { CategoryPrefs, CategoryPrefsStore } from '../content/category-prefs.ts';
+import { createCategoryManager } from './category-manager.ts';
+import type { ManagerResult } from './category-manager.ts';
+import type { ConfirmParams } from './confirm-dialog.ts';
 
 export interface LiveTvDeps {
   doc: Document;
@@ -38,10 +47,21 @@ export interface LiveTvDeps {
   /** Opens the preferred text entry (system IME or the app keyboard). */
   openText: (nav: Router, p: KeyboardParams) => void;
   log: Logger;
+  /** Stage 7B.2: adult categories and channels need the PIN while locked. */
+  parental?: Parental | null;
+  /** Stage 7E: miniature live preview of the focused channel (absent = logo only). */
+  preview?: (() => LivePreview) | null;
+  /** Stage 14: hidden / reordered categories (absent = provider order, no "Manage categories"). */
+  catPrefs?: CategoryPrefsStore | null;
+  /** Stage 14: free memory (MB, −1 unknown) and the floor below which the manager does not open. */
+  memoryMB?: () => number;
+  minFreeMB?: number;
 }
 
 export interface LiveTvParams {
   playlistId: string;
+  /** 'fav' opens on the Favourites category (Home bar / rail "Favourites"). */
+  start?: 'fav';
 }
 
 /** What the player screen receives to zap within the current list. */
@@ -52,12 +72,14 @@ export interface PlayerParams {
   pos: number;
 }
 
-type CatKind = 'search' | 'fav' | 'recent' | 'all' | 'cat';
-interface CatItem { kind: CatKind; id: string; name: string; count: number }
+type CatKind = 'search' | 'fav' | 'recent' | 'all' | 'manage' | 'cat';
+interface CatItem { kind: CatKind; id: string; name: string; count: number; adult?: boolean }
 
-const CHANNEL_ROWS = 11;
-const CATEGORY_ROWS = 13;
-const PAGE = 10;
+// Stage 7B.1 layout (design 02): channel rows 100 high in an 870 panel (8 visible, CH pages 8);
+// category rows 68 (12 visible).
+const CHANNEL_ROWS = 8;
+const CATEGORY_ROWS = 12;
+const PAGE = 8;
 
 function two(n: number): string { return (n < 10 ? '0' : '') + n; }
 export function clock(ms: number): string {
@@ -66,14 +88,15 @@ export function clock(ms: number): string {
 }
 
 interface ChanRow { num: HTMLElement; logo: HTMLElement; name: HTMLElement; now: HTMLElement; fav: HTMLElement; logoSrc: string }
-interface CatRow { name: HTMLElement; count: HTMLElement }
+interface CatRow { root: HTMLElement; name: HTMLElement; count: HTMLElement }
 
 export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router): Screen & { perf(): Record<string, number> } {
   const t = d.t;
   const pid = p.playlistId;
   let idx: ChannelIndex | null = null;
   let cats: CatItem[] = [];
-  let catPos = 3; // "All channels"
+  let catPos = p.start === 'fav' ? 1 : 3; // "Favourites" or "All channels"
+  const rail = createRail(d.doc, t, p.start === 'fav' ? 'favourites' : 'live', nav, d.playlists);
   let list: number[] = [];
   let query = '';
   let searchResults: number[] = [];
@@ -85,11 +108,14 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
   let shortList: Programme[] | null = null;
   let playing = false;
   const perf: Record<string, number> = {};
+  const preview: LivePreview | null = d.preview ? d.preview() : null;
+  /** Stage 14: this account's Live TV category order and hidden categories. */
+  let prefs: CategoryPrefs = d.catPrefs ? d.catPrefs.get(pid, 'live') : emptyPrefs();
 
   const header = h(d.doc, 'div', { className: 'ss-live__status' });
   const message = h(d.doc, 'div', { className: 'ss-live__message' });
   const info = h(d.doc, 'div', { className: 'ss-live__info' });
-  let actions: ButtonList = createButtonList(d.doc, [t('live.watch'), t('live.favAdd'), t('live.updateGuide')], true);
+  let actions: ButtonList = createButtonList(d.doc, [t('live.watch'), t('live.favAdd'), t('guide.open'), t('live.updateGuide')], true);
   const actionsBox = h(d.doc, 'div', { className: 'ss-live__actions' }, [actions.element]);
 
   const catList: VirtualList = createVirtualList<CatRow>(d.doc, {
@@ -97,12 +123,14 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     createRow: function () {
       const name = h(d.doc, 'div', { className: 'ss-cat__name' });
       const count = h(d.doc, 'div', { className: 'ss-cat__count' });
-      return { root: h(d.doc, 'div', { className: 'ss-cat' }, [name, count]), parts: { name: name, count: count } };
+      const root = h(d.doc, 'div', { className: 'ss-cat' }, [name, count]);
+      return { root: root, parts: { root: root, name: name, count: count } };
     },
-    bind: function (r, i) {
+    bind: function (r, i, focused) {
       const c = cats[i];
+      if (i === catPos && !focused) { r.root.className += ' is-selected'; }
       r.name.textContent = c.kind === 'search' && query ? t('live.searchFor', { q: query }) : c.name;
-      r.count.textContent = c.kind === 'search' && !query ? '' : formatCount(c.count);
+      r.count.textContent = c.kind === 'manage' || (c.kind === 'search' && !query) ? '' : formatCount(c.count);
     }
   });
 
@@ -156,10 +184,13 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       { kind: 'recent', id: '', name: t('live.recent'), count: idx.resolve(d.lists.recent(pid)).length },
       { kind: 'all', id: '', name: t('live.all'), count: idx.channels.length }
     ];
-    for (let i = 0; i < idx.categories.length; i++) {
-      const c = idx.categories[i];
+    if (d.catPrefs) { out.push({ kind: 'manage', id: '', name: t('cat.manage'), count: 0 }); }
+    // Stage 14: the user's order without the hidden categories (index list; channels untouched).
+    const order = arrange(idx.categories, prefs);
+    for (let i = 0; i < order.length; i++) {
+      const c = idx.categories[order[i]];
       if (c.count > 0) {
-        out.push({ kind: 'cat', id: c.id, name: c.name || t('live.uncategorised'), count: c.count });
+        out.push({ kind: 'cat', id: c.id, name: c.name || t('live.uncategorised'), count: c.count, adult: c.adult });
       }
     }
     return out;
@@ -169,20 +200,31 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     if (!idx) {
       return [];
     }
-    switch (c.kind) {
-      case 'search': return searchResults;
-      case 'fav': return idx.resolve(d.lists.favourites(pid));
-      case 'recent': return idx.resolve(d.lists.recent(pid));
-      case 'all': return idx.all();
-      default: return idx.byCategory(c.id);
+    if (c.kind === 'manage') {
+      return [];
     }
+    if (c.kind === 'cat') {
+      // A locked adult category shows nothing until the PIN is entered (OK on the category).
+      return isLocked(d.parental, !!c.adult) ? [] : idx.byCategory(c.id);
+    }
+    const raw = c.kind === 'search' ? searchResults : c.kind === 'fav' ? idx.resolve(d.lists.favourites(pid))
+      : c.kind === 'recent' ? idx.resolve(d.lists.recent(pid)) : idx.all();
+    if (!isLocked(d.parental, true)) {
+      return raw;
+    }
+    // Locked: adult channels are left out of the mixed lists (All, Favourites, Recent, Search).
+    const out: number[] = [];
+    for (let i = 0; i < raw.length; i++) { if (!idx.channels[raw[i]].adult) { out.push(raw[i]); } }
+    return out;
   }
 
   function showCategory(pos: number, keepChannelPos: boolean): void {
     const t0 = d.now();
+    const moved = catPos !== pos;
     catPos = pos;
+    if (moved) { catList.refresh(); } // selected tint follows the shown category
     list = listFor(cats[pos]);
-    message.textContent = list.length ? '' : cats[pos].kind === 'fav' ? t('live.noFavourites') : cats[pos].kind === 'recent' ? t('live.noRecent')
+    message.textContent = list.length ? '' : cats[pos].kind === 'cat' && isLocked(d.parental, !!cats[pos].adult) ? t('pin.lockedCategory') : cats[pos].kind === 'fav' ? t('live.noFavourites') : cats[pos].kind === 'recent' ? t('live.noRecent')
       : cats[pos].kind === 'search' ? (query ? t('live.noResults') : t('live.searchHint')) : t('live.noChannels');
     if (!keepChannelPos) {
       // A new list starts at its top; the focus itself stays where it is (usually the categories).
@@ -225,14 +267,19 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     clear(info);
     const c = focusedChannel() || (idx && list.length ? idx.channels[list[Math.min(focus.memory('chans'), list.length - 1)]] : null);
     if (!c || !idx) {
+      if (preview) { preview.show(null, false); }
       return;
+    }
+    if (preview) {
+      // Locked adult channels show their logo only; no preview while the guide downloads (R4).
+      preview.show(c, !isLocked(d.parental, !!c.adult) && !epgJob && !playing);
     }
     const cat = c.categoryId;
     let catName = '';
     for (let i = 0; i < idx.categories.length; i++) {
       if (idx.categories[i].id === cat) { catName = idx.categories[i].name; break; }
     }
-    if (c.logo) {
+    if (c.logo && !preview) {
       const img = h(d.doc, 'img', { className: 'ss-info__logo', attrs: { src: c.logo, alt: '' } });
       img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
       info.appendChild(img);
@@ -286,7 +333,7 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
 
   function setFavLabel(c: Channel): void {
     const fav = d.lists.isFavourite(pid, c.id);
-    const labels = [t('live.watch'), fav ? t('live.favRemove') : t('live.favAdd'), t('live.updateGuide')];
+    const labels = [t('live.watch'), fav ? t('live.favRemove') : t('live.favAdd'), t('guide.open'), t('live.updateGuide')];
     const cur = focus.current();
     const focusedIdx = cur && cur.zone === 'actions' ? cur.index : -1;
     clear(actionsBox);
@@ -313,9 +360,25 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       epgJob.abort();
       epgJob = null;
     }
-    const pp: PlayerParams = { playlistId: pid, index: idx, list: list.slice(), pos: pos };
-    playing = true;
-    nav.push('player', pp as unknown as Record<string, unknown>);
+    const ix = idx;
+    const ch = ix.channels[list[pos]];
+    // One decoder: the preview lets go before the full-screen player (or the PIN dialog) opens it.
+    if (preview) { preview.stop(); }
+    const pp: PlayerParams = { playlistId: pid, index: ix, list: list.slice(), pos: pos };
+    withParental(nav, d.parental, !!ch.adult, ch.name, function () {
+      if (!alive) { return; }
+      playing = true;
+      nav.push('player', pp as unknown as Record<string, unknown>);
+    });
+  }
+
+  /** TV guide grid for the shown list, starting at the focused channel (Guide / Green key). */
+  function openGuide(): void {
+    if (!idx || !list.length) { return; }
+    const cur = focus.current();
+    const at = cur && cur.zone === 'chans' ? cur.index : focus.memory('chans');
+    const pp: PlayerParams = { playlistId: pid, index: idx, list: list.slice(), pos: Math.min(at, list.length - 1) };
+    nav.push('tv-guide', pp as unknown as Record<string, unknown>);
   }
 
   function toggleFavourite(): void {
@@ -337,6 +400,7 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     if (!idx || epgJob) {
       return;
     }
+    if (preview) { preview.stop(); }
     epgJob = d.epg.refresh(pid, idx.channels, function (chars) {
       if (alive) { header.textContent = t('live.guideReading', { mb: (Math.round(chars / 104857.6) / 10).toFixed(1) }); }
     });
@@ -372,8 +436,93 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     });
   }
 
+
+  // Stage 14: "Manage categories" (category-manager.ts). Changes are saved at once; the category
+  // column is rebuilt from the saved prefs when the sheet closes (ids only, no catalogue copies).
+  const manager = createCategoryManager(d.doc, t);
+  let noteTimer: unknown = null;
+  function flashNote(text: string): void {
+    header.textContent = text;
+    if (noteTimer !== null) { d.clearTimer(noteTimer); }
+    noteTimer = d.setTimer(function () { noteTimer = null; if (alive) { renderStatus(); } }, 4000);
+  }
+  function openManager(): void {
+    const cs = idx ? idx.categories : null;
+    if (!cs || !d.catPrefs) { return; }
+    const free = d.memoryMB ? d.memoryMB() : -1;
+    if (d.minFreeMB && free >= 0 && free < d.minFreeMB) {
+      d.log.warn('categories: manager not opened, memory low', { section: 'live', freeMB: free, minFreeMB: d.minFreeMB });
+      flashNote(t('cat.lowMemory'));
+      return;
+    }
+    if (catTimer !== null) { d.clearTimer(catTimer); catTimer = null; }
+    const names: string[] = [];
+    const counts: number[] = [];
+    const listed: number[] = [];
+    for (let i = 0; i < cs.length; i++) {
+      names.push(cs[i].name || t('live.uncategorised'));
+      counts.push(cs[i].count);
+      if (cs[i].count > 0) { listed.push(i); }
+    }
+    manager.open({ section: t('live.title'), provider: cs, names: names, counts: counts, listed: listed, prefs: prefs });
+    d.log.info('categories: manager opened', { section: 'live', categories: listed.length, hidden: prefs.hidden.length, ordered: prefs.order.length > 0, freeMB: free });
+  }
+  function saveManager(): void {
+    if (!d.catPrefs) { return; }
+    prefs = manager.prefs();
+    const ok = d.catPrefs.set(pid, 'live', prefs);
+    manager.note(ok ? t('cat.saved') : t('cat.notSaved'), !ok);
+    if (!ok) { d.log.warn('categories: not saved', { section: 'live' }); }
+  }
+  function confirmRestore(): void {
+    const cp: ConfirmParams = {
+      title: t('cat.restoreTitle'), paragraphs: [t('cat.restoreText', { section: t('live.title') })],
+      buttons: [{ label: t('common.cancel') }, {
+        label: t('cat.restoreOk'), run: function () {
+          if (!alive || !d.catPrefs || !manager.isOpen()) { return; }
+          d.catPrefs.reset(pid, 'live');
+          prefs = emptyPrefs();
+          manager.reload(prefs);
+          manager.note(t('cat.saved'), false);
+          d.log.info('categories: defaults restored', { section: 'live' });
+        }
+      }]
+    };
+    nav.openOverlay('confirm', cp as unknown as Record<string, unknown>);
+  }
+  /** Category column from the saved prefs; the shown category stays shown unless it was hidden. */
+  function applyPrefs(): void {
+    if (!idx) { return; }
+    const was = cats[catPos];
+    cats = catItems();
+    let at = -1;
+    let manageAt = -1;
+    for (let i = 0; i < cats.length; i++) {
+      if (was && at < 0 && cats[i].kind === was.kind && cats[i].id === was.id) { at = i; }
+      if (cats[i].kind === 'manage') { manageAt = i; }
+    }
+    catList.setCount(cats.length);
+    if (at < 0) {
+      catList.refresh();
+      showCategory(3, false); // the shown category was hidden: All channels
+    } else {
+      catPos = at;
+      catList.refresh();
+    }
+    
+    focus.focus('cats', manageAt >= 0 ? manageAt : catPos);
+  }
+  function managerResult(r: ManagerResult): void {
+    if (r === 'changed') { saveManager(); }
+    if (r === 'restore') { confirmRestore(); }
+    if (r === 'close') { manager.close(); applyPrefs(); }
+  }
+
   const focus = createFocusManager(function (zone, index, focused) {
-    if (zone === 'cats') {
+    if (zone === 'rail') {
+      rail.setFocused(index, focused);
+      rail.setOpen(focused);
+    } else if (zone === 'cats') {
       catList.setFocused(index, focused);
     } else if (zone === 'chans') {
       chanList.setFocused(index, focused);
@@ -383,13 +532,21 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     }
   });
   focus.register({
-    id: 'cats', kind: 'column', size: function () { return cats.length; }, neighbours: { right: 'chans' },
+    id: 'rail', kind: 'column', size: function () { return rail.size(); }, neighbours: { right: 'cats' },
+    onSelect: function (i) {
+      if (!rail.select(i)) { focus.focus('cats', catPos); }
+    }
+  });
+  focus.remember('rail', rail.currentIndex());
+  focus.register({
+    id: 'cats', kind: 'column', size: function () { return cats.length; }, neighbours: { left: 'rail', right: 'chans' },
     onFocus: function (i) {
-      if (i === catPos || !idx) {
+      // Stage 14: a category passed on the way (or left again within 150 ms) is not shown later.
+      if (catTimer !== null) { d.clearTimer(catTimer); catTimer = null; }
+      if (i === catPos || !idx || (cats[i] && cats[i].kind === 'manage')) {
         return;
       }
       // Debounced so that holding ↑/↓ doesn't rebuild the list on every step.
-      if (catTimer !== null) { d.clearTimer(catTimer); }
       catTimer = d.setTimer(function () { catTimer = null; if (alive) { showCategory(i, false); } }, 150);
     },
     onSelect: function (i) {
@@ -397,7 +554,22 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
         openSearch();
         return;
       }
+      if (cats[i] && cats[i].kind === 'manage') {
+        openManager();
+        return;
+      }
       if (catTimer !== null) { d.clearTimer(catTimer); catTimer = null; }
+      const c = cats[i];
+      if (c && c.kind === 'cat' && isLocked(d.parental, !!c.adult)) {
+        withParental(nav, d.parental, true, c.name, function () {
+          if (!alive) { return; }
+          cats = catItems();
+          catList.refresh();
+          showCategory(i, false);
+          if (list.length) { focus.focus('chans', 0); }
+        });
+        return;
+      }
       if (i !== catPos) { showCategory(i, false); }
       if (list.length) { focus.focus('chans', 0); }
     }
@@ -407,11 +579,12 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     onSelect: play
   });
   focus.register({
-    id: 'actions', kind: 'row', size: function () { return list.length ? 3 : 0; }, neighbours: { left: 'chans' },
+    id: 'actions', kind: 'row', size: function () { return list.length ? 4 : 0; }, neighbours: { left: 'chans' },
     onSelect: function (i) {
       if (i === 0) { play(focus.memory('chans')); }
       if (i === 1) { toggleFavourite(); }
-      if (i === 2) { refreshGuide(); }
+      if (i === 2) { openGuide(); }
+      if (i === 3) { refreshGuide(); }
     }
   });
 
@@ -438,7 +611,7 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       }
       perf.renderMs = d.now() - t1;
       perf.channels = idx.channels.length;
-      d.log.info('live tv ready', { channels: idx.channels.length, categories: cats.length, loadMs: perf.loadMs, renderMs: perf.renderMs });
+      d.log.info('live tv ready', { channels: idx.channels.length, categories: cats.length, loadMs: perf.loadMs, renderMs: perf.renderMs, cached: !!l.cached });
       return d.epg.status().playlistId === pid && d.epg.status().state !== 'loading' ? Promise.resolve(d.epg.status()) : d.epg.load(pid);
     }).then(function () {
       if (!alive || !idx) {
@@ -448,7 +621,10 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       renderStatus();
       chanList.refresh();
       renderInfo();
-      if (d.epg.isStale() && !playing) {
+      // Stage 7E: a guide that already failed for its size (too large / device memory low) is not
+      // downloaded again automatically on every visit; "Update guide" still tries on request.
+      const last = d.epg.status().error;
+      if (d.epg.isStale() && !playing && last !== 'low-memory' && last !== 'too-large') {
         refreshGuide();
       }
     });
@@ -457,17 +633,21 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
   return {
     mount: function (layer: HostLayer) {
       const def = d.playlists.get(pid);
+      if (preview) { (layer.element as HTMLElement).appendChild(preview.ground); }
+      (layer.element as HTMLElement).appendChild(rail.element);
       (layer.element as HTMLElement).appendChild(h(d.doc, 'div', { className: 'ss-live' }, [
         h(d.doc, 'div', { className: 'ss-live__header' }, [
-          h(d.doc, 'div', { className: 'ss-live__title', text: t('live.title') + (def ? ' · ' + def.name : '') }),
+          h(d.doc, 'div', { className: 'ss-live__title', text: t('live.title') }),
+          h(d.doc, 'div', { className: 'ss-live__account', text: def ? def.name : '' }),
           header
         ]),
         h(d.doc, 'div', { className: 'ss-live__columns' }, [
           catList.element,
           h(d.doc, 'div', { className: 'ss-live__middle' }, [chanList.element, message]),
-          h(d.doc, 'div', { className: 'ss-live__side' }, [info, actionsBox])
+          h(d.doc, 'div', { className: 'ss-live__side' + (preview ? ' has-preview' : '') }, preview ? [preview.slot, info, actionsBox] : [info, actionsBox])
         ])
       ]));
+      (layer.element as HTMLElement).appendChild(manager.element);
       renderStatus();
       loadAll();
     },
@@ -486,14 +666,25 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       renderStatus();
       renderInfo();
     },
-    onHide: function () { /* player on top; EPG refresh already aborted in play() */ },
+    onHide: function () {
+      // Player, guide or another screen on top; EPG refresh already aborted in play().
+      if (preview) { preview.stop(); }
+    },
     onKey: function (e: RemoteKeyEvent) {
+      if (manager.isOpen()) {
+        managerResult(manager.key(e.key)); // the sheet is modal while open
+        return true;
+      }
       const cur = focus.current();
       if (e.key === 'up' || e.key === 'down' || e.key === 'left' || e.key === 'right') {
         return focus.move(e.key);
       }
       if (e.key === 'ok') {
         return focus.select();
+      }
+      if ((e.key === 'guide' || e.key === 'green') && list.length) {
+        openGuide();
+        return true;
       }
       if ((e.key === 'chUp' || e.key === 'chDown') && cur && cur.zone === 'chans' && list.length) {
         const next = Math.max(0, Math.min(list.length - 1, cur.index + (e.key === 'chDown' ? PAGE : -PAGE)));
@@ -503,8 +694,12 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       return false;
     },
     onBack: function () {
+      if (manager.isOpen()) {
+        managerResult(manager.back());
+        return true;
+      }
       const cur = focus.current();
-      if (cur && (cur.zone === 'chans' || cur.zone === 'actions')) {
+      if (cur && (cur.zone === 'chans' || cur.zone === 'actions' || cur.zone === 'rail')) {
         focus.focus('cats', catPos);
         return true;
       }
@@ -512,9 +707,12 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
     },
     destroy: function () {
       alive = false;
+      if (preview) { preview.destroy(); }
       if (epgJob) { epgJob.abort(); epgJob = null; }
       if (infoTimer !== null) { d.clearTimer(infoTimer); }
       if (catTimer !== null) { d.clearTimer(catTimer); }
+      if (noteTimer !== null) { d.clearTimer(noteTimer); noteTimer = null; }
+      if (manager.isOpen()) { manager.close(); }
       idx = null;
     },
     perf: function () {

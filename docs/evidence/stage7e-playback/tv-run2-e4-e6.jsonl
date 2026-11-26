@@ -1,0 +1,93 @@
+{"t":1795610513645,"level":"info","msg":"7e start","component":"selftest7e","data":{"memMB":213}}
+{"t":1795610516259,"level":"warn","msg":"epg: download stopped, device memory low","component":"epg","data":{"freeMB":180,"floorMB":200,"chars":0}}
+{"t":1795610516264,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"low-memory","sources":1,"channels":0,"programmes":0,"ms":319}}
+{"t":1795610516649,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":1,"memMB":181,"top":"home","epg":"none"}}
+{"t":1795610519648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":2,"memMB":192,"top":"home","epg":"none"}}
+{"t":1795610521269,"level":"info","msg":"7e E6 guide download","component":"selftest7e","data":{"aborted":false,"ok":false,"code":"low-memory","programmes":0,"channels":0,"ms":319,"lastMChars":0,"memAfter5sMB":194,"samples":""}}
+{"t":1795610522735,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":3,"memMB":222,"top":"live-tv","epg":"none"}}
+{"t":1795610523910,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2498,"renderMs":112}}
+{"t":1795610525265,"level":"warn","msg":"epg: download stopped, device memory low","component":"epg","data":{"freeMB":176,"floorMB":200,"chars":0}}
+{"t":1795610525267,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"low-memory","sources":1,"channels":0,"programmes":0,"ms":259}}
+{"t":1795610525647,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":4,"memMB":177,"top":"live-tv","epg":"ready"}}
+{"t":1795610528648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":5,"memMB":177,"top":"live-tv","epg":"ready"}}
+{"t":1795610531653,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":6,"memMB":283,"top":"live-tv","epg":"ready"}}
+{"t":1795610532871,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2791,"renderMs":90}}
+{"t":1795610534650,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":7,"memMB":242,"top":"live-tv","epg":"ready"}}
+{"t":1795610537527,"level":"warn","msg":"epg: download stopped, device memory low","component":"epg","data":{"freeMB":167,"floorMB":200,"chars":938124}}
+{"t":1795610537535,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"low-memory","sources":1,"channels":0,"programmes":0,"ms":1340}}
+{"t":1795610537860,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":8,"memMB":350,"top":"live-tv","epg":"ready"}}
+{"t":1795610540677,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":9,"memMB":228,"top":"live-tv","epg":"ready/refreshing"}}
+{"t":1795610540896,"level":"warn","msg":"epg: download stopped, device memory low","component":"epg","data":{"freeMB":181,"floorMB":200,"chars":1368227}}
+{"t":1795610540901,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"low-memory","sources":1,"channels":0,"programmes":0,"ms":1580}}
+{"t":1795610543648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":10,"memMB":182,"top":"live-tv","epg":"ready"}}
+{"t":1795610546724,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":11,"memMB":322,"top":"live-tv","epg":"ready"}}
+{"t":1795610548139,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2545,"renderMs":87}}
+{"t":1795610549650,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":12,"memMB":289,"top":"live-tv","epg":"ready"}}
+{"t":1795610552648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":13,"memMB":281,"top":"live-tv","epg":"ready"}}
+{"t":1795610555648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":14,"memMB":283,"top":"tv-guide","epg":"ready"}}
+{"t":1795610558648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":15,"memMB":296,"top":"live-tv","epg":"ready"}}
+{"t":1795610561686,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":16,"memMB":296,"top":"live-tv","epg":"ready"}}
+{"t":1795610564648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":17,"memMB":293,"top":"live-tv","epg":"ready"}}
+{"t":1795610567648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":18,"memMB":294,"top":"live-tv","epg":"ready"}}
+{"t":1795610570648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":19,"memMB":292,"top":"live-tv","epg":"ready"}}
+{"t":1795610573648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":20,"memMB":296,"top":"live-tv","epg":"ready"}}
+{"t":1795610576648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":21,"memMB":347,"top":"live-tv","epg":"ready"}}
+{"t":1795610579648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":22,"memMB":350,"top":"live-tv","epg":"ready"}}
+{"t":1795610582725,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":23,"memMB":278,"top":"live-tv","epg":"ready"}}
+{"t":1795610583968,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2401,"renderMs":97}}
+{"t":1795610585648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":24,"memMB":247,"top":"live-tv","epg":"ready"}}
+{"t":1795610588686,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":25,"memMB":277,"top":"live-tv","epg":"ready"}}
+{"t":1795610591648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":26,"memMB":272,"top":"live-tv","epg":"ready"}}
+{"t":1795610594648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":27,"memMB":271,"top":"live-tv","epg":"ready"}}
+{"t":1795610597648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":28,"memMB":275,"top":"live-tv","epg":"ready"}}
+{"t":1795610600648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":29,"memMB":274,"top":"live-tv","epg":"ready"}}
+{"t":1795610603648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":30,"memMB":273,"top":"live-tv","epg":"ready"}}
+{"t":1795610606660,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":31,"memMB":217,"top":"live-tv","epg":"ready"}}
+{"t":1795610607976,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2180,"renderMs":74}}
+{"t":1795610609651,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":32,"memMB":176,"top":"live-tv","epg":"ready"}}
+{"t":1795610612648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":33,"memMB":218,"top":"live-tv","epg":"ready"}}
+{"t":1795610615648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":34,"memMB":181,"top":"live-tv","epg":"ready"}}
+{"t":1795610618648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":35,"memMB":199,"top":"live-tv","epg":"ready"}}
+{"t":1795610621221,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2126,"renderMs":75}}
+{"t":1795610621648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":36,"memMB":345,"top":"live-tv","epg":"ready"}}
+{"t":1795610624648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":37,"memMB":338,"top":"live-tv","epg":"ready"}}
+{"t":1795610627663,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":38,"memMB":354,"top":"live-tv","epg":"ready"}}
+{"t":1795610630649,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":39,"memMB":335,"top":"player","epg":"ready"}}
+{"t":1795610633648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":40,"memMB":334,"top":"live-tv","epg":"ready"}}
+{"t":1795610636650,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":41,"memMB":341,"top":"live-tv","epg":"ready"}}
+{"t":1795610639454,"level":"warn","msg":"epg: download stopped, device memory low","component":"epg","data":{"freeMB":168,"floorMB":200,"chars":1173915}}
+{"t":1795610639458,"level":"info","msg":"epg refresh","component":"epg","data":{"playlist":"pmwuiieey01","ok":false,"code":"low-memory","sources":1,"channels":0,"programmes":0,"ms":1670}}
+{"t":1795610639648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":42,"memMB":169,"top":"live-tv","epg":"ready"}}
+{"t":1795610642648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":43,"memMB":172,"top":"live-tv","epg":"ready"}}
+{"t":1795610645648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":44,"memMB":167,"top":"live-tv","epg":"ready"}}
+{"t":1795610648648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":45,"memMB":173,"top":"live-tv","epg":"ready"}}
+{"t":1795610651648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":46,"memMB":177,"top":"live-tv","epg":"ready"}}
+{"t":1795610654648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":47,"memMB":171,"top":"live-tv","epg":"ready"}}
+{"t":1795610657648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":48,"memMB":170,"top":"live-tv","epg":"ready"}}
+{"t":1795610660648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":49,"memMB":180,"top":"live-tv","epg":"ready"}}
+{"t":1795610663648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":50,"memMB":170,"top":"live-tv","epg":"ready"}}
+{"t":1795610666648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":51,"memMB":180,"top":"live-tv","epg":"ready"}}
+{"t":1795610668822,"level":"info","msg":"7e E5 live fuzz","component":"selftest7e","data":{"steps":400,"stopped":"","lastKeys":"L:left L:right L:up L:left L:chDown L:right L:up L:up L:right L:right L:left L:left L:up L:left L:right L:left L:chDown L:up L:left L:up L:right L:chDown L:left L:down L:left L:left L:chDown L:ok L:right L:right L:left L:up L:down L:ok","mem":"50:179 100:296 150:278 200:271 250:181 300:346 350:173 400:178","top":"home>live-tv"}}
+{"t":1795610669998,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":52,"memMB":376,"top":"live-tv","epg":"ready"}}
+{"t":1795610671766,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2808,"renderMs":78}}
+{"t":1795610672733,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":53,"memMB":293,"top":"live-tv","epg":"ready"}}
+{"t":1795610675648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":54,"memMB":248,"top":"live-tv","epg":"ready"}}
+{"t":1795610678649,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":55,"memMB":254,"top":"live-tv","epg":"ready"}}
+{"t":1795610681648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":56,"memMB":262,"top":"live-tv","epg":"ready"}}
+{"t":1795610684648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":57,"memMB":222,"top":"live-tv","epg":"ready"}}
+{"t":1795610687648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":58,"memMB":237,"top":"live-tv","epg":"ready"}}
+{"t":1795610690649,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":59,"memMB":223,"top":"live-tv","epg":"ready"}}
+{"t":1795610693712,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":60,"memMB":238,"top":"live-tv","epg":"ready"}}
+{"t":1795610696648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":61,"memMB":249,"top":"live-tv","epg":"ready"}}
+{"t":1795610699648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":62,"memMB":249,"top":"live-tv","epg":"ready"}}
+{"t":1795610702648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":63,"memMB":250,"top":"live-tv","epg":"ready"}}
+{"t":1795610705648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":64,"memMB":333,"top":"live-tv","epg":"ready"}}
+{"t":1795610708648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":65,"memMB":354,"top":"live-tv","epg":"ready"}}
+{"t":1795610710691,"level":"info","msg":"7e E4 live mini","component":"selftest7e","data":{"tunes":"ok 1008ms | ok 210ms | ok 1290ms | ok 178ms | ok 1217ms","rapidZapLastPlays":false,"rapidMs":17601,"err":"","memMB":354}}
+{"t":1795610710707,"level":"info","msg":"7e done","component":"selftest7e","data":{"memMB":354}}
+{"t":1795610711648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":66,"memMB":354,"top":"live-tv","epg":"ready"}}
+{"t":1795610714648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":67,"memMB":354,"top":"live-tv","epg":"ready"}}
+{"t":1795610717648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":68,"memMB":354,"top":"live-tv","epg":"ready"}}
+{"t":1795610720648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":69,"memMB":354,"top":"live-tv","epg":"ready"}}
+{"t":1795610723648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":70,"memMB":355,"top":"live-tv","epg":"ready"}}
+{"t":1795610726648,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":71,"memMB":353,"top":"live-tv","epg":"ready"}}

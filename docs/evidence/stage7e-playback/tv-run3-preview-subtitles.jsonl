@@ -1,0 +1,74 @@
+{"t":1795613036350,"level":"info","msg":"7e start","component":"selftest7e","data":{"memMB":200}}
+{"t":1795613038768,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":2292}}
+{"t":1795613039357,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":1,"memMB":202,"top":"vod-player","epg":"none"}}
+{"t":1795613042355,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":2,"memMB":221,"top":"vod-player","epg":"none"}}
+{"t":1795613042804,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":1,"text":18,"requests":21,"ms":4036}}
+{"t":1795613045354,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":3,"memMB":206,"top":"vod-player","epg":"none"}}
+{"t":1795613048353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":4,"memMB":216,"top":"vod-player","epg":"none"}}
+{"t":1795613051354,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":5,"memMB":220,"top":"vod-player","epg":"none"}}
+{"t":1795613054365,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":6,"memMB":226,"top":"vod-player","epg":"none"}}
+{"t":1795613055837,"level":"info","msg":"7e E7 subtitle panel","component":"selftest7e","data":{"title":"NF - An Irish Story: This Is My Home (2020)","category":"561","rows":20,"labels":"Engels · 5.1 · AAC · 145 kb/s | Uit | Engels | Kroatisch | Tsjechisch | Deens | Nederlands | Fins | Frans | Duits | Grieks | Hongaars | Italiaans | Noors (Bokmål) · Norwegian Bokmal | Pools | Portugees | Roemeens | Russisch | Spaans · European Spanish | Zweeds","errors":0,"memMB":216}}
+{"t":1795613057363,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":7,"memMB":249,"top":"live-tv","epg":"none"}}
+{"t":1795613059753,"level":"info","msg":"live tv ready","component":"live","data":{"channels":21986,"categories":374,"loadMs":2336,"renderMs":114}}
+{"t":1795613060354,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":8,"memMB":178,"top":"live-tv","epg":"loading"}}
+{"t":1795613062934,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284583","startupMs":1015}}
+{"t":1795613063353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":9,"memMB":204,"top":"live-tv","epg":"ready"}}
+{"t":1795613065786,"level":"info","msg":"7e E8 first preview","component":"selftest7e","data":{"playing":1,"slot":"1268,156 556x313 ss-preview is-live","htmlTransparent":true,"memMB":209}}
+{"t":1795613066363,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":10,"memMB":229,"top":"live-tv","epg":"ready"}}
+{"t":1795613069353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":11,"memMB":175,"top":"live-tv","epg":"ready"}}
+{"t":1795613070314,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284573","startupMs":2194}}
+{"t":1795613072354,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":12,"memMB":226,"top":"live-tv","epg":"ready"}}
+{"t":1795613073443,"level":"info","msg":"7e E8 rapid","component":"selftest7e","data":{"playingAfter":1,"failed":0,"engine":"playing","memMB":226}}
+{"t":1795613075353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":13,"memMB":237,"top":"player","epg":"ready"}}
+{"t":1795613075375,"level":"info","msg":"live: playing","component":"player","data":{"channel":"1284573","startupMs":1823}}
+{"t":1795613078354,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":14,"memMB":236,"top":"player","epg":"ready"}}
+{"t":1795613081354,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":15,"memMB":235,"top":"player","epg":"ready"}}
+{"t":1795613084269,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284573","startupMs":1878}}
+{"t":1795613084353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":16,"memMB":236,"top":"live-tv","epg":"ready"}}
+{"t":1795613087353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":17,"memMB":238,"top":"live-tv","epg":"ready"}}
+{"t":1795613087688,"level":"info","msg":"7e E8 handover","component":"selftest7e","data":{"playerTop":"player","playerPlaying":1,"backTop":"live-tv","previewPlayingAgain":1,"memMB":238}}
+{"t":1795613090806,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":18,"memMB":256,"top":"live-tv","epg":"ready"}}
+{"t":1795613092569,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284571","startupMs":1073}}
+{"t":1795613093353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":19,"memMB":277,"top":"live-tv","epg":"ready"}}
+{"t":1795613094668,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284570","startupMs":1013}}
+{"t":1795613096358,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":20,"memMB":289,"top":"live-tv","epg":"ready"}}
+{"t":1795613097214,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284569","startupMs":1050}}
+{"t":1795613099353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":21,"memMB":292,"top":"live-tv","epg":"ready"}}
+{"t":1795613102370,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":22,"memMB":284,"top":"live-tv","epg":"ready"}}
+{"t":1795613105555,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":23,"memMB":299,"top":"live-tv","epg":"ready"}}
+{"t":1795613108353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":24,"memMB":299,"top":"live-tv","epg":"ready"}}
+{"t":1795613109772,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284564","startupMs":1170}}
+{"t":1795613111362,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":25,"memMB":296,"top":"live-tv","epg":"ready"}}
+{"t":1795613114353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":26,"memMB":302,"top":"live-tv","epg":"ready"}}
+{"t":1795613117353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":27,"memMB":301,"top":"live-tv","epg":"ready"}}
+{"t":1795613120592,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":28,"memMB":298,"top":"live-tv","epg":"ready"}}
+{"t":1795613123353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":29,"memMB":298,"top":"live-tv","epg":"ready"}}
+{"t":1795613126353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":30,"memMB":298,"top":"live-tv","epg":"ready"}}
+{"t":1795613129353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":31,"memMB":288,"top":"live-tv","epg":"ready"}}
+{"t":1795613130140,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284556","startupMs":1552}}
+{"t":1795613132385,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":32,"memMB":283,"top":"live-tv","epg":"ready"}}
+{"t":1795613135353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":33,"memMB":275,"top":"live-tv","epg":"ready"}}
+{"t":1795613138353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":34,"memMB":294,"top":"live-tv","epg":"ready"}}
+{"t":1795613141353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":35,"memMB":299,"top":"live-tv","epg":"ready"}}
+{"t":1795613144353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":36,"memMB":262,"top":"live-tv","epg":"ready"}}
+{"t":1795613147353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":37,"memMB":329,"top":"live-tv","epg":"ready"}}
+{"t":1795613150109,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284548","startupMs":1276}}
+{"t":1795613150356,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":38,"memMB":309,"top":"live-tv","epg":"ready"}}
+{"t":1795613152388,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284547","startupMs":1079}}
+{"t":1795613153353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":39,"memMB":321,"top":"live-tv","epg":"ready"}}
+{"t":1795613155327,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284546","startupMs":1558}}
+{"t":1795613156353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":40,"memMB":318,"top":"live-tv","epg":"ready"}}
+{"t":1795613157786,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284545","startupMs":1489}}
+{"t":1795613159363,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":41,"memMB":315,"top":"live-tv","epg":"ready"}}
+{"t":1795613159907,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284544","startupMs":1101}}
+{"t":1795613162353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":42,"memMB":309,"top":"live-tv","epg":"ready"}}
+{"t":1795613162654,"level":"info","msg":"live: playing","component":"preview","data":{"channel":"1284543","startupMs":1366}}
+{"t":1795613162852,"level":"info","msg":"7e E8 tunes","component":"selftest7e","data":{"tunes":30,"playing":11,"failed":0,"mem":"5:292 10:288 15:278 20:301 25:309 30:307","errors":0}}
+{"t":1795613165353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":43,"memMB":298,"top":"home","epg":"ready"}}
+{"t":1795613166157,"level":"info","msg":"7e E8 leave","component":"selftest7e","data":{"top":"home","engine":"idle","htmlTransparent":false,"memMB":300}}
+{"t":1795613166160,"level":"info","msg":"7e done","component":"selftest7e","data":{"memMB":300}}
+{"t":1795613168353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":44,"memMB":300,"top":"home","epg":"ready"}}
+{"t":1795613171353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":45,"memMB":307,"top":"home","epg":"ready"}}
+{"t":1795613174353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":46,"memMB":307,"top":"home","epg":"ready"}}
+{"t":1795613177353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":47,"memMB":307,"top":"home","epg":"ready"}}
+{"t":1795613180353,"level":"info","msg":"7e beat","component":"selftest7e","data":{"n":48,"memMB":307,"top":"home","epg":"ready"}}

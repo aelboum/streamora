@@ -1,0 +1,988 @@
+{"from":"192.168.1.19","t":1795624991945,"level":"info","msg":"7f start","component":"selftest7f","data":{"memMB":278}}
+{"from":"192.168.1.19","t":1795624992540,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":false,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795624993114,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":1,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"320\",\"Height\":\"180\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | TEXT#2 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#5 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#6 {\"track_num\":\"0\",\"track_l…"}}
+{"from":"192.168.1.19","t":1795624993400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795624996950,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":1,"memMB":269,"top":"home"}}
+{"from":"192.168.1.19","t":1795624997504,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795624997504,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795624998400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625001948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":2,"memMB":265,"top":"home"}}
+{"from":"192.168.1.19","t":1795625002506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625002506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625003401,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625006949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":3,"memMB":270,"top":"home"}}
+{"from":"192.168.1.19","t":1795625007503,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625007504,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625008400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625011949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":4,"memMB":270,"top":"home"}}
+{"from":"192.168.1.19","t":1795625012506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625012506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625013400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625016948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":5,"memMB":272,"top":"home"}}
+{"from":"192.168.1.19","t":1795625017506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625017506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625018400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625021948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":6,"memMB":272,"top":"home"}}
+{"from":"192.168.1.19","t":1795625022508,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625022509,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625023400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625026948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":7,"memMB":273,"top":"home"}}
+{"from":"192.168.1.19","t":1795625027505,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625027506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625028400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625031949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":8,"memMB":274,"top":"home"}}
+{"from":"192.168.1.19","t":1795625032506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625032507,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625033400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625036948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":9,"memMB":274,"top":"home"}}
+{"from":"192.168.1.19","t":1795625037504,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625037505,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625038400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625041948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":10,"memMB":274,"top":"home"}}
+{"from":"192.168.1.19","t":1795625042506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625042507,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625043400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625046948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":11,"memMB":274,"top":"home"}}
+{"from":"192.168.1.19","t":1795625047506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625047507,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625048400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625051948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":12,"memMB":274,"top":"home"}}
+{"from":"192.168.1.19","t":1795625052502,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625052504,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625053400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625056949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":13,"memMB":274,"top":"home"}}
+{"from":"192.168.1.19","t":1795625057506,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625057507,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625058401,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625061948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":14,"memMB":273,"top":"home"}}
+{"from":"192.168.1.19","t":1795625062503,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625062504,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625063400,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625066948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":15,"memMB":276,"top":"home"}}
+{"from":"192.168.1.19","t":1795625067504,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625067505,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625067539,"level":"info","msg":"7f E14 lab","component":"selftest7f","data":{"file":"subs40.mkv","fileText":40,"playerText":30,"playerAudio":1,"rawLang":"-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-","map":"2:- 3:01/02 4:- 5:03/04 6:- 7:05/06 8:- 9:07/08 10:- 11:09/10 12:- 13:11/12 14:- 15:13/14 16:- 17:15/16 18:- 19:17/18 20:- 21:19/20 22:- 23:21/22 24:- 25:23/24 26:- 27:25/26 28:- 29:27/28 30:- 31:29/30","labels":"Unknown language 1 | Unknown language 2 | Unknown language 3 | Unknown language 4 | Unknown language 5 | Unknown language 6 | Unknown language 7 | Unknown language 8 | Unknown language 9 | Unknown language 10 | Unknown language 11 | Unknown language 12 | Unknown language 13 | Unknown language 14 | Unknown language 15 | Unknown language 16 | Unknown language 17 | Unknown language 18 | Unknown language 19 | Unknown language 20 | Unknown language 21 | Unknown language 22 | Unknown language 23 | Unk…","state":"playing","err":"","memMB":276}}
+{"from":"192.168.1.19","t":1795625068171,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":false,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625068733,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":3,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"320\",\"Height\":\"180\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#2 {\"language\":\"ar\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#3 {\"language\":\"hr\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#4 {\"language\":\"ce\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#5 {\"language\":\"da\",\"channels\":\"2\",\"sam…"}}
+{"from":"192.168.1.19","t":1795625069026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625071949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":16,"memMB":272,"top":"home"}}
+{"from":"192.168.1.19","t":1795625073132,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625073133,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625074026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625076948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":17,"memMB":273,"top":"home"}}
+{"from":"192.168.1.19","t":1795625078131,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625078132,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625079026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625081949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":18,"memMB":278,"top":"home"}}
+{"from":"192.168.1.19","t":1795625083131,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625083132,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625084026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625086948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":19,"memMB":277,"top":"home"}}
+{"from":"192.168.1.19","t":1795625088131,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625088132,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625089026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625091949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":20,"memMB":277,"top":"home"}}
+{"from":"192.168.1.19","t":1795625093135,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625093137,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625094026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625096949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":21,"memMB":277,"top":"home"}}
+{"from":"192.168.1.19","t":1795625098132,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625098133,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625099026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625101948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":22,"memMB":277,"top":"home"}}
+{"from":"192.168.1.19","t":1795625103130,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625103133,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625104026,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625106949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":23,"memMB":277,"top":"home"}}
+{"from":"192.168.1.19","t":1795625108131,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625108133,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625108171,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625109028,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625111949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":24,"memMB":277,"top":"home"}}
+{"from":"192.168.1.19","t":1795625113134,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625113135,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625114028,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625116948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":25,"memMB":276,"top":"home"}}
+{"from":"192.168.1.19","t":1795625118130,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625118132,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625119028,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625121671,"level":"info","msg":"7f E14 lab","component":"selftest7f","data":{"file":"subsorder.mkv","fileText":30,"playerText":21,"playerAudio":10,"rawLang":"-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-","map":"11:- 12:01/02 13:- 14:03/04 15:- 16:05/06 17:- 18:07/08 19:- 20:09/10 21:- 22:11/12 23:- 24:13/14 25:- 26:15/16 27:17 28:16/18 29:- 30:19/20 31:-","labels":"Unknown language 1 | Unknown language 2 | Unknown language 3 | Unknown language 4 | Unknown language 5 | Unknown language 6 | Unknown language 7 | Unknown language 8 | Unknown language 9 | Unknown language 10 | Unknown language 11 | Unknown language 12 | Unknown language 13 | Unknown language 14 | Unknown language 15 | Unknown language 16 | Unknown language 17 | Unknown language 18 | Unknown language 19 | Unknown language 20 | Unknown language 21","state":"playing","err":"","memMB":275}}
+{"from":"192.168.1.19","t":1795625121949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":26,"memMB":291,"top":"home"}}
+{"from":"192.168.1.19","t":1795625122350,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":false,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625122905,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":5,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"320\",\"Height\":\"180\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | TEXT#2 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#5 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#6 {\"track_num\":\"0\",\"track_l…"}}
+{"from":"192.168.1.19","t":1795625123195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625123296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625124194,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625124296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625125195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625125296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625126197,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625126296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625126949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":27,"memMB":285,"top":"home"}}
+{"from":"192.168.1.19","t":1795625127195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625127296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625128297,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625129298,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625129298,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625130195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625130296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625131195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625131296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625131949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":28,"memMB":285,"top":"home"}}
+{"from":"192.168.1.19","t":1795625132195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625132296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625133197,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625133296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625134195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625134295,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625135195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625135296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625135303,"level":"info","msg":"7f E14 lab","component":"selftest7f","data":{"file":"subsformats.mkv","fileText":7,"playerText":7,"playerAudio":1,"rawLang":"-,-,-,-,-,-,-","map":"2:01 3:02 4:03 5:03/04 6:05 7:06 8:07","labels":"English · S01 | English · S02 | French · S03 | English · Forced · S04 | English · S05 | Unknown language · S06 | Dutch · S07","state":"playing","err":"","memMB":285}}
+{"from":"192.168.1.19","t":1795625137261,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":29,"memMB":265,"top":"home"}}
+{"from":"192.168.1.19","t":1795625137262,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":false,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625137414,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":7,"toMs":600000,"ms":853}}
+{"from":"192.168.1.19","t":1795625138957,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":7,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1920\",\"Height\":\"1080\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#2 {\"language\":\"de\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#3 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#4 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#5 {\"language\":\"es\",\"channels\":\"2\",\"s…"}}
+{"from":"192.168.1.19","t":1795625141413,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625141498,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":16,"durationMs":1000}}
+{"from":"192.168.1.19","t":1795625141949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":30,"memMB":261,"top":"home"}}
+{"from":"192.168.1.19","t":1795625142496,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625145331,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":24,"durationMs":1167}}
+{"from":"192.168.1.19","t":1795625146496,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625146949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":31,"memMB":261,"top":"home"}}
+{"from":"192.168.1.19","t":1795625149250,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":33,"durationMs":1833}}
+{"from":"192.168.1.19","t":1795625151082,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625151084,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":53,"durationMs":3333}}
+{"from":"192.168.1.19","t":1795625151948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":32,"memMB":260,"top":"home"}}
+{"from":"192.168.1.19","t":1795625152581,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625154082,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":14,"durationMs":1125}}
+{"from":"192.168.1.19","t":1795625155205,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625155289,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":52,"durationMs":3500}}
+{"from":"192.168.1.19","t":1795625156950,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":33,"memMB":260,"top":"home"}}
+{"from":"192.168.1.19","t":1795625158789,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625158789,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625158873,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":11,"durationMs":1333}}
+{"from":"192.168.1.19","t":1795625160206,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625161949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":34,"memMB":262,"top":"home"}}
+{"from":"192.168.1.19","t":1795625166949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":35,"memMB":259,"top":"home"}}
+{"from":"192.168.1.19","t":1795625169798,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":28,"durationMs":1834}}
+{"from":"192.168.1.19","t":1795625171625,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625171626,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":30,"durationMs":1875}}
+{"from":"192.168.1.19","t":1795625171662,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625171748,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":37,"durationMs":2458}}
+{"from":"192.168.1.19","t":1795625171949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":36,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625174206,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625174289,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":35,"durationMs":2292}}
+{"from":"192.168.1.19","t":1795625176581,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625176582,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625176665,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":48,"durationMs":2792}}
+{"from":"192.168.1.19","t":1795625176949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":37,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625179456,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625179539,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":48,"durationMs":2584}}
+{"from":"192.168.1.19","t":1795625181949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":38,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625182124,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625182206,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":28,"durationMs":1542}}
+{"from":"192.168.1.19","t":1795625183747,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625183748,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625183834,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":52,"durationMs":3167}}
+{"from":"192.168.1.19","t":1795625186949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":39,"memMB":256,"top":"home"}}
+{"from":"192.168.1.19","t":1795625187000,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625187582,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":41,"durationMs":2542}}
+{"from":"192.168.1.19","t":1795625190124,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625190832,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":26,"durationMs":1917}}
+{"from":"192.168.1.19","t":1795625191949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":40,"memMB":258,"top":"home"}}
+{"from":"192.168.1.19","t":1795625192748,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625192748,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625193832,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":36,"durationMs":2417}}
+{"from":"192.168.1.19","t":1795625196249,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625196331,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":70,"durationMs":4500}}
+{"from":"192.168.1.19","t":1795625196949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":41,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625200834,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625200915,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":78,"durationMs":5459}}
+{"from":"192.168.1.19","t":1795625201949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":42,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625206377,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625206377,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625206456,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":15,"durationMs":1792}}
+{"from":"192.168.1.19","t":1795625206949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":43,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625208247,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625208832,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":13,"durationMs":1083}}
+{"from":"192.168.1.19","t":1795625209912,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625211374,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":50,"durationMs":4166}}
+{"from":"192.168.1.19","t":1795625211949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":44,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625215541,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625215541,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625215623,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":56,"durationMs":3458}}
+{"from":"192.168.1.19","t":1795625216949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":45,"memMB":257,"top":"home"}}
+{"from":"192.168.1.19","t":1795625219080,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625219164,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":55,"durationMs":2917}}
+{"from":"192.168.1.19","t":1795625221948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":46,"memMB":256,"top":"home"}}
+{"from":"192.168.1.19","t":1795625222082,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625226949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":47,"memMB":256,"top":"home"}}
+{"from":"192.168.1.19","t":1795625231949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":48,"memMB":256,"top":"home"}}
+{"from":"192.168.1.19","t":1795625236949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":49,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795625240888,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":15,"durationMs":2583}}
+{"from":"192.168.1.19","t":1795625240889,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":12,"durationMs":2583}}
+{"from":"192.168.1.19","t":1795625241949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":50,"memMB":252,"top":"home"}}
+{"from":"192.168.1.19","t":1795625243457,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625243457,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625246949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":51,"memMB":252,"top":"home"}}
+{"from":"192.168.1.19","t":1795625251948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":52,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795625256949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":53,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795625258972,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":7,"durationMs":1292}}
+{"from":"192.168.1.19","t":1795625258973,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":13,"durationMs":1292}}
+{"from":"192.168.1.19","t":1795625260247,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625261949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":54,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795625263666,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":9,"durationMs":1000}}
+{"from":"192.168.1.19","t":1795625264663,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625266949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":55,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795625268253,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":32,"durationMs":2708}}
+{"from":"192.168.1.19","t":1795625270956,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625271546,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":20,"durationMs":1750}}
+{"from":"192.168.1.19","t":1795625271949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":56,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795625273288,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625273873,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":24,"durationMs":1500}}
+{"from":"192.168.1.19","t":1795625275373,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625275374,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":70,"durationMs":3833}}
+{"from":"192.168.1.19","t":1795625275454,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625276948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":57,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795625277957,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":11,"durationMs":1000}}
+{"from":"192.168.1.19","t":1795625278955,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625281706,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":37,"durationMs":2292}}
+{"from":"192.168.1.19","t":1795625281948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":58,"memMB":243,"top":"home"}}
+{"from":"192.168.1.19","t":1795625283998,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625283998,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625284789,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":4,"durationMs":1000}}
+{"from":"192.168.1.19","t":1795625285787,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625286331,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":6,"durationMs":1125}}
+{"from":"192.168.1.19","t":1795625286948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":59,"memMB":234,"top":"home"}}
+{"from":"192.168.1.19","t":1795625287455,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625288497,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":5,"durationMs":1041}}
+{"from":"192.168.1.19","t":1795625289538,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625289538,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625289622,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":6,"durationMs":1291}}
+{"from":"192.168.1.19","t":1795625290913,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625291948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":60,"memMB":243,"top":"home"}}
+{"from":"192.168.1.19","t":1795625292081,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":12,"durationMs":1375}}
+{"from":"192.168.1.19","t":1795625293455,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625295790,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":18,"durationMs":3625}}
+{"from":"192.168.1.19","t":1795625296948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":61,"memMB":238,"top":"home"}}
+{"from":"192.168.1.19","t":1795625299413,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625299413,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625300373,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":71,"durationMs":4458}}
+{"from":"192.168.1.19","t":1795625301948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":62,"memMB":251,"top":"home"}}
+{"from":"192.168.1.19","t":1795625304833,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625304913,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":10,"durationMs":1209}}
+{"from":"192.168.1.19","t":1795625306122,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625306948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":63,"memMB":251,"top":"home"}}
+{"from":"192.168.1.19","t":1795625307291,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":16,"durationMs":2500}}
+{"from":"192.168.1.19","t":1795625309788,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625309789,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625311948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":64,"memMB":237,"top":"home"}}
+{"from":"192.168.1.19","t":1795625313081,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":28,"durationMs":1625}}
+{"from":"192.168.1.19","t":1795625314705,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625314788,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":65,"durationMs":4334}}
+{"from":"192.168.1.19","t":1795625316948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":65,"memMB":249,"top":"home"}}
+{"from":"192.168.1.19","t":1795625319124,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625319206,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":53,"durationMs":2833}}
+{"from":"192.168.1.19","t":1795625321949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":66,"memMB":218,"top":"home"}}
+{"from":"192.168.1.19","t":1795625322040,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625322040,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625322122,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":25,"durationMs":2750}}
+{"from":"192.168.1.19","t":1795625324873,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625324955,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":8,"durationMs":875}}
+{"from":"192.168.1.19","t":1795625325829,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625326413,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":20,"durationMs":3709}}
+{"from":"192.168.1.19","t":1795625326949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":67,"memMB":223,"top":"home"}}
+{"from":"192.168.1.19","t":1795625330124,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625330125,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625330206,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":35,"durationMs":2625}}
+{"from":"192.168.1.19","t":1795625331949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":68,"memMB":227,"top":"home"}}
+{"from":"192.168.1.19","t":1795625332830,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625332913,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":23,"durationMs":1334}}
+{"from":"192.168.1.19","t":1795625334247,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625334334,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":32,"durationMs":3792}}
+{"from":"192.168.1.19","t":1795625336948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":69,"memMB":241,"top":"home"}}
+{"from":"192.168.1.19","t":1795625338125,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625338126,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625339331,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":22,"durationMs":1458}}
+{"from":"192.168.1.19","t":1795625340788,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625340872,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":27,"durationMs":2458}}
+{"from":"192.168.1.19","t":1795625341948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":70,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625343331,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625345998,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":24,"durationMs":1083}}
+{"from":"192.168.1.19","t":1795625346950,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":71,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795625347082,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625347082,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":64,"durationMs":4000}}
+{"from":"192.168.1.19","t":1795625349996,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625350081,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":38,"durationMs":2750}}
+{"from":"192.168.1.19","t":1795625351948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":72,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795625352831,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625354082,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":5,"durationMs":1000}}
+{"from":"192.168.1.19","t":1795625355080,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625355623,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":21,"durationMs":1875}}
+{"from":"192.168.1.19","t":1795625356950,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":73,"memMB":237,"top":"home"}}
+{"from":"192.168.1.19","t":1795625357499,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625357580,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":68,"durationMs":3958}}
+{"from":"192.168.1.19","t":1795625361541,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625361622,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":51,"durationMs":2666}}
+{"from":"192.168.1.19","t":1795625361948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":74,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795625364290,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625364290,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625364291,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":29,"durationMs":3500}}
+{"from":"192.168.1.19","t":1795625365204,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625365288,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":40,"durationMs":3167}}
+{"from":"192.168.1.19","t":1795625366948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":75,"memMB":237,"top":"home"}}
+{"from":"192.168.1.19","t":1795625368455,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625369331,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":19,"durationMs":2625}}
+{"from":"192.168.1.19","t":1795625371948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":76,"memMB":238,"top":"home"}}
+{"from":"192.168.1.19","t":1795625371956,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625371959,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625372038,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":34,"durationMs":1917}}
+{"from":"192.168.1.19","t":1795625373956,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625374038,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":22,"durationMs":1625}}
+{"from":"192.168.1.19","t":1795625375664,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625375748,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":7,"on":true,"chars":58,"durationMs":3708}}
+{"from":"192.168.1.19","t":1795625375761,"level":"info","msg":"7f E14 movie","component":"selftest7f","data":{"title":"NF - Do Not Disturb (2023)","fileText":"en/srt ar/srt hr/srt cs/srt da/srt nl/srt fi/srt fr/srt de/srt el/srt he/srt hu/srt id/srt it/srt ja/srt ko/srt ms/srt nb/srt pl/srt pt/srt pt/srt ro/srt ru/srt es/srt es/srt sv/srt th/srt tr/srt tr/srt/F uk/srt vi/srt zh/srt zh/srt","playerText":25,"map":"7:3cues latin:51 | 8:3cues latin:4,arabic:72 | 9:2cues latin:29 acc:š | 10:3cues latin:71 acc:žáěřéňš | 11:3cues latin:86 acc:å | 12:3cues latin:91 | 13:3cues latin:141 acc:äö | 14:3cues latin:53 acc:àè | 15:2cues latin:84 | 16:2cues latin:14,greek:11 | 17:0cues - | 18:3cues latin:15,hebrew:3 acc:ó | 19:3cues latin:60 | 20:3cues latin:91 acc:é | 21:3cues kana:8,cjk:4 | 22:3cues hangul:25 | 23:3cues latin:66 | 24:3cues latin:107 acc:åø | 25:3cues latin:37 acc:łóęź | 26:3cues latin:64 acc:ãÉ | 27:…","labels":"Unknown language 1 | Unknown language 2 | Unknown language 3 | Unknown language 4 | Unknown language 5 | Unknown language 6 | Unknown language 7 | Unknown language 8 | Unknown language 9 | Unknown language 10 | Unknown language 11 | Unknown language 12 | Unknown language 13 | Unknown language 14 | Unknown language 15 | Unknown language 16 | Unknown language 17 | Unknown language 18 | Unknown language 19 | Unknown language 20 | Unknown language 21 | Unknown language 22 | Unknown language 23 | Unk…","state":"playing","err":"","memMB":240}}
+{"from":"192.168.1.19","t":1795625377024,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":77,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795625377024,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":false,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625377183,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":9,"toMs":600000,"ms":564}}
+{"from":"192.168.1.19","t":1795625378356,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":9,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1280\",\"Height\":\"536\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"6\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | TEXT#2 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"}"}}
+{"from":"192.168.1.19","t":1795625381949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":78,"memMB":243,"top":"home"}}
+{"from":"192.168.1.19","t":1795625382634,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625382714,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":43,"durationMs":3875}}
+{"from":"192.168.1.19","t":1795625386588,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625386672,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":15,"durationMs":1625}}
+{"from":"192.168.1.19","t":1795625386949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":79,"memMB":242,"top":"home"}}
+{"from":"192.168.1.19","t":1795625388296,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625388382,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":58,"durationMs":2708}}
+{"from":"192.168.1.19","t":1795625391090,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625391092,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":77,"durationMs":3919}}
+{"from":"192.168.1.19","t":1795625391949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":80,"memMB":241,"top":"home"}}
+{"from":"192.168.1.19","t":1795625391963,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625392088,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":72,"durationMs":2502}}
+{"from":"192.168.1.19","t":1795625394590,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625394715,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":59,"durationMs":3294}}
+{"from":"192.168.1.19","t":1795625396949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":81,"memMB":241,"top":"home"}}
+{"from":"192.168.1.19","t":1795625398008,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625398009,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625398009,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625398010,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":33,"durationMs":1625}}
+{"from":"192.168.1.19","t":1795625398142,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625398229,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":56,"durationMs":2375}}
+{"from":"192.168.1.19","t":1795625400603,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625400633,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":9,"on":true,"chars":24,"durationMs":940}}
+{"from":"192.168.1.19","t":1795625400645,"level":"info","msg":"7f E14 movie","component":"selftest7f","data":{"title":"NF - The Hitman's Bodyguard (2017)","fileText":"ara/srt dan/srt eng/srt","playerText":3,"map":"2:3cues latin:4,arabic:84 | 3:3cues latin:171 acc:æø | 4:3cues latin:85","labels":"Arabic · ara | Danish · dan | English · eng","state":"playing","err":"","memMB":242}}
+{"from":"192.168.1.19","t":1795625402301,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":82,"memMB":261,"top":"home"}}
+{"from":"192.168.1.19","t":1795625402305,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":11,"on":false,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625402461,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":11,"toMs":600000,"ms":718}}
+{"from":"192.168.1.19","t":1795625403537,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":11,"raw":"VIDEO#0 {\"fourCC\":\"h265\",\"Width\":\"1920\",\"Height\":\"1040\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"de\",\"channels\":\"6\",\"sample_rate\":\"48000\",\"bit_rate\":\"640000\",\"fourCC\":\"ac3\"} | AUDIO#2 {\"language\":\"en\",\"channels\":\"6\",\"sample_rate\":\"48000\",\"bit_rate\":\"640000\",\"fourCC\":\"ac3\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#5 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | T…"}}
+{"from":"192.168.1.19","t":1795625406949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":83,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795625411949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":84,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795625416948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":85,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625421949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":86,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625426948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":87,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625431949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":88,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625436949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":89,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625441948,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":90,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625446949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":91,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625451950,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":92,"memMB":247,"top":"home"}}
+{"from":"192.168.1.19","t":1795625456949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":93,"memMB":243,"top":"home"}}
+{"from":"192.168.1.19","t":1795625460989,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":11,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625461195,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":11,"on":true,"chars":0,"durationMs":2036}}
+{"from":"192.168.1.19","t":1795625461949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":94,"memMB":242,"top":"home"}}
+{"from":"192.168.1.19","t":1795625463228,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":11,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625466951,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":95,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795625471949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":96,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795625473968,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":11,"on":true,"chars":0,"durationMs":3231}}
+{"from":"192.168.1.19","t":1795625476949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":97,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795625481949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":98,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795625486950,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":99,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795625491949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":100,"memMB":239,"top":"home"}}
+{"from":"192.168.1.19","t":1795625496949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":101,"memMB":239,"top":"home"}}
+{"from":"192.168.1.19","t":1795625498385,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":11,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625501949,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":102,"memMB":240,"top":"home"}}
+{"from":"192.168.1.19","t":1795625503635,"level":"info","msg":"7f E14 movie","component":"selftest7f","data":{"title":"DE - Leg dich nicht mit Zohan an (2008)","fileText":"ger/ass eng/ass ger/vobsub eng/vobsub eng/vobsub","playerText":5,"map":"3:0cues - | 4:0cues - | 5:0cues - | 6:0cues - | 7:0cues -","labels":"German · German Forced Subs [SRT] | English · English Forced Subs [SRT] | German · Image · German Subs [VobSub] | English · Image · English Forced Subs [VobSub] | English · Image · English Subs [VobSub]","state":"playing","err":"","memMB":240}}
+{"from":"192.168.1.19","t":1795625504035,"level":"info","msg":"7f done","component":"selftest7f","data":{"memMB":273}}
+{"from":"192.168.1.19","t":1795625922188,"level":"info","msg":"dev log sink enabled","data":{"build":"dev","version":"0.2.0"}}
+{"from":"192.168.1.19","t":1795625922314,"level":"info","msg":"platform","data":{"info":{"name":"tizen","platformVersion":"3.0","width":1920,"height":1080,"userAgent":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 3.0) AppleWebKit/538.1 (KHTML, like Gecko) Version/3.0 TV Safari/538.1"},"capabilities":{"appLifecycle":true,"keyRegistration":true,"avplay":true,"fileStore":true,"secureKeyStore":true,"webCrypto":true}}}
+{"from":"192.168.1.19","t":1795625922318,"level":"info","msg":"parental state","component":"boot","data":{"state":"none"}}
+{"from":"192.168.1.19","t":1795625923205,"level":"info","msg":"vod: index loaded","component":"vod","data":{"playlist":"pmwuiieey01","section":"movie","items":108565,"categories":143,"pages":109,"ms":195}}
+{"from":"192.168.1.19","t":1795625923222,"level":"info","msg":"vod: index loaded","component":"vod","data":{"playlist":"pmwuiieey01","section":"series","items":25490,"categories":97,"pages":26,"ms":211}}
+{"from":"192.168.1.19","t":1795625923831,"level":"info","msg":"7f start","component":"selftest7f","data":{"memMB":252}}
+{"from":"192.168.1.19","t":1795625924431,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":false,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625925111,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":1,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"320\",\"Height\":\"180\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | TEXT#2 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#5 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#6 {\"track_num\":\"0\",\"track_l…"}}
+{"from":"192.168.1.19","t":1795625925276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625928835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":1,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795625929380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625930275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625933833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":2,"memMB":242,"top":"home"}}
+{"from":"192.168.1.19","t":1795625934379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625934380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625935275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625938834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":3,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795625939378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625940276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625943834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":4,"memMB":242,"top":"home"}}
+{"from":"192.168.1.19","t":1795625944380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625944381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625945275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625948834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":5,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625949378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625949380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625950275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625953834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":6,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795625954380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625955275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625958834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":7,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795625959381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625959381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625960276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625963835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":8,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795625964378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625965275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625968834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":9,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795625969379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625970275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625973834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":10,"memMB":246,"top":"home"}}
+{"from":"192.168.1.19","t":1795625974379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625974380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625975276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625978834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":11,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625979379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625980275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625983834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":12,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625984380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625984381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625985275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625988834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":13,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625989379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625989380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625990275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625993834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":14,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795625994380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625995276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795625998834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":15,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795625999378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795625999380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626000275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626003834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":16,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626004379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626005275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626008834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":17,"memMB":237,"top":"home"}}
+{"from":"192.168.1.19","t":1795626009378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626010275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626013834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":18,"memMB":237,"top":"home"}}
+{"from":"192.168.1.19","t":1795626014379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626014380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626015275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626018834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":19,"memMB":237,"top":"home"}}
+{"from":"192.168.1.19","t":1795626019381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626020274,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626023834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":20,"memMB":237,"top":"home"}}
+{"from":"192.168.1.19","t":1795626024381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626024381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626025275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626028834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":21,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795626029380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626029381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626030275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626033834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":22,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795626034378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626035275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626038834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":23,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795626039379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626039381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626040275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626043834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":24,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795626044379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626045275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626048834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":25,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795626049379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626049380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626050276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626053834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":26,"memMB":236,"top":"home"}}
+{"from":"192.168.1.19","t":1795626054380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626054380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626055275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626058834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":27,"memMB":234,"top":"home"}}
+{"from":"192.168.1.19","t":1795626059379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626060275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626063834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":28,"memMB":233,"top":"home"}}
+{"from":"192.168.1.19","t":1795626064379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626064379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626065276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626068835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":29,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626069378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626069382,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626070276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626073834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":30,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626074378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626075275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626078834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":31,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626079382,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626079383,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626080275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626083834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":32,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626084376,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626085276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626088834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":33,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626089380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626089382,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626090275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626093834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":34,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626094378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626094380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626095275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626098834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":35,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626099379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626100275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626103834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":36,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626104380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626104381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626105275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626108834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":37,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626109380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626110275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626113834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":38,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626114379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626115275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626118833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":39,"memMB":234,"top":"home"}}
+{"from":"192.168.1.19","t":1795626119378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626119379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626120275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626123833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":40,"memMB":232,"top":"home"}}
+{"from":"192.168.1.19","t":1795626124378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626125275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626128833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":41,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626129381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626129381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626130274,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626133833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":42,"memMB":234,"top":"home"}}
+{"from":"192.168.1.19","t":1795626134379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626134380,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626135275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626138833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":43,"memMB":234,"top":"home"}}
+{"from":"192.168.1.19","t":1795626139377,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626140275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626143833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":44,"memMB":234,"top":"home"}}
+{"from":"192.168.1.19","t":1795626144379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626144379,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626145275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626148833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":45,"memMB":235,"top":"home"}}
+{"from":"192.168.1.19","t":1795626149377,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626150275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626153833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":46,"memMB":243,"top":"home"}}
+{"from":"192.168.1.19","t":1795626154378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626155274,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626158833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":47,"memMB":244,"top":"home"}}
+{"from":"192.168.1.19","t":1795626159378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626159378,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626160275,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":1,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626163835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":48,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795626165525,"level":"info","msg":"7f E14 lab","component":"selftest7f","data":{"file":"subs40.mkv","fileText":40,"playerText":30,"playerAudio":1,"rawLang":"-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-","map":"2:- 3:02 4:- 5:04 6:05 7:- 8:07 9:- 10:09 11:10 12:- 13:12 14:- 15:14 16:15 17:- 18:17 19:- 20:19 21:20 22:- 23:22 24:23 25:24 26:25 27:- 28:27 29:28 30:29 31:-","labels":"English · SRT · S01 | Arabic · SRT · S02 | Croatian · SRT · S03 | Czech · SRT · S04 | Danish · SRT · S05 | Dutch · SRT · S06 | Finnish · SRT · S07 | French · SRT · S08 | German · SRT · S09 | Greek · SRT · S10 | Hebrew · SRT · S11 | Hungarian · SRT · S12 | Indonesian · SRT · S13 | Italian · SRT · S14 | Japanese · SRT · S15 | Korean · SRT · S16 | Malay · SRT · S17 | Norwegian Bokmål · SRT · S18 | Polish · SRT · S19 | Portuguese · SRT · S20 | Portuguese · SRT · S21 | Romanian · SRT · S22 | Russian …","state":"playing","err":"","memMB":237}}
+{"from":"192.168.1.19","t":1795626166214,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":false,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626166775,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":3,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"320\",\"Height\":\"180\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#2 {\"language\":\"ar\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#3 {\"language\":\"hr\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#4 {\"language\":\"ce\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#5 {\"language\":\"da\",\"channels\":\"2\",\"sam…"}}
+{"from":"192.168.1.19","t":1795626167066,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626168834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":49,"memMB":243,"top":"home"}}
+{"from":"192.168.1.19","t":1795626171169,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626172066,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626173834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":50,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795626176172,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626176172,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626177067,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626178834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":51,"memMB":245,"top":"home"}}
+{"from":"192.168.1.19","t":1795626181171,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626182068,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626183834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":52,"memMB":251,"top":"home"}}
+{"from":"192.168.1.19","t":1795626186175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626186176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626187068,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626188834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":53,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795626191174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626191174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626192069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626193834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":54,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795626196170,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626197068,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626198834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":55,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795626201175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626201186,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626202069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626203834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":56,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795626206170,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626207069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626208834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":57,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795626211174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626212069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626213834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":58,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795626216174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626216175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626217069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626218834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":59,"memMB":253,"top":"home"}}
+{"from":"192.168.1.19","t":1795626221174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626222069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626223834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":60,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795626226174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626226175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626227069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626228834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":61,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795626231175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626231177,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626232069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626233834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":62,"memMB":254,"top":"home"}}
+{"from":"192.168.1.19","t":1795626236174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626237069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626238833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":63,"memMB":255,"top":"home"}}
+{"from":"192.168.1.19","t":1795626241175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626241176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626242069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626243834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":64,"memMB":261,"top":"home"}}
+{"from":"192.168.1.19","t":1795626246174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626247069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626248834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":65,"memMB":265,"top":"home"}}
+{"from":"192.168.1.19","t":1795626251174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626252069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626253834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":66,"memMB":265,"top":"home"}}
+{"from":"192.168.1.19","t":1795626256175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626256176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626257070,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626258834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":67,"memMB":265,"top":"home"}}
+{"from":"192.168.1.19","t":1795626261176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626262070,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626263834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":68,"memMB":265,"top":"home"}}
+{"from":"192.168.1.19","t":1795626266174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626266177,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626267070,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626268834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":69,"memMB":265,"top":"home"}}
+{"from":"192.168.1.19","t":1795626271175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626271180,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626272070,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626273834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":70,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626276174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626277070,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626278834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":71,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626281176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626281176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626282069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626283834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":72,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626286175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626287069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626288834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":73,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626291176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626291178,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626292070,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626293834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":74,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626296175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626296176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626297070,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626298834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":75,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626301174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626302069,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626303834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":76,"memMB":264,"top":"home"}}
+{"from":"192.168.1.19","t":1795626306175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626306175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626307071,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626308834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":77,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626311174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626312072,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626313834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":78,"memMB":268,"top":"home"}}
+{"from":"192.168.1.19","t":1795626316174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626317072,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626318834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":79,"memMB":269,"top":"home"}}
+{"from":"192.168.1.19","t":1795626321176,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626321177,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626322075,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626323834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":80,"memMB":270,"top":"home"}}
+{"from":"192.168.1.19","t":1795626326178,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626327076,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626328834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":81,"memMB":270,"top":"home"}}
+{"from":"192.168.1.19","t":1795626331180,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626331180,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626332076,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":3,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626333834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":82,"memMB":271,"top":"home"}}
+{"from":"192.168.1.19","t":1795626335359,"level":"info","msg":"7f E14 lab","component":"selftest7f","data":{"file":"subsorder.mkv","fileText":30,"playerText":21,"playerAudio":10,"rawLang":"-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-","map":"11:- 12:02 13:- 14:04 15:05 16:- 17:07 18:- 19:09 20:10 21:- 22:12 23:- 24:14 25:15 26:- 27:17 28:18 29:19 30:20 31:-","labels":"English · SRT · S01 | Arabic · SRT · S02 | Croatian · SRT · S03 | Czech · SRT · S04 | Danish · SRT · S05 | Dutch · SRT · S06 | Finnish · SRT · S07 | French · SRT · S08 | German · SRT · S09 | Greek · SRT · S10 | Hebrew · SRT · S11 | Hungarian · SRT · S12 | Indonesian · SRT · S13 | Italian · SRT · S14 | Japanese · SRT · S15 | Korean · SRT · S16 | Malay · SRT · S17 | Norwegian Bokmål · SRT · S18 | Polish · SRT · S19 | Portuguese · SRT · S20 | Portuguese · SRT · S21","state":"playing","err":"","memMB":271}}
+{"from":"192.168.1.19","t":1795626336078,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":false,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626336634,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":5,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"320\",\"Height\":\"180\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"44100\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | TEXT#2 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#5 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#6 {\"track_num\":\"0\",\"track_l…"}}
+{"from":"192.168.1.19","t":1795626336929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626337030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626337929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626338030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626338834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":83,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626338929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626339030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626339929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626340030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626340929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626341030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626341928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626342030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626342929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626343030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626343834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":84,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626343928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626344030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626344929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626345030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626345929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626346030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626346929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626347030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626347929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626348030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626348834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":85,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626348929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626349030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626349928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626350030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626351031,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626352031,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626353032,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626353834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":86,"memMB":267,"top":"home"}}
+{"from":"192.168.1.19","t":1795626354030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626355031,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626356032,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":3,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626356033,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626356929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626357030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626357929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626358030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626358834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":87,"memMB":267,"top":"home"}}
+{"from":"192.168.1.19","t":1795626358929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626359030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626359929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626360030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626360929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626361031,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626361928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626362030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626362929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626363030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626363834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":88,"memMB":264,"top":"home"}}
+{"from":"192.168.1.19","t":1795626363929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626364030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626364928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626365030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626365929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626366030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626366929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626367030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626367928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626368030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626368834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":89,"memMB":266,"top":"home"}}
+{"from":"192.168.1.19","t":1795626368929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626369031,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626369929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626370030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626370928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626371030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626371929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626372030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626372931,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626373030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626373834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":90,"memMB":268,"top":"home"}}
+{"from":"192.168.1.19","t":1795626373929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626374030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626374929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626375031,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626375928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626376030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626376928,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626377030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626377929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626378030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626378834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":91,"memMB":268,"top":"home"}}
+{"from":"192.168.1.19","t":1795626378929,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626379030,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":5,"on":true,"chars":4,"durationMs":900}}
+{"from":"192.168.1.19","t":1795626379050,"level":"info","msg":"7f E14 lab","component":"selftest7f","data":{"file":"subsformats.mkv","fileText":7,"playerText":7,"playerAudio":1,"rawLang":"-,-,-,-,-,-,-","map":"2:01 3:02 4:03 5:04 6:05 7:06 8:07","labels":"English · SRT · S01 | English · ASS · S02 | French · WebVTT · S03 | English · Forced · SRT · S04 | English · SDH · SRT · S05 | Unknown language · SRT · S06 | Dutch · SRT · S07","state":"playing","err":"","memMB":268}}
+{"from":"192.168.1.19","t":1795626381175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":false,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626381336,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":8,"toMs":600000,"ms":808}}
+{"from":"192.168.1.19","t":1795626381844,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":2475}}
+{"from":"192.168.1.19","t":1795626382884,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":6,"text":33,"requests":3,"ms":1040}}
+{"from":"192.168.1.19","t":1795626382899,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":8,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1920\",\"Height\":\"1080\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#2 {\"language\":\"de\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#3 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#4 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#5 {\"language\":\"es\",\"channels\":\"2\",\"s…"}}
+{"from":"192.168.1.19","t":1795626383834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":92,"memMB":239,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626385401,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626385401,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":43,"durationMs":3959}}
+{"from":"192.168.1.19","t":1795626386477,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626387438,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":34,"durationMs":2625}}
+{"from":"192.168.1.19","t":1795626388833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":93,"memMB":232,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626390061,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626393231,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":44,"durationMs":3333}}
+{"from":"192.168.1.19","t":1795626393833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":94,"memMB":239,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626396563,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626398062,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":11,"durationMs":1125}}
+{"from":"192.168.1.19","t":1795626398063,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":14,"durationMs":1125}}
+{"from":"192.168.1.19","t":1795626398833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":95,"memMB":234,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626399185,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626399269,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":52,"durationMs":3500}}
+{"from":"192.168.1.19","t":1795626402768,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626402853,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":20,"durationMs":1333}}
+{"from":"192.168.1.19","t":1795626403833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":96,"memMB":245,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626404185,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626408834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":97,"memMB":245,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626413777,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":24,"durationMs":1834}}
+{"from":"192.168.1.19","t":1795626413833,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":98,"memMB":245,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626415603,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626418271,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":33,"durationMs":2292}}
+{"from":"192.168.1.19","t":1795626418834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":99,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626420561,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626420645,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":8,"on":true,"chars":54,"durationMs":2792}}
+{"from":"192.168.1.19","t":1795626420677,"level":"info","msg":"7f E14 panel","component":"selftest7f","data":{"title":"NF - Do Not Disturb (2023)","playing":true,"subRows":25,"panel":"Engels · SRT | Arabisch · SRT | Kroatisch · SRT | Tsjechisch · SRT | Deens · SRT | Nederlands · SRT | Fins · SRT | Frans · SRT | Duits · SRT | Grieks · SRT | Hebreeuws · SRT | Hongaars · SRT | Indonesisch · SRT | Italiaans · SRT | Japans · SRT | Koreaans · SRT | Maleis · SRT | Noors (Bokmål) · SRT · Norwegian Bokmal | Pools · SRT | Portugees · SRT | Portugees · SRT · Brazilian Portuguese | Roemeens · SRT | Russisch · SRT | Spaans · SRT | Spaans · SRT · European Spanish","chosenRow":2,"chosenLabel":"Arabisch · SRT","selectedText":8,"cues":3,"script":"latin:2,arabic:75","drawnMaxChars":48,"drawnSamples":174,"state":"playing","errors":0,"memMB":244}}
+{"from":"192.168.1.19","t":1795626425758,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":100,"memMB":246,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626425759,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626425913,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":14,"toMs":900000,"ms":2734}}
+{"from":"192.168.1.19","t":1795626426421,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":4218}}
+{"from":"192.168.1.19","t":1795626427578,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":6,"text":33,"requests":3,"ms":1157}}
+{"from":"192.168.1.19","t":1795626427595,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":14,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1920\",\"Height\":\"1080\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#2 {\"language\":\"de\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#3 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#4 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#5 {\"language\":\"es\",\"channels\":\"2\",\"s…"}}
+{"from":"192.168.1.19","t":1795626428835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":101,"memMB":239,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626433834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":102,"memMB":240,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626436684,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":21,"durationMs":2292}}
+{"from":"192.168.1.19","t":1795626436687,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":45,"durationMs":4458}}
+{"from":"192.168.1.19","t":1795626438835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":103,"memMB":237,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626441134,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626441217,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":39,"durationMs":2625}}
+{"from":"192.168.1.19","t":1795626443840,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":104,"memMB":246,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626443842,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626443923,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":16,"durationMs":1792}}
+{"from":"192.168.1.19","t":1795626445718,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626445718,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626448834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":105,"memMB":246,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626451300,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":42,"durationMs":2500}}
+{"from":"192.168.1.19","t":1795626453797,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626453835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":106,"memMB":246,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626455175,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":32,"durationMs":2875}}
+{"from":"192.168.1.19","t":1795626458048,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626458592,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":14,"on":true,"chars":8,"durationMs":1125}}
+{"from":"192.168.1.19","t":1795626458637,"level":"info","msg":"7f E14 panel","component":"selftest7f","data":{"title":"NF - Do Not Disturb (2023)","playing":true,"subRows":25,"panel":"Engels · SRT | Arabisch · SRT | Kroatisch · SRT | Tsjechisch · SRT | Deens · SRT | Nederlands · SRT | Fins · SRT | Frans · SRT | Duits · SRT | Grieks · SRT | Hebreeuws · SRT | Hongaars · SRT | Indonesisch · SRT | Italiaans · SRT | Japans · SRT | Koreaans · SRT | Maleis · SRT | Noors (Bokmål) · SRT · Norwegian Bokmal | Pools · SRT | Portugees · SRT | Portugees · SRT · Brazilian Portuguese | Roemeens · SRT | Russisch · SRT | Spaans · SRT | Spaans · SRT · European Spanish","chosenRow":10,"chosenLabel":"Grieks · SRT","selectedText":16,"cues":3,"script":"greek:62","drawnMaxChars":41,"drawnSamples":214,"state":"playing","errors":0,"memMB":245}}
+{"from":"192.168.1.19","t":1795626458835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":107,"memMB":234,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626461900,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626462062,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":20,"toMs":1200000,"ms":1066}}
+{"from":"192.168.1.19","t":1795626462570,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":2489}}
+{"from":"192.168.1.19","t":1795626463370,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":6,"text":33,"requests":3,"ms":800}}
+{"from":"192.168.1.19","t":1795626463384,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":20,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1920\",\"Height\":\"1080\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#2 {\"language\":\"de\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#3 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#4 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#5 {\"language\":\"es\",\"channels\":\"2\",\"s…"}}
+{"from":"192.168.1.19","t":1795626463545,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626463546,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":24,"durationMs":2667}}
+{"from":"192.168.1.19","t":1795626463834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":108,"memMB":235,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626465212,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626468834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":109,"memMB":240,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626471466,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":14,"durationMs":916}}
+{"from":"192.168.1.19","t":1795626472377,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626472462,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":67,"durationMs":3791}}
+{"from":"192.168.1.19","t":1795626473834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":110,"memMB":240,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626476253,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626476337,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":9,"durationMs":1291}}
+{"from":"192.168.1.19","t":1795626477628,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626477713,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":52,"durationMs":2875}}
+{"from":"192.168.1.19","t":1795626478834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":111,"memMB":235,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626480587,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626481714,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":24,"durationMs":1833}}
+{"from":"192.168.1.19","t":1795626483545,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626483547,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626483835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":112,"memMB":242,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626488835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":113,"memMB":238,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626489381,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":13,"durationMs":1959}}
+{"from":"192.168.1.19","t":1795626491337,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626493836,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":114,"memMB":241,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626493838,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":36,"durationMs":5541}}
+{"from":"192.168.1.19","t":1795626498834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":115,"memMB":242,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626499382,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626499462,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":20,"on":true,"chars":14,"durationMs":3833}}
+{"from":"192.168.1.19","t":1795626499497,"level":"info","msg":"7f E14 panel","component":"selftest7f","data":{"title":"NF - Do Not Disturb (2023)","playing":true,"subRows":25,"panel":"Engels · SRT | Arabisch · SRT | Kroatisch · SRT | Tsjechisch · SRT | Deens · SRT | Nederlands · SRT | Fins · SRT | Frans · SRT | Duits · SRT | Grieks · SRT | Hebreeuws · SRT | Hongaars · SRT | Indonesisch · SRT | Italiaans · SRT | Japans · SRT | Koreaans · SRT | Maleis · SRT | Noors (Bokmål) · SRT · Norwegian Bokmal | Pools · SRT | Portugees · SRT | Portugees · SRT · Brazilian Portuguese | Roemeens · SRT | Russisch · SRT | Spaans · SRT | Spaans · SRT · European Spanish","chosenRow":16,"chosenLabel":"Koreaans · SRT","selectedText":22,"cues":3,"script":"latin:2,hangul:36","drawnMaxChars":30,"drawnSamples":297,"state":"playing","errors":0,"memMB":241}}
+{"from":"192.168.1.19","t":1795626502683,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626503058,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":26,"toMs":1500000,"ms":954}}
+{"from":"192.168.1.19","t":1795626503565,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":2583}}
+{"from":"192.168.1.19","t":1795626503835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":116,"memMB":233,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626504538,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":6,"text":33,"requests":3,"ms":972}}
+{"from":"192.168.1.19","t":1795626504552,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":26,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1920\",\"Height\":\"1080\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#2 {\"language\":\"de\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#3 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#4 {\"language\":\"po\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | AUDIO#5 {\"language\":\"es\",\"channels\":\"2\",\"s…"}}
+{"from":"192.168.1.19","t":1795626508834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":117,"memMB":240,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626509117,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":51,"durationMs":2459}}
+{"from":"192.168.1.19","t":1795626509121,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626509126,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":17,"durationMs":2167}}
+{"from":"192.168.1.19","t":1795626511278,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626513834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":118,"memMB":240,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626518835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":119,"memMB":239,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626523834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":120,"memMB":245,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626525167,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":25,"durationMs":3500}}
+{"from":"192.168.1.19","t":1795626528653,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626528654,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626528834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":121,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626530989,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":24,"durationMs":2292}}
+{"from":"192.168.1.19","t":1795626533276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626533821,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":25,"durationMs":2250}}
+{"from":"192.168.1.19","t":1795626533839,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":122,"memMB":243,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626536071,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626537154,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":10,"durationMs":1375}}
+{"from":"192.168.1.19","t":1795626538528,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":26,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626538835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":123,"memMB":243,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626543834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":124,"memMB":242,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626548837,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":125,"memMB":242,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626553835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":126,"memMB":241,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626556504,"level":"info","msg":"7f E14 panel","component":"selftest7f","data":{"title":"NF - Do Not Disturb (2023)","playing":true,"subRows":25,"panel":"Engels · SRT | Arabisch · SRT | Kroatisch · SRT | Tsjechisch · SRT | Deens · SRT | Nederlands · SRT | Fins · SRT | Frans · SRT | Duits · SRT | Grieks · SRT | Hebreeuws · SRT | Hongaars · SRT | Indonesisch · SRT | Italiaans · SRT | Japans · SRT | Koreaans · SRT | Maleis · SRT | Noors (Bokmål) · SRT · Norwegian Bokmal | Pools · SRT | Portugees · SRT | Portugees · SRT · Brazilian Portuguese | Roemeens · SRT | Russisch · SRT | Spaans · SRT | Spaans · SRT · European Spanish","chosenRow":25,"chosenLabel":"Spaans · SRT · European Spanish","selectedText":31,"cues":2,"script":"latin:22 acc:é","drawnMaxChars":24,"drawnSamples":215,"state":"playing","errors":0,"memMB":239}}
+{"from":"192.168.1.19","t":1795626558849,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":127,"memMB":245,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626559386,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626559545,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":32,"toMs":600000,"ms":603}}
+{"from":"192.168.1.19","t":1795626560051,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":1973}}
+{"from":"192.168.1.19","t":1795626560702,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":1,"text":3,"requests":1,"ms":651}}
+{"from":"192.168.1.19","t":1795626560713,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":32,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1280\",\"Height\":\"536\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"en\",\"channels\":\"6\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | TEXT#2 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"}"}}
+{"from":"192.168.1.19","t":1795626563834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":128,"memMB":240,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626568834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":129,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626573834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":130,"memMB":233,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626577485,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626577487,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":49,"durationMs":1959}}
+{"from":"192.168.1.19","t":1795626577493,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626577568,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":23,"durationMs":1250}}
+{"from":"192.168.1.19","t":1795626578816,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626578835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":131,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626578901,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":67,"durationMs":4084}}
+{"from":"192.168.1.19","t":1795626582984,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626583068,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":38,"durationMs":2125}}
+{"from":"192.168.1.19","t":1795626583834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":132,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626585192,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626585276,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":52,"durationMs":2792}}
+{"from":"192.168.1.19","t":1795626588068,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626588151,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":32,"on":true,"chars":56,"durationMs":3542}}
+{"from":"192.168.1.19","t":1795626588165,"level":"info","msg":"7f E14 panel","component":"selftest7f","data":{"title":"NF - The Hitman's Bodyguard (2017)","playing":true,"subRows":3,"panel":"Arabisch · SRT | Deens · SRT | Engels · SRT","chosenRow":1,"chosenLabel":"Arabisch · SRT","selectedText":2,"cues":3,"script":"latin:4,arabic:113","drawnMaxChars":61,"drawnSamples":288,"state":"playing","errors":0,"memMB":245}}
+{"from":"192.168.1.19","t":1795626588973,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":133,"memMB":263,"top":"home"}}
+{"from":"192.168.1.19","t":1795626590944,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626591110,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":38,"toMs":600000,"ms":674}}
+{"from":"192.168.1.19","t":1795626591619,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":1889}}
+{"from":"192.168.1.19","t":1795626592414,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":2,"text":1,"requests":2,"ms":795}}
+{"from":"192.168.1.19","t":1795626592429,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":38,"raw":"VIDEO#0 {\"fourCC\":\"h264\",\"Width\":\"1920\",\"Height\":\"1080\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"fr\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"384000\",\"fourCC\":\"eac3\"} | AUDIO#2 {\"language\":\"fr\",\"channels\":\"2\",\"sample_rate\":\"48000\",\"bit_rate\":\"0\",\"fourCC\":\"mpeg\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"}"}}
+{"from":"192.168.1.19","t":1795626593835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":134,"memMB":246,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626598835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":135,"memMB":246,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626603835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":136,"memMB":233,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626608835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":137,"memMB":243,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626609084,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626609804,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":29,"durationMs":2400}}
+{"from":"192.168.1.19","t":1795626612202,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626613834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":138,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626618835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":139,"memMB":248,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626621570,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":34,"durationMs":1400}}
+{"from":"192.168.1.19","t":1795626622962,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626623283,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":11,"durationMs":800}}
+{"from":"192.168.1.19","t":1795626623835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":140,"memMB":247,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626624081,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626624404,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":38,"on":true,"chars":20,"durationMs":3000}}
+{"from":"192.168.1.19","t":1795626624429,"level":"info","msg":"7f E14 panel","component":"selftest7f","data":{"title":"FR - Les Malvenus (2024)","playing":true,"subRows":1,"panel":"Frans · SDH · SRT","chosenRow":1,"chosenLabel":"Frans · SDH · SRT","selectedText":3,"cues":3,"script":"latin:33 acc:ù","drawnMaxChars":28,"drawnSamples":87,"state":"playing","errors":0,"memMB":247}}
+{"from":"192.168.1.19","t":1795626627652,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626627810,"level":"info","msg":"avplay: start-at done","component":"avplay","data":{"sid":44,"toMs":600000,"ms":633}}
+{"from":"192.168.1.19","t":1795626628322,"level":"info","msg":"vod: playing","component":"player","data":{"startupMs":2140}}
+{"from":"192.168.1.19","t":1795626628835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":141,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626628926,"level":"info","msg":"vod: track table read","component":"player","data":{"audio":2,"text":5,"requests":1,"ms":603}}
+{"from":"192.168.1.19","t":1795626628940,"level":"info","msg":"avplay: tracks","component":"avplay","data":{"sid":44,"raw":"VIDEO#0 {\"fourCC\":\"h265\",\"Width\":\"1920\",\"Height\":\"1040\",\"Bit_rate\":\"0\"} | AUDIO#1 {\"language\":\"de\",\"channels\":\"6\",\"sample_rate\":\"48000\",\"bit_rate\":\"640000\",\"fourCC\":\"ac3\"} | AUDIO#2 {\"language\":\"en\",\"channels\":\"6\",\"sample_rate\":\"48000\",\"bit_rate\":\"640000\",\"fourCC\":\"ac3\"} | TEXT#3 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#4 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | TEXT#5 {\"track_num\":\"0\",\"track_lang\":\"\",\"subtitle_type\":\"0\",\"fourCC\":\"\"} | T…"}}
+{"from":"192.168.1.19","t":1795626633834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":142,"memMB":246,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626638835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":143,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626643834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":144,"memMB":242,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626644682,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626644893,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":2594}}
+{"from":"192.168.1.19","t":1795626647485,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626648573,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":1672}}
+{"from":"192.168.1.19","t":1795626648834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":145,"memMB":245,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626650241,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626652174,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":1592}}
+{"from":"192.168.1.19","t":1795626653764,"level":"info","msg":"avplay: subtitle cue","component":"avplay","data":{"sid":44,"on":true,"chars":0,"durationMs":0}}
+{"from":"192.168.1.19","t":1795626653834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":146,"memMB":245,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626658834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":147,"memMB":244,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626663834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":148,"memMB":247,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626668834,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":149,"memMB":247,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626673835,"level":"info","msg":"7f beat","component":"selftest7f","data":{"n":150,"memMB":242,"top":"vod-player"}}
+{"from":"192.168.1.19","t":1795626674451,"level":"info","msg":"7f E14 panel","component":"selftest7f","data":{"title":"DE - Leg dich nicht mit Zohan an (2008)","playing":true,"subRows":5,"panel":"Duits · ASS · German Forced Subs [SRT] | Engels · ASS · English Forced Subs [SRT] | Duits · Afbeelding · German Subs [VobSub] | Engels · Afbeelding · English Forced Subs [VobSub] | Engels · Afbeelding · English Subs [VobSub]","chosenRow":3,"chosenLabel":"Duits · Afbeelding · German Subs [VobSub]","selectedText":5,"cues":0,"script":"","drawnMaxChars":0,"drawnSamples":0,"state":"playing","errors":0,"memMB":236}}
+{"from":"192.168.1.19","t":1795626676080,"level":"info","msg":"7f done","component":"selftest7f","data":{"memMB":251}}

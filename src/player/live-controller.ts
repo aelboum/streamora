@@ -33,6 +33,11 @@ export interface LiveState {
   attempt: number;
   /** ms from the start of the load to the first picture (last successful tune). */
   startupMs: number;
+  /**
+   * The engine is prepared and playing was requested for this tune. AVPlay reports the first
+   * position only ~0.5 s after that (TV diagnostics), while the picture may already show.
+   */
+  ready: boolean;
 }
 
 export interface LiveControllerOptions {
@@ -44,6 +49,12 @@ export interface LiveControllerOptions {
   bufferSec: number;
   prepareTimeoutMs: number;
   zapDebounceMs: number;
+  /**
+   * A select() after at least this long without one tunes at once; quicker presses are debounced
+   * (zapDebounceMs after the last one), so AVPlay never gets a burst of loads. 0 / absent = always
+   * debounce (the Live TV preview).
+   */
+  zapQuietMs?: number;
   retryDelaysMs: number[];
   /** Reopen once when the engine has not prepared this long after its first buffering report. 0 = off. */
   prepareStallMs?: number;
@@ -69,7 +80,8 @@ export interface LiveController {
 
 export function createLiveController(o: LiveControllerOptions): LiveController {
   const listeners: Array<(s: LiveState) => void> = [];
-  let s: LiveState = { phase: 'idle', channel: null, bufferPercent: 0, error: null, attempt: 0, startupMs: 0 };
+  let s: LiveState = { phase: 'idle', channel: null, bufferPercent: 0, error: null, attempt: 0, startupMs: 0, ready: false };
+  let lastSelectAt = -Infinity;
   let gen = 0;
   let zapTimer: unknown = null;
   let watchdog: unknown = null;
@@ -85,7 +97,7 @@ export function createLiveController(o: LiveControllerOptions): LiveController {
   let off: (() => void) | null = null;
 
   function emit(): void {
-    const snap: LiveState = { phase: s.phase, channel: s.channel, bufferPercent: s.bufferPercent, error: s.error, attempt: s.attempt, startupMs: s.startupMs };
+    const snap: LiveState = { phase: s.phase, channel: s.channel, bufferPercent: s.bufferPercent, error: s.error, attempt: s.attempt, startupMs: s.startupMs, ready: s.ready };
     const l = listeners.slice();
     for (let i = 0; i < l.length; i++) {
       try { l[i](snap); } catch (e) { /* listener failure never breaks playback */ }
@@ -189,7 +201,7 @@ export function createLiveController(o: LiveControllerOptions): LiveController {
     pictured = keepPictured && attempt > 0 ? pictured : false;
     dataSeen = false;
     loadStarted = o.now();
-    set({ phase: attempt > 0 ? 'retrying' : 'loading', channel: channel, bufferPercent: 0, error: null, attempt: attempt });
+    set({ phase: attempt > 0 ? 'retrying' : 'loading', channel: channel, bufferPercent: 0, error: null, attempt: attempt, ready: false });
     watchdog = o.setTimer(function () {
       watchdog = null;
       fail('timeout', my);
@@ -218,7 +230,7 @@ export function createLiveController(o: LiveControllerOptions): LiveController {
       eng.load(src, { bufferSec: o.bufferSec }).then(function () {
         settled = true;
         if (my === gen && s.phase !== 'playing') {
-          set({ phase: pictured ? 'playing' : 'loading' });
+          set({ phase: pictured ? 'playing' : 'loading', ready: true });
         }
       }, function (code: unknown) {
         settled = true;
@@ -247,7 +259,14 @@ export function createLiveController(o: LiveControllerOptions): LiveController {
         o.engine.stop();
       }
       pictured = false;
-      set({ phase: 'tuning', channel: channel, bufferPercent: 0, error: null, attempt: 0 });
+      const t = o.now();
+      const quiet = !!o.zapQuietMs && t - lastSelectAt >= o.zapQuietMs;
+      lastSelectAt = t;
+      if (quiet) {
+        start(channel, 0, false); // a single zap: no waiting
+        return;
+      }
+      set({ phase: 'tuning', channel: channel, bufferPercent: 0, error: null, attempt: 0, ready: false });
       zapTimer = o.setTimer(function () {
         zapTimer = null;
         start(channel, 0, false);

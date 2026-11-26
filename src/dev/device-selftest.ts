@@ -12,9 +12,10 @@ import type { DevApp } from './device-selftest-stage4b.ts';
 import { runStage5SelfTest } from './device-selftest-stage5.ts';
 import { runStage51SelfTest } from './device-selftest-stage51.ts';
 import { runStage6SelfTest } from './device-selftest-stage6.ts';
+import { runStage7B2SelfTest } from './device-selftest-stage7b2.ts';
 
 /** Which later-stage suite runs after the Stage 3 checks. Stage 4 import measurements are kept in docs/evidence. */
-const SUITE: string = '6';
+const SUITE: string = '7b2';
 
 const FILE = 'selftest.tmpdata.json';
 const ALIAS = 'ss_selftest_probe';
@@ -30,6 +31,10 @@ function step(log: Logger, name: string, p: Promise<string>): Promise<void> {
 
 export function runDeviceSelfTest(platform: Platform, log: Logger, sinkUrl: string, app?: DevApp): Promise<void> {
   const L = log.child('selftest');
+  if (SUITE === '7b2') {
+    // Stage 7B.2: seek/tracks/resume, TV guide, Settings/Search, PIN cost on the user's Xtream playlist.
+    return runStage7B2SelfTest(platform, log, app);
+  }
   if (SUITE === '6') {
     // Stage 6: the user's Xtream playlist only; the platform checks (incl. the 1 MB file write) are skipped.
     return runStage6SelfTest(platform, log, app);

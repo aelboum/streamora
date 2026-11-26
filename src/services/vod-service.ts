@@ -1,24 +1,27 @@
-// VodService (Stage 6): movie and series catalogues of an Xtream playlist.
+// VodService (Stage 6, paged in Stage 6.1): movie and series catalogues of an Xtream playlist.
 //
-// - refresh(pid, section): get_vod_categories + get_vod_streams (movies) or get_series_categories +
-//   get_series (series), streamed and parsed in time slices into the compact VOD payload, stored as
-//   catalogue section 'movie' / 'series' (CatalogueStore: checksummed, ASCII-escaped for the TV).
-//   Incremental: an unchanged list is not rewritten (unless its file is missing). One refresh at a
-//   time. The Live TV import is independent and unchanged.
-// - load(pid, section): reads the stored list; the last loaded list per section stays in memory.
-// - movieDetails / seriesDetails: get_vod_info / get_series_info on demand (plot, genre, cast,
-//   duration, seasons, episodes), cached in memory for the session.
+// - refresh(pid, section): the category list, then the titles CATEGORY BY CATEGORY
+//   (get_vod_streams / get_series with category_id), so the TV never holds the provider's whole
+//   list (Stage 6 measured 108,521 movies in one response: lowest free memory 71 MB). Titles are
+//   written as they arrive into the page files of a new generation (content/vod-pages.ts); the
+//   index is saved last, and only then the previous generation is deleted. A failed, empty or
+//   interrupted update therefore keeps the previous catalogue. Without categories the whole list
+//   is requested in one go (fallback). Incremental: an identical list keeps the stored files.
+//   One update at a time; abortRefresh() stops it (playback starts).
+// - load(pid, section): reads only the index and returns a VodView; item pages load on demand.
+// - movieDetails / seriesDetails: get_vod_info / get_series_info on demand, cached per session.
 // - resolve(pid, ref): play-time stream URL through PlaylistService (credentials never leave it).
-// State per playlist (count, categories, time, checksum) is kept in the KeyValueStore under
-// 'vod.<playlistId>' (removed with the playlist). Nothing here logs URLs or credentials.
+// State per playlist (count, categories, time, hash) is kept in the KeyValueStore under
+// 'vod.<playlistId>' (removed with the playlist). Nothing here logs titles, URLs or credentials.
 import type { KeyValueStore } from '../storage/kv-store.ts';
 import type { CatalogueStore } from '../storage/catalogue-store.ts';
 import type { PlaylistService } from './playlist-service.ts';
-import type { XtreamClient, XtreamErrorCode } from '../api/xtream/xtream-client.ts';
-import type { XtreamSeriesInfo, XtreamVodInfo } from '../api/xtream/xtream-types.ts';
-import { createVodBuilder, decodeVod, isVodPayload } from '../content/vod-codec.ts';
+import type { XtreamClient, XtreamErrorCode, XtreamHandle, LiveStreamsSummary } from '../api/xtream/xtream-client.ts';
+import type { XtreamCategory, XtreamSeriesInfo, XtreamVodInfo } from '../api/xtream/xtream-types.ts';
+import { createVodPageWriter, createVodView, isVodIndex, VOD_UNCATEGORISED } from '../content/vod-pages.ts';
+import type { VodIndexPayload, VodPageWriter, VodView } from '../content/vod-pages.ts';
 import { looksAdult } from '../content/catalogue-codec.ts';
-import type { Episode, MediaDetails, PlaybackSource, Season, StreamRef, VodCatalogue, VodItem } from '../models/content.ts';
+import type { Episode, MediaDetails, PlaybackSource, Season, StreamRef, VodItem } from '../models/content.ts';
 import type { Logger } from '../utils/log.ts';
 
 export type VodSection = 'movie' | 'series';
@@ -31,12 +34,12 @@ export interface SectionState {
   at: number;
   items: number;
   categories: number;
-  /** CatalogueStore checksum of the stored list (incremental updates). */
+  /** Content hash of the stored list (incremental updates). */
   hash: string;
 }
 
 export type VodLoad =
-  | { status: 'ok'; catalogue: VodCatalogue; ms: number; skipped: number }
+  | { status: 'ok'; view: VodView; ms: number }
   | { status: 'missing' }
   | { status: 'error'; code: VodErrorCode };
 
@@ -47,6 +50,10 @@ export interface VodRefreshResult {
   categories: number;
   invalid: number;
   unchanged: boolean;
+  /** Category requests made (0 = single full-list request). */
+  requests: number;
+  /** Diagnostics: reading the previous index, removing old pages, longest page write (ms). */
+  phases?: { readIndexMs: number; cleanupMs: number; maxPageWriteMs: number; maxPageEncodeMs: number };
   ms: number;
 }
 
@@ -76,6 +83,8 @@ export interface VodService {
   load(pid: string, section: VodSection): Promise<VodLoad>;
   refresh(pid: string, section: VodSection, onProgress?: (items: number) => void): VodJob;
   refreshing(): string | null;
+  /** Stops a running update (the previous catalogue stays). Called when playback starts. */
+  abortRefresh(): void;
   movieDetails(pid: string, item: VodItem): Promise<MediaDetails | null>;
   seriesDetails(pid: string, item: VodItem): Promise<SeriesDetails | null>;
   /** Stream reference of a movie (container extension from the list or the details, else mp4). */
@@ -107,9 +116,12 @@ function details(i: XtreamVodInfo | XtreamSeriesInfo['info']): MediaDetails {
   };
 }
 
+let genSeq = 0;
+
 export function createVodService(o: VodServiceOptions): VodService {
   let busy: string | null = null;
-  const loaded: Record<string, { pid: string; catalogue: VodCatalogue; skipped: number }> = {};
+  let running: VodJob | null = null;
+  const views: Record<string, { pid: string; view: VodView; gen: string }> = {};
   const movieCache: Record<string, MediaDetails | null> = {};
   const seriesCache: Record<string, SeriesDetails | null> = {};
   const exts: Record<string, string> = {};
@@ -121,7 +133,29 @@ export function createVodService(o: VodServiceOptions): VodService {
     return o.playlists.xtreamClient(pid);
   }
 
-  return {
+  function readIndex(pid: string, section: VodSection): Promise<VodIndexPayload | null> {
+    return o.catalogue.load(pid, section, isVodIndex).then(function (r) {
+      if (r.status === 'ok' && r.data.s === section) {
+        return r.data;
+      }
+      if (r.status === 'corrupt') {
+        o.log.warn('vod: stored index unusable', { playlist: pid, section: section, reason: r.reason });
+      }
+      return null; // missing, unusable, or a Stage 6 single-file list (re-downloaded on open)
+    }, function () { return null; });
+  }
+
+  function pagesPresent(pid: string, section: VodSection, idx: VodIndexPayload): Promise<boolean> {
+    // Cheap check before reusing an unchanged generation: is its last item page there?
+    if (idx.ip === 0) {
+      return Promise.resolve(true);
+    }
+    return o.catalogue.loadPage(pid, section, idx.g, 'i', idx.ip - 1, function (x): x is unknown { return !!x; }).then(function (r) {
+      return r.status === 'ok';
+    }, function () { return false; });
+  }
+
+  const service: VodService = {
     supported: function (pid) {
       const def = o.playlists.get(pid);
       return !!def && def.kind === 'xtream';
@@ -134,52 +168,119 @@ export function createVodService(o: VodServiceOptions): VodService {
 
     refreshing: function () { return busy; },
 
+    abortRefresh: function () {
+      if (running) {
+        running.abort();
+      }
+    },
+
     load: function (pid, section) {
       const t0 = o.now();
-      const mem = loaded[section];
+      const mem = views[section];
       if (mem && mem.pid === pid) {
-        return Promise.resolve<VodLoad>({ status: 'ok', catalogue: mem.catalogue, ms: 0, skipped: mem.skipped });
+        return Promise.resolve<VodLoad>({ status: 'ok', view: mem.view, ms: 0 });
       }
-      return o.catalogue.load(pid, section, isVodPayload).then(function (r): VodLoad {
-        if (r.status === 'missing') {
+      return readIndex(pid, section).then(function (idx): VodLoad {
+        if (!idx) {
           return { status: 'missing' };
         }
-        if (r.status === 'error') {
-          return { status: 'error', code: 'storage' };
-        }
-        if (r.status === 'corrupt') {
-          o.log.warn('vod: stored list unusable', { playlist: pid, section: section, reason: r.reason });
-          return { status: 'missing' }; // discarded by the store; an update downloads it again
-        }
-        const d = decodeVod(r.data);
-        if (!d || r.data.s !== section) {
-          return { status: 'error', code: 'corrupt' };
-        }
-        loaded[section] = { pid: pid, catalogue: d.catalogue, skipped: d.skipped };
-        o.log.info('vod: list loaded', { playlist: pid, section: section, items: d.catalogue.items.length, skipped: d.skipped, ms: o.now() - t0 });
-        return { status: 'ok', catalogue: d.catalogue, ms: o.now() - t0, skipped: d.skipped };
-      }, function (): VodLoad {
-        return { status: 'error', code: 'storage' };
+        const view = createVodView(o.catalogue, pid, idx, function (page) {
+          o.log.warn('vod: page unavailable', { playlist: pid, section: section, page: page });
+        });
+        views[section] = { pid: pid, view: view, gen: idx.g };
+        o.log.info('vod: index loaded', { playlist: pid, section: section, items: idx.t, categories: idx.c.length, pages: idx.ip, ms: o.now() - t0 });
+        return { status: 'ok', view: view, ms: o.now() - t0 };
       });
     },
 
     refresh: function (pid, section, onProgress) {
       const t0 = o.now();
+      let requests = 0;
+      let invalid = 0;
+      let readIndexMs = 0;
+      let cleanupMs = 0;
+      let writer: VodPageWriter | null = null;
       function done(r: Partial<VodRefreshResult> & { ok: boolean }): VodRefreshResult {
-        return { ok: r.ok, code: r.code, items: r.items || 0, categories: r.categories || 0, invalid: r.invalid || 0, unchanged: !!r.unchanged, ms: o.now() - t0 };
+        return { ok: r.ok, code: r.code, items: r.items || 0, categories: r.categories || 0, invalid: invalid, unchanged: !!r.unchanged, requests: requests, ms: o.now() - t0,
+          phases: { readIndexMs: readIndexMs, cleanupMs: cleanupMs, maxPageWriteMs: writer ? writer.maxWriteMs() : 0, maxPageEncodeMs: writer ? writer.maxEncodeMs() : 0 } };
       }
       if (busy) {
         return { result: Promise.resolve(done({ ok: false, code: 'busy' })), abort: function () { /* nothing */ } };
       }
-      if (!this.supported(pid)) {
+      if (!service.supported(pid)) {
         return { result: Promise.resolve(done({ ok: false, code: 'not-supported' })), abort: function () { /* nothing */ } };
       }
       busy = pid + ':' + section;
       let aborted = false;
       let current: { abort(): void } | null = null;
-      const builder = createVodBuilder(section);
+      const gen = o.now().toString(36) + (genSeq++ % 36).toString(36);
+      let prev: VodIndexPayload | null = null;
       let lastReport = 0;
-      const result = client(pid).then(function (c): Promise<VodRefreshResult> | VodRefreshResult {
+
+      function list(c: XtreamClient, w: VodPageWriter, cat: number, categoryId: string | undefined): XtreamHandle<LiveStreamsSummary> {
+        function progress(): void {
+          const n = w.count();
+          if (onProgress && n - lastReport >= 1000) {
+            lastReport = n;
+            onProgress(n);
+          }
+        }
+        if (section === 'movie') {
+          return c.vodStreams(function (s) {
+            const ci = cat >= 0 ? cat : w.addCategory(s.categoryId || VOD_UNCATEGORISED, '', false);
+            w.addItem(ci, { id: s.streamId, name: s.name, image: s.icon, year: s.year, rating: s.rating, ext: s.ext, genre: '', adult: s.adult });
+            progress();
+          }, categoryId);
+        }
+        return c.seriesList(function (s) {
+          const ci = cat >= 0 ? cat : w.addCategory(s.categoryId || VOD_UNCATEGORISED, '', false);
+          w.addItem(ci, { id: s.seriesId, name: s.name, image: s.cover, year: s.year, rating: s.rating, ext: '', genre: s.genre, adult: false });
+          progress();
+        }, categoryId);
+      }
+
+      function fetchAll(c: XtreamClient, w: VodPageWriter, cats: XtreamCategory[]): Promise<VodErrorCode | null> {
+        if (cats.length === 0) {
+          // Fallback: no categories listed; the whole list in one response.
+          const h = list(c, w, -1, undefined);
+          current = h;
+          return h.result.then(function (r) {
+            if (!r.ok) { return fromXtream(r.code); }
+            invalid += r.data.invalid;
+            return null;
+          });
+        }
+        let chain: Promise<VodErrorCode | null> = Promise.resolve(null);
+        for (let i = 0; i < cats.length; i++) {
+          const ci = w.addCategory(cats[i].id, cats[i].name, looksAdult(cats[i].name));
+          const id = cats[i].id;
+          chain = chain.then(function (err): Promise<VodErrorCode | null> | VodErrorCode | null {
+            if (err) { return err; }
+            if (aborted) { return 'aborted'; }
+            if (w.failed()) { return 'storage'; }
+            requests++;
+            const h = list(c, w, ci, id);
+            current = h;
+            return h.result.then(function (r) {
+              if (!r.ok) { return fromXtream(r.code); }
+              invalid += r.data.invalid;
+              return null;
+            });
+          });
+        }
+        return chain;
+      }
+
+      const tIdx = o.now();
+      const result = readIndex(pid, section).then(function (old) {
+        prev = old;
+        readIndexMs = o.now() - tIdx;
+        const tc = o.now();
+        // Pages of an earlier interrupted update (not the current generation) are removed first.
+        return o.catalogue.removePages(pid, section, old ? old.g : null).then(function (n) { cleanupMs += o.now() - tc; return n; }, function () { return 0; });
+      }).then(function () {
+        return client(pid);
+      }).then(function (c): Promise<VodRefreshResult> | VodRefreshResult {
         if (!c) {
           return done({ ok: false, code: 'no-credentials' });
         }
@@ -189,65 +290,74 @@ export function createVodService(o: VodServiceOptions): VodService {
           if (!cr.ok) {
             return done({ ok: false, code: fromXtream(cr.code) });
           }
-          for (let i = 0; i < cr.data.length; i++) {
-            builder.addCategory(cr.data[i].id, cr.data[i].name, looksAdult(cr.data[i].name));
-          }
           if (aborted) {
             return done({ ok: false, code: 'aborted' });
           }
-          function progress(): void {
-            const n = builder.count();
-            if (onProgress && n - lastReport >= 1000) {
-              lastReport = n;
-              onProgress(n);
+          const w = createVodPageWriter(o.catalogue, pid, section, gen, o.now);
+          writer = w;
+          return fetchAll(c, w, cr.data).then(function (err): Promise<VodRefreshResult> | VodRefreshResult {
+            if (err) {
+              return done({ ok: false, code: err });
             }
-          }
-          const list = section === 'movie'
-            ? c.vodStreams(function (s) {
-              builder.addItem({ id: s.streamId, name: s.name, categoryId: s.categoryId, image: s.icon, year: s.year, rating: s.rating, added: s.added, ext: s.ext, genre: '', adult: s.adult });
-              progress();
-            })
-            : c.seriesList(function (s) {
-              builder.addItem({ id: s.seriesId, name: s.name, categoryId: s.categoryId, image: s.cover, year: s.year, rating: s.rating, added: s.updated, ext: '', genre: s.genre, adult: false });
-              progress();
-            });
-          current = list;
-          return list.result.then(function (lr): Promise<VodRefreshResult> | VodRefreshResult {
-            if (!lr.ok) {
-              return done({ ok: false, code: fromXtream(lr.code) });
+            if (w.count() === 0) {
+              return done({ ok: false, code: 'empty' });
             }
-            const built = builder.finish();
-            if (built.items === 0) {
-              return done({ ok: false, code: 'empty', invalid: lr.data.invalid });
-            }
-            const prev = stored(pid)[section];
-            return o.catalogue.save(pid, section, built.payload, prev ? { unlessChecksum: prev.hash } : undefined).then(function (saved): VodRefreshResult {
-              if (!saved.ok) {
-                return done({ ok: false, code: saved.reason === 'too-large' ? 'too-large' : 'storage' });
-              }
-              const st = stored(pid);
-              st[section] = { at: o.now(), items: built.items, categories: built.categories, hash: saved.checksum };
-              o.kv.set(key(pid), st);
-              delete loaded[section]; // reload from the new file
-              return done({ ok: true, items: built.items, categories: built.categories, invalid: lr.data.invalid, unchanged: saved.unchanged });
+            return w.finish().then(function (idx): Promise<VodRefreshResult> {
+              const old = prev;
+              const keepOld = old && old.h === idx.h ? pagesPresent(pid, section, old) : Promise.resolve(false);
+              return keepOld.then(function (same): Promise<VodRefreshResult> {
+                if (same && old) {
+                  // Identical list: keep the stored generation, drop the new pages.
+                  return o.catalogue.removePages(pid, section, old.g).then(function () {
+                    return done({ ok: true, items: old.t, categories: old.c.length, unchanged: true });
+                  });
+                }
+                return o.catalogue.save(pid, section, idx).then(function (saved): Promise<VodRefreshResult> | VodRefreshResult {
+                  if (!saved.ok) {
+                    return done({ ok: false, code: saved.reason === 'too-large' ? 'too-large' : 'storage' });
+                  }
+                  const st = stored(pid);
+                  st[section] = { at: o.now(), items: idx.t, categories: idx.c.length, hash: idx.h };
+                  o.kv.set(key(pid), st);
+                  delete views[section];
+                  // Committed: the previous generation is no longer referenced.
+                  const tc = o.now();
+                  return o.catalogue.removePages(pid, section, gen).then(function () {
+                    cleanupMs += o.now() - tc;
+                    return done({ ok: true, items: idx.t, categories: idx.c.length, unchanged: false });
+                  });
+                });
+              });
+            }, function (): VodRefreshResult {
+              return done({ ok: false, code: 'storage' });
             });
           });
         });
       }).then(null, function (e): VodRefreshResult {
         o.log.error('vod: refresh crashed', { playlist: pid, section: section }, e);
         return done({ ok: false, code: 'storage' });
+      }).then(function (r): Promise<VodRefreshResult> | VodRefreshResult {
+        if (r.ok || !writer) {
+          return r;
+        }
+        // Failed: remove this generation's pages; the previous catalogue stays untouched.
+        const keep = prev ? (prev as VodIndexPayload).g : null;
+        return o.catalogue.removePages(pid, section, keep).then(function () { return r; }, function () { return r; });
       }).then(function (r) {
         busy = null;
-        o.log.info('vod: refresh', { playlist: pid, section: section, ok: r.ok, code: r.code, items: r.items, categories: r.categories, invalid: r.invalid, unchanged: r.unchanged, ms: r.ms });
+        running = null;
+        o.log.info('vod: refresh', { playlist: pid, section: section, ok: r.ok, code: r.code, items: r.items, categories: r.categories, invalid: r.invalid, unchanged: r.unchanged, requests: r.requests, ms: r.ms, phases: r.phases });
         return r;
       });
-      return {
+      const job: VodJob = {
         result: result,
         abort: function () {
           aborted = true;
           if (current) { current.abort(); }
         }
       };
+      running = job;
+      return job;
     },
 
     movieDetails: function (pid, item) {
@@ -291,7 +401,7 @@ export function createVodService(o: VodServiceOptions): VodService {
             for (let j = 0; j < s.episodes.length; j++) {
               const e = s.episodes[j];
               eps.push({
-                id: e.id, season: e.season, episode: e.episode, title: e.title, plot: e.plot, durationSec: e.durationSec, image: e.image,
+                id: e.id, season: e.season, episode: e.episode, exact: e.exact, title: e.title, plot: e.plot, durationSec: e.durationSec, image: e.image,
                 streamRef: { kind: 'xtream', type: 'series', id: e.id, ext: e.ext || 'mp4' }
               });
             }
@@ -313,4 +423,5 @@ export function createVodService(o: VodServiceOptions): VodService {
       return o.playlists.resolveStream(pid, ref);
     }
   };
+  return service;
 }

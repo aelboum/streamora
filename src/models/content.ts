@@ -174,6 +174,8 @@ export interface Episode {
   id: string;
   season: number;
   episode: number;
+  /** Stage 11: season and episode number stated by the provider (not filled in). */
+  exact?: boolean;
   title: string;
   plot: string;
   durationSec: number | null;

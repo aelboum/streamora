@@ -32,6 +32,8 @@ export interface AppConfig {
     /** Reopen once when AVPlay has not prepared this long after its first buffering report; 0 = off (Stage 5.1). */
     prepareStallMs: number;
     zapDebounceMs: number;
+    /** Stage 10: a typed channel number is tuned this long after its last digit. */
+    numberEntryMs: number;
   };
   ui: {
     keyRepeatThrottleMs: number;
@@ -68,7 +70,7 @@ export const DEFAULT_CONFIG: AppConfig = {
   },
   storage: { sectionBudgetChars: 5000000, sectionMaxChars: 20000000 },
   security: { pinIterations: 600000, pinMaxAttempts: 5, pinLockoutMs: 60000 },
-  player: { liveBufferSec: 2, prepareTimeoutMs: 15000, prepareStallMs: 3000, zapDebounceMs: 400 },
+  player: { liveBufferSec: 2, prepareTimeoutMs: 15000, prepareStallMs: 3000, zapDebounceMs: 400, numberEntryMs: 2000 },
   ui: { keyRepeatThrottleMs: 110, language: 'en', theme: 'dark', keyboard: 'auto' },
   epg: { pastHours: 2, futureHours: 24, staleHours: 12, maxPerChannel: 300, maxProgrammes: 400000, defaultOffsetMin: 0, maxGzipMB: 30 },
   logging: { level: 'info', capacity: 200 }
@@ -82,7 +84,7 @@ const NUMBER_RULES: Record<string, Record<string, NumRule>> = {
   },
   storage: { sectionBudgetChars: [100000, 50000000], sectionMaxChars: [100000, 100000000] },
   security: { pinIterations: [600000, 2000000], pinMaxAttempts: [3, 10], pinLockoutMs: [10000, 3600000] },
-  player: { liveBufferSec: [1, 10], prepareTimeoutMs: [5000, 60000], prepareStallMs: [0, 15000], zapDebounceMs: [0, 2000] },
+  player: { liveBufferSec: [1, 10], prepareTimeoutMs: [5000, 60000], prepareStallMs: [0, 15000], zapDebounceMs: [0, 2000], numberEntryMs: [500, 10000] },
   ui: { keyRepeatThrottleMs: [50, 500] },
   epg: { pastHours: [0, 24], futureHours: [6, 168], staleHours: [1, 72], maxPerChannel: [20, 2000], maxProgrammes: [1000, 2000000], defaultOffsetMin: [-840, 840], maxGzipMB: [1, 60] },
   logging: { capacity: [50, 2000] }

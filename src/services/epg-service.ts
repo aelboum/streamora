@@ -30,7 +30,7 @@ import type { EpgBuilder, EpgPayload, EpgRow, NowNext } from '../content/epg-ind
 export type EpgState = 'none' | 'loading' | 'ready';
 
 export type EpgErrorCode = 'no-source' | 'not-xmltv' | 'network' | 'timeout' | 'http' | 'too-large' | 'redirect-blocked' |
-  'aborted' | 'storage' | 'invalid-url' | 'bad-gzip' | 'gzip-unsupported';
+  'aborted' | 'storage' | 'invalid-url' | 'bad-gzip' | 'gzip-unsupported' | 'low-memory';
 
 export interface EpgStatus {
   state: EpgState;
@@ -80,7 +80,15 @@ export interface EpgServiceOptions {
     defaultOffsetMin: number;
     /** Largest compressed (.gz) download in bytes. */
     maxGzipBytes: number;
+    /**
+     * Stage 7E: a download is stopped ('low-memory') when the device's free memory falls below this
+     * many MB. The XHR engine keeps the whole response text while it streams, so a very large guide
+     * used up the TV's memory and the app stopped responding (TV, 419 → 121 MB in 15 s). 0 = off.
+     */
+    minFreeMB?: number;
   };
+  /** Stage 7E: free device memory in MB (−1 unknown), for minFreeMB. */
+  memoryMB?: () => number;
 }
 
 export interface EpgService {
@@ -154,6 +162,8 @@ export function createEpgService(o: EpgServiceOptions): EpgService {
     let restartBinary = false;
     let gzError: GzipErrorCode | null = null;
     let first = true;
+    let lowMemory = false;
+    let memCheckedAt = 0;
     const decoder = binary ? createByteTextDecoder({ maxOutputBytes: o.limits.maxChars }) : null;
     const parser = createXmltvParser(function (c) {
       builder.addChannel(c.id, c.names);
@@ -165,6 +175,17 @@ export function createEpgService(o: EpgServiceOptions): EpgService {
     function feed(text: string): boolean {
       if (!text) {
         return true;
+      }
+      const floor = o.limits.minFreeMB || 0;
+      if (floor > 0 && o.memoryMB && o.now() - memCheckedAt >= 300) {
+        memCheckedAt = o.now();
+        const free = o.memoryMB();
+        if (free >= 0 && free < floor) {
+          lowMemory = true;
+          o.log.warn('epg: download stopped, device memory low', { freeMB: free, floorMB: floor, chars: parsed });
+          h.abort();
+          return false;
+        }
       }
       parsed += text.length;
       if (!parser.push(text)) {
@@ -212,6 +233,10 @@ export function createEpgService(o: EpgServiceOptions): EpgService {
     });
     register(function () { slicer.cancel(); h.abort(); });
     return h.result.then(function (r): FetchResult | Promise<FetchResult> {
+      if (lowMemory) {
+        slicer.cancel();
+        return { ok: false, code: 'low-memory' };
+      }
       if (restartBinary) {
         slicer.cancel();
         return fetchOne(url, builder, onProgress, register, true);

@@ -21,7 +21,9 @@
     "tv:install": "node scripts/tv.mjs install",
     "tv:run": "node scripts/tv.mjs run",
     "tv:uninstall": "node scripts/tv.mjs uninstall",
-    "dev-sink": "node scripts/dev-sink.mjs"
+    "dev-sink": "node scripts/dev-sink.mjs",
+    "android:build": "node scripts/android.mjs",
+    "build:all": "npm run build:release && npm run check:release && npm run android:build"
   },
   "devDependencies": {
     "acorn": "8.19.0",

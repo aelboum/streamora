@@ -345,6 +345,17 @@ No architecture decision changed. Details and measurements: `docs/STAGE-6-REPORT
 | §6 / §4 URLs | Movie and episode URLs `<server>/movie|series/<user>/<pass>/<id>.<ext>` are built at play time by `PlaylistService.resolveStream` (existing `buildXtreamStreamUrl`); never stored or logged. `PlaylistService.xtreamClient(id)` gives the VOD service an API client without exposing credentials. |
 | §9 UI | Browse: categories (Search, Update list, All, provider categories) and a virtualised 7-column poster grid (pooled rows; posters load only for bound cards; title placeholder when an image is missing or broken). Details and VOD player screens follow the Live TV look (same tokens). M3U playlists: VOD entries are still only counted, not stored, so Movies/Series are offered for Xtream playlists only. |
 
+
+## 12g. Implementation notes (Stage 6.1)
+
+§7 "index only" storage is now implemented for the movie and series sections; no other decision changed. Details and TV measurements: `docs/STAGE-6.1-REPORT.md`.
+
+| Section | Note |
+|---|---|
+| §7 storage | Section file `cat.<pl>.<movie|series>.json` holds only the index (categories with position runs, image-URL prefixes, page counts, generation, content hash). Titles live in page files `cat.<pl>.<section>.<gen>-i<k>.json` (1,000 rows) and search names in `-n<k>.json` (10,000 names), all through CatalogueStore (checksums, ASCII escaping). A new generation is committed by writing the index last; the previous generation is deleted only afterwards. `src/content/vod-pages.ts` replaces `vod-codec.ts` / `vod-index.ts` (§12f). |
+| §6 Xtream | Lists are fetched per category (`category_id`), one request at a time; without categories the whole list is fetched once. |
+| §5 memory | Browse keeps at most 8 item pages and 400 recent items; search reads one name page at a time. |
+| §8 platform | Tizen FileStream `write()` calls can block for 0.5–2.7 s independent of chunk size (measured, Stage 6.1); not solved. |
 ## 13. Open questions
 
 1. Q8 from Stage 1: is there a legal provider account available for Stage 7 real-stream tests?

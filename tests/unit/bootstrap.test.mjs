@@ -55,10 +55,11 @@ test('start: keys registered, root screen mounted, Back opens exit dialog, No cl
   const doc = createFakeDocument();
   const app = startApp(ctx, createDomHost(doc, doc.body), doc, clock.now);
   assert.ok(app.registeredKeys.includes('ChannelUp'));
-  assert.deepEqual(app.router.stack(), ['playlists'], 'Stage 4B: the playlist overview is the root screen');
+  assert.deepEqual(app.router.stack(), ['home'], 'Stage 7B.1: the Home hub is the root screen');
   assert.equal(doc.body.childNodes.length, 1);
-  assert.match(doc.body.textContent, /ScreenShelf/);
-  assert.match(doc.body.textContent, /Add M3U playlist/);
+  assert.match(doc.body.textContent, /ELITE/);
+  assert.match(doc.body.textContent, /Add account/);
+  assert.match(doc.body.textContent, /Settings/);
   // Without secure storage there is no playlist service: the diagnostics screen is the root.
   const bare = createFakePlatform({ fileStore: null });
   const b = boot(bare);
@@ -126,4 +127,24 @@ test('error boundary: uncaught errors and rejections are logged (redacted) and t
   assert.equal(target.onerror, null);
   assert.equal(listeners.unhandledrejection, undefined);
   assert.equal(toAppError('x', 'network').kind, 'network');
+});
+
+test('Settings: language switches at once (screens rebuilt in Dutch) and is kept for the next start', () => {
+  const fp = createFakePlatform();
+  const { ctx, clock } = boot(fp);
+  const doc = createFakeDocument();
+  const app = startApp(ctx, createDomHost(doc, doc.body), doc, clock.now, { setTimer: clock.setTimer, clearTimer: clock.clearTimer });
+  assert.ok(app.router.push('settings'));
+  const rows = () => doc.body.findAll('ss-set__row');
+  assert.equal(rows()[0].attributes['data-row'], 'accounts');
+  // ▼ ▼ to "Nederlands", OK.
+  app.router.handleKey({ key: 'down', repeat: false, heldMs: 0, code: 40 });
+  app.router.handleKey({ key: 'down', repeat: false, heldMs: 0, code: 40 });
+  app.router.handleKey({ key: 'ok', repeat: false, heldMs: 0, code: 13 });
+  assert.deepEqual(app.router.stack(), ['home', 'settings'], 'rebuilt: Home + Settings');
+  assert.match(doc.body.textContent, /Instellingen/);
+  assert.match(doc.body.textContent, /Taal/);
+  assert.equal(ctx.kv.get('config', (x) => typeof x === 'object', null).ui.language, 'nl');
+  const again = boot(fp);
+  assert.equal(again.ctx.config.ui.language, 'nl', 'next start uses the stored language');
 });

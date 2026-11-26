@@ -2,7 +2,7 @@
 // (enforced by scripts/compat-check.mjs). Everything above this layer depends on these
 // interfaces only, so it runs unchanged under Node tests with the doubles in memory-stores.ts.
 
-export type PlatformName = 'tizen' | 'browser';
+export type PlatformName = 'tizen' | 'browser' | 'android';
 
 export interface PlatformInfo {
   name: PlatformName;
@@ -55,6 +55,13 @@ export interface FileStore {
   remove(name: string): Promise<void>;
   list(): Promise<string[]>;
   readonly atomicReplace: boolean;
+  /** Diagnostics (Stage 6.1): longest synchronous call per operation, in ms. */
+  timings?(): Record<string, number>;
+  /**
+   * Stage 9: asked before each blocking write-side call (create, write chunk, close, move, delete
+   * while writing); the call runs when the returned promise resolves. null removes it.
+   */
+  setWriteGate?(gate: (() => Promise<void>) | null): void;
 }
 
 /** Secure storage for secrets (tizen.keymanager on the TV [V]). Values never touch FileStore or LocalStore. */
@@ -144,4 +151,45 @@ export interface PlatformWindow {
   XMLHttpRequest?: { new (): XMLHttpRequest };
   tizen?: TizenApi;
   webapis?: SamsungWebApis;
+  /** Android app (android/ project): native bridges injected with addJavascriptInterface. */
+  ElitePlatform?: AndroidPlatformBridge;
+  ElitePlayer?: AndroidPlayerBridge;
+}
+
+/** Native side: android/app/src/main/java/.../PlatformBridge.java. Strings only across the bridge. */
+export interface AndroidPlatformBridge {
+  version(): string;
+  /** Device class: 'tv' (leanback) or 'phone'. */
+  deviceType(): string;
+  availableMemoryMB(): number;
+  totalMemoryMB(): number;
+  exit(): void;
+  /** Files in the app's private storage; null when missing. Throws (Java exception) on failure. */
+  fileRead(name: string): string | null;
+  fileWrite(name: string, text: string): boolean;
+  fileRemove(name: string): boolean;
+  /** JSON array of names. */
+  fileList(): string;
+  /** Values encrypted with an Android Keystore AES key. */
+  keySave(alias: string, value: string): boolean;
+  keyLoad(alias: string): string | null;
+  keyRemove(alias: string): boolean;
+}
+
+/** Native side: PlayerBridge.java (Media3 ExoPlayer on a surface behind the transparent WebView).
+ *  Events come back through window.__elitePlayerEvent(json). */
+export interface AndroidPlayerBridge {
+  /** sid tags the events of this load (window.__elitePlayerEvent). */
+  load(sid: string, url: string, type: string, live: boolean, userAgent: string, referrer: string, bufferMs: number): void;
+  pause(): void;
+  resume(): void;
+  stop(): void;
+  setRect(x: number, y: number, w: number, h: number): void;
+  positionMs(): number;
+  seekTo(ms: number): void;
+  /** JSON array of {kind:'audio'|'text', id, language, label, selected} (Stage 7B.2). */
+  tracks(): string;
+  /** kind 'audio' | 'text'; text id −1 = subtitles off. */
+  selectTrack(kind: string, id: number): void;
+  durationMs(): number;
 }

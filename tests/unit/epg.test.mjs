@@ -261,3 +261,34 @@ test('Xtream short EPG fallback for channels without XMLTV data', async () => {
   await e.epg.shortEpg(news);
   assert.equal(e.srv.requests.length, n, 'cached for 15 minutes');
 });
+
+test('Stage 7E: a guide download stops when the device memory runs low; the cached guide stays', async () => {
+  // Guide body large enough to be fed in many pieces; free memory drops while it streams.
+  const big = GUIDE.replace('</tv>', '<!--' + 'x'.repeat(400000) + '--></tv>');
+  const route = routes();
+  const e = env(route);
+  const { id, channels } = await playlistWithChannels(e);
+  await e.epg.load(id);
+  assert.equal((await e.epg.refresh(id, channels).result).ok, true, 'normal refresh first');
+  const news = channels.find((c) => c.name === 'News One HD');
+  route.fn = (url) => (url.includes('xmltv.php') ? { status: 200, body: big, chunk: 4096 } : { status: 404, body: '' });
+  let free = 400;
+  let clock = NOW;
+  const guarded = createEpgService({
+    playlists: e.playlists, catalogue: e.catalogue, http: createHttpClient({ xhrFactory: e.srv.factory }), now: () => (clock += 400),
+    timers: e.timers, log: e.log, limits: { ...e.limits, minFreeMB: 200 }, memoryMB: () => (free -= 40)
+  });
+  await guarded.load(id);
+  const r = await guarded.refresh(id, channels).result;
+  assert.deepEqual([r.ok, r.code], [false, 'low-memory']);
+  assert.equal(guarded.status().error, 'low-memory');
+  assert.equal(guarded.nowNext(news).now.title, 'Midday "Special"', 'the stored guide is kept');
+  assert.ok(e.log.entries().some((x) => x.msg === 'epg: download stopped, device memory low'));
+  // Off (0) or unknown memory (−1): no guard.
+  free = -1;
+  const unknown = createEpgService({
+    playlists: e.playlists, catalogue: e.catalogue, http: createHttpClient({ xhrFactory: e.srv.factory }), now: () => NOW,
+    timers: e.timers, log: e.log, limits: { ...e.limits, minFreeMB: 200 }, memoryMB: () => -1
+  });
+  assert.notEqual((await unknown.refresh(id, channels).result).code, 'low-memory');
+});

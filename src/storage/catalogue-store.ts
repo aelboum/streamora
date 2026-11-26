@@ -18,7 +18,12 @@ export const CATALOGUE_VERSION = 1;
 export type CatalogueSection = 'meta' | 'live' | 'movie' | 'series' | 'epg';
 const SECTIONS: CatalogueSection[] = ['meta', 'live', 'movie', 'series', 'epg'];
 const PLAYLIST_ID_RE = /^[a-z0-9]{1,32}$/;
-const FILE_RE = /^cat\.([a-z0-9]{1,32})\.(meta|live|movie|series|epg)\.json(\.tmp)?$/;
+// Section files cat.<pl>.<section>.json and (Stage 6.1) page files cat.<pl>.<section>.<gen>-<i|n><n>.json.
+const FILE_RE = /^cat\.([a-z0-9]{1,32})\.(meta|live|movie|series|epg)(?:\.([a-z0-9]{1,16})-([in])([0-9]{1,5}))?\.json(\.tmp)?$/;
+const GEN_RE = /^[a-z0-9]{1,16}$/;
+
+/** Sections stored in pages (Stage 6.1, index-only movie/series catalogues). */
+export type VodPageSection = 'movie' | 'series';
 
 export interface CatalogueLimits {
   /** Soft budget per section (characters). Default 5,000,000 (about 3 s to read on the TV). */
@@ -46,7 +51,12 @@ export interface SaveOptions {
 export interface CatalogueStore {
   save(playlistId: string, section: CatalogueSection, data: unknown, options?: SaveOptions): Promise<SaveResult>;
   load<T>(playlistId: string, section: CatalogueSection, validate: (x: unknown) => x is T): Promise<LoadResult<T>>;
-  /** Deletes every section of one playlist. Resolves the number of files removed. */
+  /** Stage 6.1: one page of a paged section ('i' items, 'n' search names) of generation `gen`. */
+  savePage(playlistId: string, section: VodPageSection, gen: string, kind: 'i' | 'n', n: number, data: unknown): Promise<SaveResult>;
+  loadPage<T>(playlistId: string, section: VodPageSection, gen: string, kind: 'i' | 'n', n: number, validate: (x: unknown) => x is T): Promise<LoadResult<T>>;
+  /** Removes the section's page files of every generation except `keepGen` (null: all). */
+  removePages(playlistId: string, section: VodPageSection, keepGen: string | null): Promise<number>;
+  /** Deletes every section of one playlist (and its page files). Resolves the number of files removed. */
   removePlaylist(playlistId: string): Promise<number>;
   /** Removes files of unknown playlists, leftover temp files and unrecognised catalogue files. */
   cleanup(knownPlaylistIds: string[]): Promise<{ removed: number }>;
@@ -60,6 +70,14 @@ export function catalogueFileName(playlistId: string, section: CatalogueSection)
     throw new Error('invalid section');
   }
   return 'cat.' + playlistId + '.' + section + '.json';
+}
+
+export function pageFileName(playlistId: string, section: VodPageSection, gen: string, kind: 'i' | 'n', n: number): string {
+  if (!PLAYLIST_ID_RE.test(playlistId) || (section !== 'movie' && section !== 'series') || !GEN_RE.test(gen) ||
+      (kind !== 'i' && kind !== 'n') || !(n >= 0 && n < 100000 && Math.floor(n) === n)) {
+    throw new Error('invalid page');
+  }
+  return 'cat.' + playlistId + '.' + section + '.' + gen + '-' + kind + n + '.json';
 }
 
 interface Header { f: string; v: number; p: string; s: string; t: number; n: number; c: string }
@@ -97,10 +115,7 @@ export function createCatalogueStore(files: FileStore, limits: CatalogueLimits, 
     );
   }
 
-  return {
-    save: function (playlistId, section, data, options) {
-      let name: string;
-      try { name = catalogueFileName(playlistId, section); } catch (e) { return Promise.reject(e); }
+  function saveAs(name: string, playlistId: string, section: string, data: unknown, options?: SaveOptions): Promise<SaveResult> {
       const t0 = now();
       let payload: string;
       try {
@@ -149,11 +164,9 @@ export function createCatalogueStore(files: FileStore, limits: CatalogueLimits, 
           return { ok: false, reason: 'io', message: e instanceof Error ? e.message : 'write failed' };
         });
       }
-    },
+  }
 
-    load: function <T>(playlistId: string, section: CatalogueSection, validate: (x: unknown) => x is T): Promise<LoadResult<T>> {
-      let name: string;
-      try { name = catalogueFileName(playlistId, section); } catch (e) { return Promise.reject(e); }
+  function loadAs<T>(name: string, playlistId: string, section: string, validate: (x: unknown) => x is T): Promise<LoadResult<T>> {
       const t0 = now();
       return files.read(name).then(function (text): LoadResult<T> | Promise<LoadResult<T>> {
         if (text === null) {
@@ -199,6 +212,62 @@ export function createCatalogueStore(files: FileStore, limits: CatalogueLimits, 
         if (log) { log.error('catalogue: read failed', { playlist: playlistId, section: section }, e); }
         return { status: 'error', message: e instanceof Error ? e.message : 'read failed' };
       });
+  }
+
+  /** Page files of one section (every generation, or all except exceptGen). */
+  function pageFiles(playlistId: string, section: VodPageSection, exceptGen: string | null): Promise<string[]> {
+    return files.list().then(function (names) {
+      const out: string[] = [];
+      for (let i = 0; i < names.length; i++) {
+        const m = FILE_RE.exec(names[i]);
+        if (m && m[1] === playlistId && m[2] === section && m[3] && m[3] !== exceptGen) {
+          out.push(names[i]);
+        }
+      }
+      return out;
+    });
+  }
+
+  function removeAll(list: string[]): Promise<number> {
+    let chain: Promise<void> = Promise.resolve();
+    let removed = 0;
+    for (let i = 0; i < list.length; i++) {
+      const n = list[i];
+      chain = chain.then(function () { return files.remove(n).then(function () { removed++; }, function () { /* keep going */ }); });
+    }
+    return chain.then(function () { return removed; });
+  }
+
+  return {
+    save: function (playlistId, section, data, options) {
+      let name: string;
+      try { name = catalogueFileName(playlistId, section); } catch (e) { return Promise.reject(e); }
+      return saveAs(name, playlistId, section, data, options);
+    },
+
+    load: function <T>(playlistId: string, section: CatalogueSection, validate: (x: unknown) => x is T): Promise<LoadResult<T>> {
+      let name: string;
+      try { name = catalogueFileName(playlistId, section); } catch (e) { return Promise.reject(e); }
+      return loadAs(name, playlistId, section, validate);
+    },
+
+    savePage: function (playlistId, section, gen, kind, n, data) {
+      let name: string;
+      try { name = pageFileName(playlistId, section, gen, kind, n); } catch (e) { return Promise.reject(e); }
+      return saveAs(name, playlistId, section + '.' + gen + '-' + kind + n, data);
+    },
+
+    loadPage: function <T>(playlistId: string, section: VodPageSection, gen: string, kind: 'i' | 'n', n: number, validate: (x: unknown) => x is T): Promise<LoadResult<T>> {
+      let name: string;
+      try { name = pageFileName(playlistId, section, gen, kind, n); } catch (e) { return Promise.reject(e); }
+      return loadAs(name, playlistId, section + '.' + gen + '-' + kind + n, validate);
+    },
+
+    removePages: function (playlistId, section, keepGen) {
+      if (!PLAYLIST_ID_RE.test(playlistId)) {
+        return Promise.reject(new Error('invalid playlist id'));
+      }
+      return pageFiles(playlistId, section, keepGen).then(removeAll);
     },
 
     removePlaylist: function (playlistId) {
@@ -218,7 +287,11 @@ export function createCatalogueStore(files: FileStore, limits: CatalogueLimits, 
           });
         });
       }
-      return chain.then(function () { return removed; });
+      return chain.then(function () {
+        return Promise.all([pageFiles(playlistId, 'movie', null), pageFiles(playlistId, 'series', null)]);
+      }).then(function (lists) {
+        return removeAll(lists[0].concat(lists[1]));
+      }).then(function (pages) { return removed + pages; });
     },
 
     cleanup: function (known) {
@@ -230,7 +303,7 @@ export function createCatalogueStore(files: FileStore, limits: CatalogueLimits, 
             continue; // not ours
           }
           const m = FILE_RE.exec(n);
-          if (!m || m[3] || known.indexOf(m[1]) < 0) {
+          if (!m || m[6] || known.indexOf(m[1]) < 0) {
             doomed.push(n);
           }
         }

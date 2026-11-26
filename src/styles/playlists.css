@@ -1,10 +1,10 @@
-/* Playlist management screens (Stage 4B). Flexbox + margins only; focus is always a thick white
-   border plus the accent background, visible from across the room. */
+/* Playlist and account screens, forms, dialogs, keyboard (Stage 4B structure, Stage 7B.1 visual
+   system). Rows never scale: focus = accent fill 35 % + 4px ring. */
 
 .ss-body {
   display: flex;
   flex-direction: column;
-  height: 820px;
+  height: 860px;
   overflow: hidden;
 }
 
@@ -14,22 +14,23 @@
 
 .ss-empty {
   margin: 24px 0 0;
-  font-size: 30px;
+  font-size: 25px;
+  line-height: 36px;
   color: {{color.textMuted}};
 }
 
 .ss-message {
   margin-top: 16px;
   min-height: 40px;
-  font-size: 28px;
+  font-size: 24px;
   color: {{color.textMuted}};
 }
 
-.ss-tone--error { color: {{color.error}}; }
+.ss-tone--error { color: {{color.errorText}}; }
 .ss-tone--ok { color: {{color.ok}}; }
 .ss-muted { color: {{color.textMuted}}; }
 
-/* Rows (playlist list, form fields) */
+/* Rows (account list, form fields, settings rows: DS 88 high, r14) */
 .ss-rows {
   display: flex;
   flex-direction: column;
@@ -39,45 +40,49 @@
 
 .ss-row {
   position: relative;
-  margin: 0 0 12px;
-  padding: 16px 28px;
-  border-radius: 8px;
-  border: 4px solid transparent;
-  background: {{color.surface}};
+  min-height: 88px;
+  margin: 0 0 8px;
+  padding: 14px 28px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background: {{color.glass}};
 }
 
 .ss-row.is-focused {
-  border-color: {{color.text}};
-  background: {{color.accent}};
+  background: {{color.accentFill}};
+  box-shadow: {{ring}};
 }
 
 .ss-row__primary {
-  font-size: 32px;
+  font-size: 26px;
+  line-height: 32px;
   color: {{color.text}};
 }
 
 .ss-row__secondary {
-  margin-top: 6px;
-  font-size: 24px;
-  color: {{color.textMuted}};
+  margin-top: 4px;
+  font-size: 20px;
+  line-height: 26px;
+  color: {{color.textTertiary}};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .ss-row.is-focused .ss-row__secondary {
-  color: {{color.text}};
+  color: {{color.textBody}};
 }
 
 .ss-row__badge {
   position: absolute;
   right: 28px;
-  top: 18px;
-  padding: 4px 16px;
-  border-radius: 20px;
-  background: {{color.ok}};
-  color: {{color.bg}};
-  font-size: 22px;
+  top: 26px;
+  padding: 4px 14px;
+  border-radius: 18px;
+  background: {{color.tint}};
+  color: {{color.focus}};
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .ss-rows--form .ss-row {
@@ -85,45 +90,45 @@
 }
 
 .ss-rows--form .ss-row__primary {
-  font-size: 24px;
-  color: {{color.textMuted}};
+  font-size: 20px;
+  line-height: 26px;
+  color: {{color.textTertiary}};
 }
 
 .ss-rows--form .ss-row__secondary {
-  font-size: 30px;
+  font-size: 26px;
+  line-height: 34px;
   color: {{color.text}};
 }
 
-/* Dialogs */
+/* Dialog variants (centred by .ss-dialog) */
 .ss-dialog--import,
 .ss-dialog--warning {
-  left: 410px;
-  top: 300px;
   width: 1100px;
 }
 
-.ss-dialog--warning {
-  border-left: 8px solid {{color.error}};
+.ss-dialog--warning .ss-dialog__title {
+  color: {{color.warning}};
 }
 
 .ss-dialog__text {
   margin: 0 0 16px;
-  font-size: 28px;
-  line-height: 40px;
-  color: {{color.text}};
+  font-size: 24px;
+  line-height: 36px;
+  color: {{color.textBody}};
 }
 
 .ss-dialog__status {
   margin: 8px 0 12px;
-  font-size: 32px;
-  line-height: 44px;
+  font-size: 28px;
+  line-height: 40px;
 }
 
 .ss-dialog__buttons {
   margin-top: 8px;
 }
 
-/* On-screen keyboard */
+/* On-screen keyboard (DS keyboard key: r12, focus = light fill + ring + 1.08) */
 .ss-kb {
   position: absolute;
   left: 260px;
@@ -131,17 +136,20 @@
   width: 1400px;
   padding: 40px;
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: {{color.surface}};
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
 .ss-kb__value {
   margin-bottom: 24px;
-  padding: 16px 24px;
-  min-height: 48px;
-  border-radius: 8px;
-  background: {{color.bg}};
-  font-size: 34px;
+  padding: 0 32px;
+  height: 80px;
+  border-radius: 40px;
+  background: {{color.glass2}};
+  font-size: 30px;
+  line-height: 80px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -156,29 +164,31 @@
   width: 104px;
   height: 72px;
   margin: 0 8px 8px 0;
-  border-radius: 8px;
-  border: 4px solid transparent;
+  border-radius: 12px;
   box-sizing: border-box;
-  background: {{color.bg}};
+  background: rgba(255, 255, 255, 0.08);
   color: {{color.text}};
-  font-size: 30px;
-  line-height: 64px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 72px;
   text-align: center;
   overflow: hidden;
 }
 
 .ss-key--wide {
   width: 176px;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .ss-key.is-on {
-  background: {{color.textMuted}};
-  color: {{color.bg}};
+  background: {{color.tint}};
+  color: {{color.focus}};
 }
 
 .ss-key.is-focused {
-  border-color: {{color.text}};
-  background: {{color.accent}};
-  color: {{color.text}};
+  background: #EEF2F8;
+  color: {{color.bg}};
+  box-shadow: {{ring}};
+  -webkit-transform: scale(1.08);
+  transform: scale(1.08);
 }

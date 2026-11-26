@@ -6,6 +6,9 @@ import { h } from '../utils/dom.ts';
 
 export interface VirtualListOptions<R> {
   rows: number;
+  /** Rows that are fully on screen when fewer than `rows` (the rest is a partly visible "peek"
+   *  row that is bound but never scrolled into focus). Defaults to `rows`. */
+  visible?: number;
   className: string;
   createRow(): { root: HTMLElement; parts: R };
   bind(parts: R, index: number, focused: boolean): void;
@@ -66,12 +69,14 @@ export function createVirtualList<R>(doc: Document, o: VirtualListOptions<R>): V
     }
   }
 
+  const win = o.visible && o.visible < o.rows ? o.visible : o.rows;
+
   function scrollTo(i: number): void {
-    const margin = o.rows > 4 ? 1 : 0;
+    const margin = win > 4 ? 1 : 0;
     if (i < top + margin) {
       top = Math.max(0, i - margin);
-    } else if (i > top + o.rows - 1 - margin) {
-      top = Math.min(Math.max(0, n - o.rows), i - o.rows + 1 + margin);
+    } else if (i > top + win - 1 - margin) {
+      top = Math.min(Math.max(0, n - win), i - win + 1 + margin);
     }
   }
 
@@ -82,7 +87,7 @@ export function createVirtualList<R>(doc: Document, o: VirtualListOptions<R>): V
       if (focus >= n) {
         focus = n - 1;
       }
-      top = Math.max(0, Math.min(top, n - o.rows));
+      top = Math.max(0, Math.min(top, n - win));
       if (focus >= 0) {
         scrollTo(focus);
       }

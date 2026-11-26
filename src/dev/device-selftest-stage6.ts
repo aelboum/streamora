@@ -11,7 +11,6 @@ import type { Logger, LogEntry } from '../utils/log.ts';
 import type { DevApp } from './device-selftest-stage4b.ts';
 import type { PlaylistService } from '../services/playlist-service.ts';
 import type { VodService } from '../services/vod-service.ts';
-import { createVodIndex } from '../content/vod-index.ts';
 
 const KEY = { up: 38, down: 40, left: 37, right: 39, ok: 13, back: 10009 };
 
@@ -89,22 +88,41 @@ export function runStage6SelfTest(platform: Platform, log: Logger, app: DevApp |
     return els ? els.length : -1;
   }
 
+  function placeholders(): number {
+    const kids = root.childNodes;
+    const layer = kids[kids.length - 1] as HTMLElement;
+    const els = layer && layer.querySelectorAll ? layer.querySelectorAll('.ss-vod__row .ss-card__title') : null;
+    let n = 0;
+    if (els) {
+      for (let i = 0; i < els.length; i++) {
+        const card = (els[i] as HTMLElement).parentNode as HTMLElement;
+        const row = card.parentNode as HTMLElement;
+        if (row.style.display !== 'none' && card.style.visibility !== 'hidden' && !els[i].textContent) { n++; }
+      }
+    }
+    return n;
+  }
+
   function section(s: 'movie' | 'series'): Promise<unknown> {
     const out: Record<string, unknown> = { section: s };
     const free0 = platform.memory().availableMB;
     let probe = lagProbe(platform);
+    let since0 = 0;
     const t0 = Date.now();
     return vod.refresh(pid, s).result.then(function (r) {
       const p = probe.stop();
-      out.refresh = { ok: r.ok, code: r.code || '', items: r.items, categories: r.categories, invalid: r.invalid, unchanged: r.unchanged, ms: Date.now() - t0 };
+      out.refresh = { ok: r.ok, code: r.code || '', items: r.items, categories: r.categories, invalid: r.invalid, unchanged: r.unchanged, requests: r.requests, ms: Date.now() - t0 };
       out.refreshMaxStallMs = p.maxLagMs;
       out.refreshStallsOver100ms = p.over100;
       out.freeBeforeMB = free0;
       out.refreshMinFreeMB = p.minFreeMB;
+      const fst = platform.fileStore as { timings?: () => Record<string, number> } | null;
       L.info('vod refresh measured', { section: s, refresh: out.refresh, maxStallMs: p.maxLagMs, minFreeMB: p.minFreeMB });
+      L.info('file store slowest calls', { section: s, ms: fst && fst.timings ? fst.timings() : null });
       if (!r.ok) { throw new Error('refresh failed: ' + r.code); }
       probe = lagProbe(platform);
       const since = Date.now();
+      since0 = since;
       router.resetTo('playlists');
       router.push('vod-browse', { playlistId: pid, section: s });
       return until(function () { return find('vod browse ready', since) !== null; }, 120000).then(function (ms) {
@@ -116,10 +134,28 @@ export function runStage6SelfTest(platform: Platform, log: Logger, app: DevApp |
     }).then(function () {
       out.postersBoundAfter1500ms = postersBound();
       const t1 = Date.now();
-      press(KEY.right, 6);
+      press(KEY.right, 4); // Stage 7B.1: 5-column grid
       press(KEY.down, 10);
-      out.keyMsPerPress = Math.round((Date.now() - t1) / 16 * 100) / 100;
-      press(KEY.left, 7); // to the categories
+      out.keyMsPerPress = Math.round((Date.now() - t1) / 14 * 100) / 100;
+      const shown = find('vod browse titles shown', since0);
+      out.firstTitlesMs = shown ? (shown.data as { ms: number }).ms : -1;
+      // Stage 6.1: scroll 60 rows (420 titles, several pages) at remote speed; count placeholders left.
+      let k = 0;
+      return new Promise<void>(function (resolve) {
+        const ts = Date.now();
+        function step(): void {
+          if (k++ >= 60) { out.scroll60RowsMs = Date.now() - ts; resolve(); return; }
+          press(KEY.down);
+          setTimeout(step, 120);
+        }
+        step();
+      }).then(function () { return wait(1000); }).then(function () {
+        out.placeholdersAfterScroll = placeholders();
+        press(KEY.up, 70);
+        return wait(500);
+      });
+    }).then(function () {
+      press(KEY.left, 5); // column 4 → 0 → the categories (a 6th press would enter the rail)
       const t2 = Date.now();
       press(KEY.down); // first provider category
       return wait(400).then(function () { out.categorySwitchWallMs = Date.now() - t2; });
@@ -130,13 +166,24 @@ export function runStage6SelfTest(platform: Platform, log: Logger, app: DevApp |
       return vod.load(pid, s);
     }).then(function (l) {
       if (l.status !== 'ok') { throw new Error('load ' + l.status); }
+      const view = l.view;
       const ts = Date.now();
-      const idx = createVodIndex(l.catalogue);
-      const first = l.catalogue.items[0];
-      const q = first ? first.name.substring(0, Math.min(4, first.name.length)) : 'a';
-      const hits = idx.search(q, 2000);
-      out.indexAndSearchMs = Date.now() - ts;
-      out.searchHits = hits.length;
+      return view.ensure([0]).then(function () {
+        out.firstPageMs = Date.now() - ts;
+        const first0 = view.item(0);
+        if (!first0) { throw new Error('first item unavailable'); }
+        const q = first0.name.substring(0, Math.min(4, first0.name.length));
+        const tq = Date.now();
+        let firstHitMs = -1;
+        const job = view.search(q, 2000, function (sofar) { if (firstHitMs < 0 && sofar.length) { firstHitMs = Date.now() - tq; } });
+        return job.result.then(function (hits) {
+          out.searchMs = Date.now() - tq;
+          out.searchFirstHitMs = firstHitMs;
+          out.searchHits = hits.length;
+          return first0;
+        });
+      });
+    }).then(function (first) {
       const td = Date.now();
       if (s === 'movie') {
         return vod.movieDetails(pid, first).then(function (d) {

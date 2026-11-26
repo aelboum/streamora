@@ -1,0 +1,74 @@
+ M docs/ARCHITECTURE.md
+ M docs/IMPLEMENTATION-STATUS.md
+ M docs/TEST-REPORT.md
+ M package.json
+ M scripts/build.mjs
+ M src/api/xtream/xtream-client.ts
+ M src/app/bootstrap.ts
+ M src/app/main.ts
+ M src/app/platform/detect.ts
+ M src/app/platform/platform.ts
+ M src/app/platform/tizen-file-store.ts
+ M src/components/virtual-list.ts
+ D src/content/vod-codec.ts
+ D src/content/vod-index.ts
+ M src/dev/device-selftest-stage6.ts
+ M src/dev/device-selftest.ts
+ M src/i18n/strings.ts
+ M src/navigation/keys.ts
+ M src/player/avplay-engine.ts
+ M src/player/engine.ts
+ M src/player/vod-controller.ts
+ M src/screens/live-screens.ts
+ M src/screens/live-tv-screen.ts
+ M src/screens/vod-browse-screen.ts
+ M src/screens/vod-details-screen.ts
+ M src/screens/vod-player-screen.ts
+ M src/screens/vod-screens.ts
+ M src/services/vod-service.ts
+ M src/storage/catalogue-store.ts
+ M src/styles/base.css
+ M src/styles/live.css
+ M src/styles/playlists.css
+ M src/styles/shell.css
+ M src/styles/tokens.ts
+ M src/styles/vod.css
+ M tests/fakes/fake-engine.mjs
+ M tests/fakes/fake-xtream-vod.mjs
+ M tests/unit/bootstrap.test.mjs
+ M tests/unit/live-player.test.mjs
+ M tests/unit/live-ui.test.mjs
+ M tests/unit/vod-ui.test.mjs
+ M tests/unit/vod.test.mjs
+?? android/
+?? docs/COMPREHENSIVE-FUNCTIONAL-AUDIT.md
+?? docs/STAGE-6.1-REPORT.md
+?? docs/STAGE-7B.1-REPORT.md
+?? docs/STAGE-7D-DIAGNOSTIC-REPORT.md
+?? docs/evidence/audit-seek-variants.jsonl
+?? docs/evidence/stage6.1-tv-selftest.jsonl
+?? docs/evidence/stage7b.1-tv.jsonl
+?? docs/evidence/stage7b.2-tv.jsonl
+?? docs/evidence/stage7d/
+?? docs/evidence/stage7e-playback/
+?? scripts/android.mjs
+?? src/app/platform/android-platform.ts
+?? src/components/brand.ts
+?? src/components/rail.ts
+?? src/content/vod-pages.ts
+?? src/dev/device-selftest-stage7b2.ts
+?? src/fonts/
+?? src/player/android-engine.ts
+?? src/screens/find-category-sheet.ts
+?? src/screens/home-screen.ts
+?? src/screens/parental-gate.ts
+?? src/screens/pin-dialog.ts
+?? src/screens/search-screen.ts
+?? src/screens/sections.ts
+?? src/screens/settings-screen.ts
+?? src/screens/track-sheet.ts
+?? src/screens/tv-guide-screen.ts
+?? src/services/parental.ts
+?? src/services/progress.ts
+?? src/services/track-prefs.ts
+?? src/styles/fonts.css

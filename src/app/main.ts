@@ -12,6 +12,8 @@ import { clear } from '../utils/dom.ts';
 import { installDevTools } from '../dev/dev-hooks.ts';
 import { createAvplayEngine } from '../player/avplay-engine.ts';
 import type { AvplayHost } from '../player/avplay-engine.ts';
+import { createAndroidEngine } from '../player/android-engine.ts';
+import type { AndroidPlayerHost } from '../player/android-engine.ts';
 
 function showFatal(message: string): void {
   const el = document.getElementById('ss-boot-status');
@@ -37,7 +39,9 @@ function start(): void {
       now: now,
       setTimer: function (fn, ms) { return setTimeout(fn, ms); },
       clearTimer: function (h) { clearTimeout(h as number); },
-      engineFactory: function (log) { return createAvplayEngine(window as unknown as AvplayHost, log); }
+      engineFactory: function (log) {
+        return platform.name === 'android' ? createAndroidEngine(window as unknown as AndroidPlayerHost) : createAvplayEngine(window as unknown as AvplayHost, log);
+      }
     });
     installErrorBoundary(window as unknown as ErrorTarget, ctx.log.child('global'), function () { /* logged; UI keeps running */ });
     clear(root);

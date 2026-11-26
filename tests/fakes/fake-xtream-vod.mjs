@@ -68,6 +68,13 @@ export const SERIES_INFO = {
   7005: [1, 2, 3]
 };
 
+/** Stage 6.1: a list request with &category_id=X answers only that category (as Xtream panels do). */
+export function byCategory(url, list) {
+  const m = /[?&]category_id=([^&]+)/.exec(url);
+  if (!m) return list;
+  return list.filter((x) => x && typeof x === 'object' && String(x.category_id) === decodeURIComponent(m[1]));
+}
+
 /** A player_api.php route for the fake HTTP server. `over` replaces any action's response. */
 export function xtreamVodRoute(over = {}) {
   const calls = [];
@@ -79,9 +86,9 @@ export function xtreamVodRoute(over = {}) {
     if (a === 'get_live_categories') return { status: 200, body: xt('live-categories.json') };
     if (a === 'get_live_streams') return { status: 200, body: xt('live-streams.json') };
     if (a === 'get_vod_categories') return { status: 200, body: JSON.stringify(VOD_CATEGORIES) };
-    if (a === 'get_vod_streams') return { status: 200, body: JSON.stringify(MOVIES), chunk: 97 };
+    if (a === 'get_vod_streams') return { status: 200, body: JSON.stringify(byCategory(url, MOVIES)), chunk: 97 };
     if (a === 'get_series_categories') return { status: 200, body: JSON.stringify(SERIES_CATEGORIES) };
-    if (a === 'get_series') return { status: 200, body: JSON.stringify(SERIES), chunk: 61 };
+    if (a === 'get_series') return { status: 200, body: JSON.stringify(byCategory(url, SERIES)), chunk: 61 };
     if (a === 'get_vod_info') {
       const id = (/[?&]vod_id=([^&]+)/.exec(url) || [])[1];
       return id in VOD_INFO ? { status: 200, body: JSON.stringify(VOD_INFO[id]) } : { status: 200, body: '{}' };

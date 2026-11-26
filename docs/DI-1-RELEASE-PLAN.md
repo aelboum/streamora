@@ -189,3 +189,36 @@ Replacing `0.3.0` with `0.2.0` in `app.js` and `config.xml` gives byte-identical
 - `README.txt`.
 
 The scratchpad original was kept (still 5 / 5).
+
+## 9. Production installation of 0.3.0 (2026-11-26) — PASS
+
+**Released:** commits `4b9c677` (source and tests) and `0ad03e0` (docs), on `main` and `release/0.3.0-cp1-di1`, tag `v0.3.0`; all pushed to GitHub. No GitHub release has been published.
+
+**Pre-install checks (§3), all passed:**
+- Stage 0 backups 6 / 6;
+- rollback copy `screenshelf-backups/production-0.2.0-c0adf0b` 5 / 5 (fonts 17 / 17);
+- a fresh build from the tagged commit (clean tree) byte-identical to the recorded 0.3.0 candidate (5 / 5);
+- `release-check` OK;
+- the same app ID;
+- the TV reachable, with production 0.2.0 installed (14:47:22).
+
+**Install (§4):** upgrade with `tizen install`; no uninstall and no data clearing. The TV reports **`SShelfDev1.ScreenShelf` version 0.3.0, installed 2026-11-26 15:14:26** local, and the app launched.
+
+**Physical checks P1–P8:** carried out by you on the TV; you reported "all checks pass on the TV".
+
+| # | Check | Result |
+|---|---|---|
+| P1 | Home: no protected dialog; the playlist on the chip | PASS |
+| P2 | The playlist (`pmwxc6brb01`) listed and active | PASS |
+| P3 | Diagnostics: Healthy · 1 · Valid · 1 · Passed · last backup time | PASS (values not transcribed) |
+| P4 | Recent storage events | PASS as a check; the event lines themselves were **not transcribed**, so S5 **A3 stays INCONCLUSIVE** |
+| P5 | About shows 0.3.0 | PASS |
+| P6 | Live TV, Movies and Series open; playback works | PASS |
+| P7 | The Subscription line shows the expiry | PASS |
+| P8 | After a restart, P1–P3 hold | PASS |
+
+No stop condition occurred and no rollback was needed.
+
+**Production status:** the TV now runs **0.3.0 with the DI-1 data-integrity protection**. The original data-loss mechanism of 0.2.0 is no longer installed. The 0.2.0 rollback copy is kept in `screenshelf-backups`.
+
+**Still INCONCLUSIVE:** A3 (storage-event lines) and E5 (parental control on the TV). They stay that way without actual evidence.

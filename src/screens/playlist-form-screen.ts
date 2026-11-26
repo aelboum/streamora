@@ -175,6 +175,14 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
       } else {
         nav.replace('playlist-details', { id: r.playlist.id, autoRefresh: true });
       }
+    }, function () {
+      // CP2 F12: an unexpected failure must never leave the form stuck on "Saving…".
+      // Only the generic storage message is shown (error details could contain typed input).
+      saving = false;
+      if (!frame) {
+        return;
+      }
+      setMessage(frame.message, t('form.err.storage'), 'error');
     });
   }
 

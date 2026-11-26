@@ -354,3 +354,18 @@ test('50,000-channel import: progress updates, UI stays responsive, cancellation
     ' ms (cancel run); cancel acknowledged in ' + cancelMs + ' ms; heap ' + Math.round(process.memoryUsage().heapUsed / 1048576) + ' MB');
   assert.ok(lagFull < 150, 'parsing is time-sliced: the event loop is never blocked for long (' + lagFull + ' ms)');
 });
+
+test('CP2 F12: an unexpected save failure shows the storage message instead of staying on "Saving…"', async () => {
+  const env = setup({ fn: () => ({ status: 404 }) });
+  env.svc.add = () => Promise.reject(new TypeError('Cannot read properties of undefined (reading \u0027length\u0027)'));
+  env.press('right');
+  env.press('ok'); // Add Xtream account
+  assert.match(bodyText(env), /Add Xtream account/);
+  env.press('down', 6);
+  assert.equal(env.focusedText(), 'Save');
+  env.press('ok'); // Save
+  await until(() => /couldn’t be saved on this TV/.test(env.layer().textContent), 2000, 'storage message');
+  assert.equal(env.layer().textContent.includes('Saving…'), false, 'no longer stuck on Saving…');
+  assert.equal(env.layer().textContent.includes('reading'), false, 'no technical error details shown');
+  assert.equal(env.router.stack().length, 2, 'the form stays open so the user can retry or cancel');
+});

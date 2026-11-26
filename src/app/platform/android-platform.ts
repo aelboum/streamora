@@ -24,13 +24,22 @@ interface EliteWindow {
   __eliteVisible?: (visible: boolean) => void;
 }
 
-function bridgeFileStore(b: AndroidPlatformBridge): FileStore {
+/**
+ * CP2 F11: a Java @JavascriptInterface method that returns a null String reaches JavaScript as
+ * `undefined`, not `null` (seen on the Philips QM164E, WebView 119). FileStore.read and
+ * KeyStore.load promise `null` for "absent", so the bridge results are normalised here.
+ */
+export function bridgeString(v: unknown): string | null {
+  return typeof v === 'string' ? v : null;
+}
+
+export function bridgeFileStore(b: AndroidPlatformBridge): FileStore {
   function call<T>(fn: () => T): Promise<T> {
     try { return Promise.resolve(fn()); } catch (e) { return Promise.reject(e instanceof Error ? e : new Error(String(e))); }
   }
   return {
     atomicReplace: true, // PlatformBridge.fileWrite writes a temp file and renames it
-    read: function (name) { checkFileName(name); return call(function () { return b.fileRead(name); }); },
+    read: function (name) { checkFileName(name); return call(function () { return bridgeString(b.fileRead(name)); }); },
     write: function (name, text) {
       checkFileName(name);
       return call(function () { if (!b.fileWrite(name, text)) { throw new Error('write failed'); } });
@@ -40,7 +49,7 @@ function bridgeFileStore(b: AndroidPlatformBridge): FileStore {
   };
 }
 
-function bridgeKeyStore(b: AndroidPlatformBridge): KeyStore {
+export function bridgeKeyStore(b: AndroidPlatformBridge): KeyStore {
   return {
     persistent: true,
     save: function (alias, value) {
@@ -50,7 +59,7 @@ function bridgeKeyStore(b: AndroidPlatformBridge): KeyStore {
     },
     load: function (alias) {
       checkAlias(alias);
-      try { return Promise.resolve(b.keyLoad(alias)); } catch (e) { return Promise.reject(e); }
+      try { return Promise.resolve(bridgeString(b.keyLoad(alias))); } catch (e) { return Promise.reject(e); }
     },
     remove: function (alias) {
       checkAlias(alias);

@@ -1,6 +1,6 @@
 # CP2 — Android physical test plan
 
-Date: 2026-11-26. **Plan only.** Nothing in it has been run. Installing on any device, collecting logs, and each part of the plan **need separate authorisation**. Background: `CP2-READINESS-AUDIT.md` (findings H1–L5, fixes F1–F10) and `CP2-ANDROID-IDENTITY-PROPOSAL.md`.
+Date: 2026-11-26. **Plan.** Results of the sessions run so far are recorded in `CP2-PHYSICAL-TEST-RESULTS.md`. Installing on any device, collecting logs, and each part of the plan **need separate authorisation**. Background: `CP2-READINESS-AUDIT.md` (findings H1–L5, fixes F1–F10) and `CP2-ANDROID-IDENTITY-PROPOSAL.md`.
 
 ## 0. Common rules
 

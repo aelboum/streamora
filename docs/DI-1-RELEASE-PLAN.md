@@ -221,4 +221,6 @@ No stop condition occurred and no rollback was needed.
 
 **Production status:** the TV now runs **0.3.0 with the DI-1 data-integrity protection**. The original data-loss mechanism of 0.2.0 is no longer installed. The 0.2.0 rollback copy is kept in `screenshelf-backups`.
 
+**Later:** 0.3.1 was installed as an upgrade on 2026-11-26 at 19:40. See `RELEASE-0.3.1.md`.
+
 **Still INCONCLUSIVE:** A3 (storage-event lines) and E5 (parental control on the TV). They stay that way without actual evidence.

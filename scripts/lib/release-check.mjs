@@ -18,11 +18,13 @@ function unescapeXml(s) {
 
 /**
  * @param {string} dir dist/release
+ * @param {{config?: boolean}} [opts] CP1: config: false for non-Tizen platform builds (no config.xml)
  * @returns {{ok: boolean, errors: string[]}}
  */
-export function checkReleaseDir(dir) {
+export function checkReleaseDir(dir, opts) {
   const errors = [];
-  for (const f of ['app.js', 'app.css', 'index.html', 'config.xml', 'icon.png']) {
+  const withConfig = !opts || opts.config !== false;
+  for (const f of withConfig ? ['app.js', 'app.css', 'index.html', 'config.xml', 'icon.png'] : ['app.js', 'app.css', 'index.html', 'icon.png']) {
     if (!existsSync(join(dir, f))) {
       errors.push('missing ' + f);
     }
@@ -40,6 +42,9 @@ export function checkReleaseDir(dir) {
     errors.push('app.js contains a plain-HTTP IP address');
   }
 
+  if (!withConfig) {
+    return { ok: errors.length === 0, errors };
+  }
   const cfg = readFileSync(join(dir, 'config.xml'), 'utf8');
   const access = cfg.match(/<access\b[^>]*\/>/g) || [];
   if (access.length !== 1 || access[0] !== '<access origin="*" subdomains="true"/>') {

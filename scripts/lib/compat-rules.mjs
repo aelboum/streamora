@@ -27,7 +27,13 @@ export const BANNED_OBJECT_STATICS = {
   entries: 'Object.entries is missing on Tizen 3.0 (probe)'
 };
 
-/** Only these paths may reference the `tizen` / `webapis` globals. */
+/**
+ * Only these paths may reference platform globals (PLATFORM_GLOBALS). CP1: besides Tizen's `tizen` and
+ * `webapis`, the Android bridge, IndexedDB (idb-file-store.ts) and the webOS / Titan OS APIs, so every
+ * platform API stays behind the adapters in src/app/platform/.
+ */
+export const PLATFORM_GLOBALS = ['tizen', 'webapis', 'ElitePlatform', 'indexedDB', 'PalmSystem', 'webOS', 'webOSSystem', 'TitanSDK', 'SmartTvA_API'];
+function isPlatformGlobal(name) { return PLATFORM_GLOBALS.indexOf(name) >= 0; }
 export const PLATFORM_ALLOWED = [/^src\/app\/platform\//, /^src\/player\/avplay-engine\.ts$/, /^src\/types\/.*\.d\.ts$/];
 
 /**
@@ -94,7 +100,7 @@ export function checkSource(text, fileName) {
       if (!isMemberName && Object.prototype.hasOwnProperty.call(BANNED_GLOBALS, name)) {
         report(node, 'api/' + name, BANNED_GLOBALS[name]);
       }
-      if (!isMemberName && (name === 'tizen' || name === 'webapis') && !platformOk) {
+      if (!isMemberName && isPlatformGlobal(name) && !platformOk) {
         report(node, 'boundary/platform', '`' + name + '` may only be used in src/app/platform/');
       }
     }
@@ -107,7 +113,7 @@ export function checkSource(text, fileName) {
           Object.prototype.hasOwnProperty.call(BANNED_OBJECT_STATICS, member)) {
         report(node, 'api/Object.' + member, BANNED_OBJECT_STATICS[member]);
       }
-      if ((member === 'tizen' || member === 'webapis') && !platformOk &&
+      if (isPlatformGlobal(member) && !platformOk &&
           ts.isIdentifier(node.expression) && /^(window|self|globalThis)$/.test(node.expression.text)) {
         report(node, 'boundary/platform', '`' + member + '` may only be used in src/app/platform/');
       }
@@ -122,7 +128,7 @@ export function checkSource(text, fileName) {
       const key = node.argumentExpression.text;
       if (Object.prototype.hasOwnProperty.call(BANNED_MEMBERS, key) ||
           Object.prototype.hasOwnProperty.call(BANNED_GLOBALS, key) ||
-          ((key === 'tizen' || key === 'webapis') && !platformOk)) {
+          (isPlatformGlobal(key) && !platformOk)) {
         report(node, 'api/' + key, 'banned member accessed by string: ' + key);
       }
     }

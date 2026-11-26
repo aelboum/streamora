@@ -24,6 +24,8 @@ export interface PlaylistScreenDeps {
   clearTimer: (handle: unknown) => void;
   openText?: (nav: Router, p: KeyboardParams) => void;
   live?: boolean;
+  /** S2: subscription rows (expiry, status, checked, time basis) of a playlist. */
+  subscription?: (playlistId: string) => Array<{ label: string; value: string }>;
   vod?: boolean;
 }
 
@@ -37,7 +39,7 @@ export function registerPlaylistScreens(router: Router, d: PlaylistScreenDeps): 
     return createPlaylistForm({ doc: d.doc, playlists: d.playlists, t: d.t, openText: d.openText }, p as unknown as FormParams, nav);
   });
   router.register('playlist-details', function (p, nav) {
-    return createPlaylistDetails({ doc: d.doc, playlists: d.playlists, t: d.t }, p as unknown as DetailsParams, nav);
+    return createPlaylistDetails({ doc: d.doc, playlists: d.playlists, t: d.t, subscription: d.subscription }, p as unknown as DetailsParams, nav);
   });
   router.register('import-dialog', function (p, nav) {
     return createImportDialog(d, p as unknown as ImportDialogParams, nav);

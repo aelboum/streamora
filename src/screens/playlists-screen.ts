@@ -103,7 +103,8 @@ export function createPlaylistsScreen(d: PlaylistsDeps, nav: Router): Screen {
     }
     list.setRows(rows);
     if (empty) {
-      empty.textContent = defs.length ? '' : t('playlists.empty');
+      // DI-1: an unreadable list is never presented as "no playlists yet".
+      empty.textContent = defs.length ? '' : d.playlists.storageState().status === 'protected' ? t('playlists.protected') : t('playlists.empty');
     }
     focus.refresh('list');
     const cur = focus.current();

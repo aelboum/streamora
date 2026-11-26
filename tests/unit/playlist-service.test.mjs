@@ -253,9 +253,10 @@ test('interrupted import: detected after a restart; temp and orphaned files clea
 
   const restarted = setup(m3uRoute(''), env.s);
   const rep = await restarted.svc.recover();
-  assert.deepEqual(rep, { interrupted: p.id, removedFiles: 2 });
+  // DI-1 contract change: the orphan of an unknown playlist (no tombstone) is kept; the temp file goes.
+  assert.deepEqual(rep, { interrupted: p.id, removedFiles: 1 });
   assert.equal(restarted.svc.get(p.id).lastStatus.code, 'interrupted');
-  assert.deepEqual(await env.s.files.list(), ['cat.' + p.id + '.live.json', 'cat.' + p.id + '.meta.json', 'other.json']);
+  assert.deepEqual(await env.s.files.list(), ['cat.' + p.id + '.live.json', 'cat.' + p.id + '.meta.json', 'cat.zzz.live.json', 'other.json']);
   assert.equal((await restarted.svc.loadLive(p.id)).status, 'ok', 'last complete catalogue survives');
   assert.deepEqual(await restarted.svc.recover(), { interrupted: null, removedFiles: 0 }, 'idempotent');
 });

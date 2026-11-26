@@ -28,6 +28,46 @@ const CODES: Record<number, RemoteKey> = {
   10073: 'channelList'                                    // [A] Stage 10: ChannelList (TV getSupportedKeys)
 };
 
+/**
+ * CP1: LG webOS remote [DOC: webostv.developer.lge.com, Back button / Magic Remote guides]. Back is 461;
+ * colour and media keys use the common TV codes. Channel ± may not reach web apps on webOS [DOC forum],
+ * so 33/34 (PageUp/PageDown) are mapped in case the TV delivers them; to verify on a TV (CP3).
+ * Not used until a webOS platform adapter exists.
+ */
+const WEBOS_CODES: Record<number, RemoteKey> = {
+  37: 'left', 38: 'up', 39: 'right', 40: 'down', 13: 'ok',
+  461: 'back',
+  33: 'chUp', 34: 'chDown',
+  403: 'red', 404: 'green', 405: 'yellow', 406: 'blue',
+  415: 'play', 19: 'pause', 413: 'stop', 412: 'rewind', 417: 'fastForward',
+  457: 'info'
+};
+
+/**
+ * CP1: Titan OS remote [DOC: docs.titanos.tv/remote-control]. Back is 8 on Philips and 461 on JVC;
+ * Channel ± are PageUp/PageDown (33/34); Play/Pause 179. Not used until a Titan adapter exists (CP5).
+ */
+const TITAN_CODES: Record<number, RemoteKey> = {
+  37: 'left', 38: 'up', 39: 'right', 40: 'down', 13: 'ok',
+  8: 'back', 461: 'back',
+  33: 'chUp', 34: 'chDown',
+  403: 'red', 404: 'green', 405: 'yellow', 406: 'blue',
+  415: 'play', 19: 'pause', 179: 'playPause', 413: 'stop', 412: 'rewind', 417: 'fastForward'
+};
+
+/**
+ * CP1: the key table per platform. Samsung uses CODES (above, unchanged). The Android activity
+ * translates Android key events into these same Samsung codes (MainActivity.java), so Android uses
+ * CODES too. The browser uses CODES plus the development keys below.
+ */
+export type KeyPlatform = 'tizen' | 'android' | 'browser' | 'webos' | 'titan';
+
+function tableFor(platform: KeyPlatform | undefined): Record<number, RemoteKey> {
+  if (platform === 'webos') { return WEBOS_CODES; }
+  if (platform === 'titan') { return TITAN_CODES; }
+  return CODES;
+}
+
 /** Browser development equivalents (never produced by the TV remote). */
 const BROWSER_CODES: Record<number, RemoteKey> = {
   27: 'back',      // Escape
@@ -44,12 +84,14 @@ export const TIZEN_KEY_NAMES = [
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 ];
 
-export function mapKeyCode(code: number, allowBrowserKeys: boolean): MappedKey | null {
+/** Without `platform` (or for 'tizen', 'android', 'browser') the Samsung table applies, as before CP1. */
+export function mapKeyCode(code: number, allowBrowserKeys: boolean, platform?: KeyPlatform): MappedKey | null {
   if (code >= 48 && code <= 57) {
     return { key: 'digit', digit: code - 48 };
   }
-  if (Object.prototype.hasOwnProperty.call(CODES, code)) {
-    return { key: CODES[code] };
+  const table = tableFor(platform);
+  if (Object.prototype.hasOwnProperty.call(table, code)) {
+    return { key: table[code] };
   }
   if (allowBrowserKeys && Object.prototype.hasOwnProperty.call(BROWSER_CODES, code)) {
     return { key: BROWSER_CODES[code] };

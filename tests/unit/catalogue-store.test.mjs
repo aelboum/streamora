@@ -102,9 +102,14 @@ test('removePlaylist and cleanup', async () => {
   files.poke('settings-backup.json', 'not ours');
   assert.equal(await store.removePlaylist('gone'), 2);
   await store.save('orphan', 'live', []);
-  const c = await store.cleanup(['keep']);
-  assert.equal(c.removed, 3);
-  assert.deepEqual(await files.list(), ['cat.keep.live.json', 'cat.keep.meta.json', 'settings-backup.json']);
+  // DI-1 contract change: files whose owner is unknown (the orphan, the unrecognised name) are kept;
+  // only temp files of known playlists and files of removed (tombstoned) playlists are deleted.
+  const c = await store.cleanup([], ['keep']);
+  assert.deepEqual(c, { removed: 1, kept: 2 });
+  assert.deepEqual(await files.list(), ['cat.keep.live.json', 'cat.keep.meta.json', 'cat.orphan.live.json', 'cat.weird.json', 'settings-backup.json']);
+  const c2 = await store.cleanup(['orphan'], ['keep']);
+  assert.deepEqual(c2, { removed: 1, kept: 1 });
+  assert.deepEqual(await files.list(), ['cat.keep.live.json', 'cat.keep.meta.json', 'cat.weird.json', 'settings-backup.json']);
 });
 
 test('playlist ids and sections are validated (no path tricks)', async () => {

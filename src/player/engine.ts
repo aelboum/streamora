@@ -54,6 +54,37 @@ export interface LoadOptions {
   startMs?: number;
 }
 
+/**
+ * CP1: what an engine can do, so shared code can adapt per platform instead of assuming AVPlay.
+ * Values describe the engine implementation; what a given stream or TV model supports still has to
+ * be found at playback time (codec support differs per device).
+ */
+export interface EngineCapabilities {
+  /** More than one source can play at the same time (e.g. a live preview next to the player). */
+  multiDecoder: boolean;
+  /** Audio / subtitle tracks of the open source can be listed and switched. */
+  trackSwitching: boolean;
+  /** Subtitles inside the stream reach the app as cues. */
+  embeddedSubtitles: boolean;
+  /** LoadOptions.bufferSec is applied. */
+  bufferControl: boolean;
+  /** Most tracks the engine lists for one source (0 = no known limit). AVPlay: the first 32 [T]. */
+  maxTracks: number;
+}
+
+/** Engines (and test doubles) without capabilities(): the AVPlay-like values every caller assumed before CP1. */
+export const DEFAULT_CAPABILITIES: EngineCapabilities = {
+  multiDecoder: false, trackSwitching: false, embeddedSubtitles: false, bufferControl: true, maxTracks: 0
+};
+
+export function engineCapabilities(engine: PlaybackEngine | null): EngineCapabilities {
+  if (engine && engine.capabilities) {
+    try { return engine.capabilities(); } catch (e) { /* fall back */ }
+  }
+  const c = DEFAULT_CAPABILITIES;
+  return { multiDecoder: c.multiDecoder, trackSwitching: !!(engine && engine.tracks && engine.selectTrack), embeddedSubtitles: c.embeddedSubtitles, bufferControl: c.bufferControl, maxTracks: c.maxTracks };
+}
+
 export interface PlaybackEngine {
   /** Opens and prepares the source, then starts playback. Rejects with an EngineErrorCode string. */
   load(src: PlaybackSource, opts: LoadOptions): Promise<void>;
@@ -76,5 +107,7 @@ export interface PlaybackEngine {
   tracks?(): MediaTrack[];
   /** Stage 7B.2: select a track; for 'text', id −1 turns subtitles off. */
   selectTrack?(kind: 'audio' | 'text', id: number): void;
+  /** CP1: what this engine can do (absent: see engineCapabilities()). */
+  capabilities?(): EngineCapabilities;
   destroy(): void;
 }

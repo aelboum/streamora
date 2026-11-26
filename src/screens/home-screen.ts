@@ -11,7 +11,7 @@
 // confirm (router root-back handler). Default focus: Live TV, else the first available tile.
 import type { HostLayer, Router, Screen } from '../navigation/router.ts';
 import type { RemoteKeyEvent } from '../navigation/key-router.ts';
-import type { PlaylistService } from '../services/playlist-service.ts';
+import type { PlaylistService, PlaylistStorageState } from '../services/playlist-service.ts';
 import type { VodService } from '../services/vod-service.ts';
 import type { Translate } from '../i18n/strings.ts';
 import type { ConfirmParams } from './confirm-dialog.ts';
@@ -40,6 +40,11 @@ export interface HomeDeps {
   now: () => number;
   setTimer: (fn: () => void, ms: number) => unknown;
   clearTimer: (h: unknown) => void;
+  /**
+   * CP1: playlists already asked about in this app run (session-only logins, R0 decision 4). Shared
+   * across Home instances; absent = never ask (tests, platforms with a secure store never need it).
+   */
+  signIn?: { asked: Record<string, boolean> } | null;
 }
 
 type TileId = 'live' | 'movies' | 'series' | 'settings' | 'add';
@@ -133,7 +138,8 @@ export function createHomeScreen(d: HomeDeps, nav: Router): Screen {
   }
 
   function tileAvailable(id: TileId): boolean {
-    if (id === 'add') { return nav.isRegistered('playlist-form'); }
+    // DI-1: no "add" while the playlist list is unverified: it must not look like a fresh start.
+    if (id === 'add') { return nav.isRegistered('playlist-form') && d.playlists.storageState().status === 'ok'; }
     return sectionAvailable(nav, d.playlists, id);
   }
 
@@ -160,14 +166,16 @@ export function createHomeScreen(d: HomeDeps, nav: Router): Screen {
   function refreshData(): void {
     const active = d.playlists.activeId();
     const def = active ? d.playlists.get(active) : null;
+    const guarded = d.playlists.storageState().status === 'protected'; // DI-1
     for (let i = 0; i < TILE_ORDER.length; i++) {
       const id = TILE_ORDER[i];
       const tile = tiles[id];
       tile.enabled = tileAvailable(id);
       let sub = t('home.' + id + 'Sub');
       if (!tile.enabled && (id === 'live' || id === 'movies' || id === 'series')) {
-        sub = def ? t('home.needsXtream') : t('home.needsAccount');
+        sub = def ? t('home.needsXtream') : guarded ? t('home.storageSub') : t('home.needsAccount');
       }
+      if (!tile.enabled && id === 'add' && guarded) { sub = t('home.addLocked'); }
       tile.sub.textContent = sub;
       if (tile.count) { tile.count.textContent = ''; }
     }
@@ -187,7 +195,7 @@ export function createHomeScreen(d: HomeDeps, nav: Router): Screen {
         }
       });
     }
-    chipName.textContent = def ? def.name : t('home.noAccount');
+    chipName.textContent = def ? def.name : guarded ? t('home.storageChip') : t('home.noAccount');
     chipDot.className = 'ss-home__dot' + (!def ? ' is-off' : def.lastStatus && !def.lastStatus.ok ? ' is-error' : def.lastLoadedAt ? ' is-ok' : ' is-off');
     for (let i = 0; i < bar.length; i++) {
       bar[i].enabled = BAR[i].id === 'home' || sectionAvailable(nav, d.playlists, BAR[i].id);
@@ -324,6 +332,73 @@ export function createHomeScreen(d: HomeDeps, nav: Router): Screen {
     return tileFocus;
   }
 
+  /** CP1: without a secure store the login is gone after a restart: offer to enter it again. */
+  function askSignIn(): void {
+    const s = d.signIn;
+    const id = d.playlists.activeId();
+    if (!s || !id || d.playlists.credentialsPersistent() || s.asked['k' + id]) { return; }
+    s.asked['k' + id] = true;
+    d.playlists.hasCredentials(id).then(function (has) {
+      const def = d.playlists.get(id);
+      if (has || !alive || !shown || !def) { return; }
+      const p: ConfirmParams = {
+        title: t('signin.title'),
+        paragraphs: [t('signin.text', { name: def.name })],
+        buttons: [
+          { label: t('signin.later') },
+          { label: t('signin.now'), run: function () { nav.push('playlist-form', { mode: 'edit', id: id }); } }
+        ]
+      };
+      nav.openOverlay('confirm', p as unknown as Record<string, unknown>);
+    });
+  }
+
+  /** DI-1: once per app run, explain protected playlist storage and offer the safe choices. */
+  const storageAsked: Record<string, boolean> = {};
+  function notice(key: string): void {
+    const p: ConfirmParams = { title: t('storage.title'), paragraphs: [t(key)], buttons: [{ label: t('common.ok') }] };
+    nav.openOverlay('confirm', p as unknown as Record<string, unknown>);
+  }
+  function afterStorage(): void {
+    if (!alive) { return; }
+    refreshData();
+    paint();
+  }
+  function askStorage(s: PlaylistStorageState, force?: boolean): void {
+    if (s.status !== 'protected') { return; }
+    const box = d.signIn ? d.signIn.asked : storageAsked;
+    if (box.storage && !force) { return; }
+    box.storage = true;
+    const paras = [t('storage.text'), t('storage.why.' + s.problem)];
+    if (s.backupEntries > 0) { paras.push(t('storage.backup', { n: s.backupEntries })); }
+    const buttons: ConfirmParams['buttons'] = [{ label: t('storage.later') }];
+    if (s.canRestore) {
+      buttons.push({ label: t('storage.restore'), run: function () {
+        d.playlists.restoreBackup().then(function (r) { afterStorage(); if (alive) { notice(r.ok ? 'storage.restored' : 'storage.failed'); } });
+      } });
+    }
+    buttons.push({ label: t('storage.retry'), run: function () {
+      d.playlists.recheckStorage().then(function (n) {
+        afterStorage();
+        if (!alive) { return; }
+        if (n.status === 'protected') { askStorage(n, true); } else { notice('storage.okNow'); }
+      });
+    } });
+    if (s.canContinue) {
+      buttons.push({ label: t('storage.continue'), run: function () {
+        const c: ConfirmParams = {
+          title: t('storage.continueTitle'), paragraphs: [t('storage.continueText')],
+          buttons: [{ label: t('common.cancel') }, { label: t('storage.continue'), run: function () {
+            d.playlists.continueWithoutRestore().then(function (r) { afterStorage(); if (alive && !r.ok) { notice('storage.failed'); } });
+          } }]
+        };
+        nav.openOverlay('confirm', c as unknown as Record<string, unknown>);
+      } });
+    }
+    const p: ConfirmParams = { title: t('storage.title'), paragraphs: paras, buttons: buttons, variant: 'ss-dialog--warning' };
+    nav.openOverlay('confirm', p as unknown as Record<string, unknown>);
+  }
+
   function addAccount(): void {
     const p: ConfirmParams = {
       title: t('home.addTitle'),
@@ -394,6 +469,13 @@ export function createHomeScreen(d: HomeDeps, nav: Router): Screen {
       refreshData();
       shownOnce = true;
       paint();
+      askSignIn();
+      // DI-1: once the list is classified, repaint and explain a protected state.
+      d.playlists.whenChecked().then(function (s) {
+        if (!alive || !shown) { return; }
+        afterStorage();
+        askStorage(s);
+      });
       const active = d.playlists.activeId();
       const def = active ? d.playlists.get(active) : null;
       if (def && def.kind === 'xtream' && d.vod && artFor !== def.id && artTimer === null) {

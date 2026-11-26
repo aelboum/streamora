@@ -35,6 +35,7 @@ import { xtreamVodRoute } from '../fakes/fake-xtream-vod.mjs';
 import { createHomeScreen } from '../../src/screens/home-screen.ts';
 import { createSearchScreen } from '../../src/screens/search-screen.ts';
 import { createSettingsScreen } from '../../src/screens/settings-screen.ts';
+import { createAboutScreen } from '../../src/screens/about-screen.ts';
 import { createPinDialog } from '../../src/screens/pin-dialog.ts';
 import { createParental } from '../../src/services/parental.ts';
 import { createPinService } from '../../src/security/pin.ts';
@@ -107,6 +108,7 @@ async function setup(opts = {}) {
     doc, t, playlists, progress, trackPrefs, kv, parental, language: () => 'en', setLanguage: (l) => langCalls.push(l),
     about: () => [{ label: 'Version', value: '0.2.0' }]
   }, nav));
+  router.register('about', (_p, nav) => createAboutScreen({ doc, t, lines: () => [{ label: 'Version', value: '0.2.0' }] }, nav));
   let k = 0;
   const keyRouter = createKeyRouter({ now: () => (k += 200), throttleMs: 110, allowBrowserKeys: false, dispatch: (e) => router.handleKey(e), textInputActive: () => textInput.active });
   const ev = (code) => ({ keyCode: code, preventDefault() {} });
@@ -881,10 +883,22 @@ test('Settings: accounts, language, playback languages, clear history (confirmed
   env.press('ok');
   assert.equal(env.progress.list(env.pl.id).length, 0);
   assert.equal(value('clear-progress'), '0 unfinished');
-  // About rows are information only: ▼ skips them.
-  env.press('down', 5);
-  assert.equal(focused(), 'diagnostics');
+  // S1 (intended change, was "About rows are information only: ▼ skips them"): About is one
+  // focusable row showing the version; OK opens the read-only About screen; Back returns to it.
+  env.press('down', 2);
+  assert.equal(focused(), 'about');
+  assert.equal(value('about'), '0.2.0');
+  env.press('ok');
+  assert.equal(top(env), 'about');
   assert.match(env.layer().textContent, /Version0\.2\.0/);
+  env.press('down');
+  env.press('ok');
+  assert.equal(top(env), 'about', 'nothing on the About screen reacts to ▼ / OK');
+  env.press('back');
+  assert.equal(top(env), 'settings');
+  assert.equal(focused(), 'about', 'focus restored on the About row');
+  env.press('down');
+  assert.equal(focused(), 'diagnostics');
 });
 
 function typePin(env, digits) {

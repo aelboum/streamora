@@ -484,6 +484,11 @@ export function createAvplayEngine(host: AvplayHost, log?: Logger): PlaybackEngi
         if (i >= 0) { listeners.splice(i, 1); }
       };
     },
+    // CP1: one AVPlay player per app [T]; tracks listed and switched (first 32 only, Stage 7F-E) [T];
+    // subtitle cues from the stream [T]; setBufferingParam [T].
+    capabilities: function () {
+      return { multiDecoder: false, trackSwitching: true, embeddedSubtitles: true, bufferControl: true, maxTracks: 32 };
+    },
     destroy: function () {
       session++;
       teardown();

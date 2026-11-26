@@ -1,5 +1,6 @@
 node_modules/
-build/
+# root build output only (tests/build/ holds the tracked build tests)
+/build/
 dist/
 logs/
 # probe build output (the probe sources and raw results stay tracked)

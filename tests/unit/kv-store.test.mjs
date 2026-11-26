@@ -14,22 +14,27 @@ test('round trip with versioned envelope under the namespace', () => {
   assert.deepEqual(kv.get('settings', isObj, null), { theme: 'dark' });
 });
 
-test('missing, corrupt, malformed and invalid values fall back and are removed', () => {
+// DI-1 contract change: unreadable values still fall back, but are no longer deleted. They stay in
+// place and are copied to quarantine.<name> (this test asserted the deletion before DI-1).
+test('missing, corrupt, malformed and invalid values fall back and are kept (DI-1: quarantined, never deleted)', () => {
   const local = createMemoryLocalStore();
   const log = createLogger();
   const kv = createKeyValueStore(local, log);
   assert.equal(kv.get('nothing', isObj, 'fb'), 'fb');
   local.setItem(KV_PREFIX + 'a', '{broken');
   assert.equal(kv.get('a', isObj, 'fb'), 'fb');
-  assert.equal(local.getItem(KV_PREFIX + 'a'), null);
+  assert.equal(local.getItem(KV_PREFIX + 'a'), '{broken', 'original kept');
+  assert.equal(kv.quarantined('a'), '{broken', 'and preserved in quarantine');
   local.setItem(KV_PREFIX + 'b', '[1,2]');
   assert.equal(kv.get('b', isObj, 'fb'), 'fb');
+  assert.equal(local.getItem(KV_PREFIX + 'b'), '[1,2]');
   local.setItem(KV_PREFIX + 'c', '{"v":1,"d":"string"}');
   assert.equal(kv.get('c', isObj, 'fb'), 'fb');
+  assert.equal(local.getItem(KV_PREFIX + 'c'), '{"v":1,"d":"string"}');
   assert.ok(log.entries().filter((e) => e.level === 'warn').length >= 3);
 });
 
-test('schema versions: migration applied, missing migration resets', () => {
+test('schema versions: migration applied; a missing migration falls back and keeps the value (DI-1)', () => {
   const local = createMemoryLocalStore();
   const kv = createKeyValueStore(local);
   kv.set('list', ['a'], 1);
@@ -37,7 +42,8 @@ test('schema versions: migration applied, missing migration resets', () => {
   assert.deepEqual(migrated, { items: ['a'] });
   kv.set('old', 'x', 1);
   assert.equal(kv.get('old', () => true, 'fb', 3), 'fb');
-  assert.equal(local.getItem(KV_PREFIX + 'old'), null);
+  assert.equal(local.getItem(KV_PREFIX + 'old'), '{"v":1,"d":"x"}', 'kept (DI-1)');
+  assert.equal(kv.read('old', () => true, 3).status, 'unsupported');
 });
 
 test('quota errors are reported as false, never thrown', () => {

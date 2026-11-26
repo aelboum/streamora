@@ -1,6 +1,20 @@
 // Result types shared by the playlist sources (m3u-source.ts, xtream-source.ts).
 import type { EpgSource, ImportCounts, ImportErrorCode } from '../models/content.ts';
 import type { LivePayload } from './catalogue-codec.ts';
+import type { ClockBasis, Expiry } from './expiry.ts';
+
+/**
+ * S2: account metadata reported right after a successful Xtream login (before any later step can
+ * fail). No credentials, no server address. Same shape as services/account-info.ts AccountInfo.
+ */
+export interface AccountReport {
+  expiry: Expiry;
+  status: string;
+  trial: boolean;
+  maxConnections: number | null;
+  checkedAt: number;
+  clock: ClockBasis;
+}
 
 export interface SourceImport {
   payload: LivePayload;

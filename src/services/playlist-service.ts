@@ -17,8 +17,28 @@
 //   5. definition status updated, journal cleared.
 // A crash between 3 and 4 leaves a live file whose checksum differs from meta.liveHash; loadLive
 // reports 'inconsistent' and the caller re-imports. recover() at start-up marks a journalled
-// import as interrupted and removes temp files and orphaned catalogue files.
-import type { KeyValueStore } from '../storage/kv-store.ts';
+// import as interrupted and removes temp files and the files of playlists the user removed.
+//
+// DI-1 (data integrity): an unreadable playlist list is never treated as an empty one.
+//   - The list is read with kv.read(); missing, unreadable, corrupt, malformed, unsupported and
+//     partially invalid lists are told apart. Only a verified-missing list on a device with no
+//     backup and no catalogue files of earlier playlists counts as a first start.
+//   - Anything else puts the service in a protected state: writes to the list (add, update,
+//     remove, removeAll, setActive, status updates) are refused with 'storage-protected', start-up
+//     cleanup is skipped, and the stored value is quarantined (kv-store.ts), never deleted.
+//   - Valid entries of a partially invalid list stay visible and playable (read-only).
+//   - Backup: ss-playlists.bak.json in the FileStore (a different medium than localStorage),
+//     rewritten after every successful, validated save (verified by count and hash before use).
+//     ss-playlists.bak.keep.json preserves a backup once before a recovery decision replaces it.
+//   - Tombstones: KV "playlists.removed" lists playlists the user removed; only their catalogue
+//     files are deleted by cleanup. Files whose owner is unknown are kept.
+//   - Recovery is a user decision: restoreBackup() or continueWithoutRestore(), both only when the
+//     unreadable value is preserved in quarantine; recheckStorage() re-reads (e.g. after a read error).
+import type { KeyValueStore, KvProblem } from '../storage/kv-store.ts';
+import type { FileStore } from '../app/platform/platform.ts';
+import type { DiagLog } from '../storage/diag-log.ts';
+import type { AccountInfoStore } from './account-info.ts';
+import { ACCOUNT_KEY_PREFIX } from './account-info.ts';
 import type { CatalogueStore } from '../storage/catalogue-store.ts';
 import type { SecretStore, PlaylistSecret } from '../storage/secret-store.ts';
 import type { HttpClient } from '../api/http-client.ts';
@@ -30,7 +50,7 @@ import type { Logger } from '../utils/log.ts';
 import type {
   CatalogueMeta, Channel, EpgSource, ImportCounts, ImportErrorCode, LiveCatalogue, LiveFormat, PlaybackSource, PlaylistDef, Programme, SourceStatus, StreamRef
 } from '../models/content.ts';
-import { isPlaylistId, isPlaylistList } from '../models/content.ts';
+import { isPlaylistDef, isPlaylistId, isPlaylistList } from '../models/content.ts';
 import { importM3u } from '../content/m3u-source.ts';
 import { importXtream } from '../content/xtream-source.ts';
 import type { ImportHandle, ImportProgress, ImportResult, SourceImport } from '../content/import-types.ts';
@@ -43,6 +63,13 @@ export const MAX_PLAYLISTS = 20;
 const KV_LIST = 'playlists';
 const KV_ACTIVE = 'playlists.active';
 const KV_JOURNAL = 'import.journal';
+/** DI-1: ids of playlists the user removed (their leftover catalogue files may be deleted). */
+const KV_REMOVED = 'playlists.removed';
+const MAX_TOMBSTONES = 50;
+/** DI-1: last-known-good copy of the playlist list (FileStore). */
+export const BACKUP_FILE = 'ss-playlists.bak.json';
+/** DI-1: one preserved backup, written once before a recovery decision replaces the backup. */
+export const BACKUP_KEEP_FILE = 'ss-playlists.bak.keep.json';
 
 export interface PlaylistInput {
   name: string;
@@ -68,7 +95,50 @@ export interface PlaylistChanges {
   password?: string;
 }
 
-export type InputError = 'invalid-name' | 'invalid-url' | 'invalid-credentials' | 'limit' | 'not-found' | 'storage';
+export type InputError = 'invalid-name' | 'invalid-url' | 'invalid-credentials' | 'limit' | 'not-found' | 'storage' | 'storage-protected';
+
+/** DI-1: why the playlist list is protected. */
+export type StorageProblem = KvProblem | 'partial' | 'missing-with-backup' | 'missing-with-data' | 'unverified' | 'no-local-storage';
+
+export type PlaylistStorageState =
+  | { status: 'ok' }
+  /** The list key is missing; backup and catalogue files are being checked (first start or loss?). */
+  | { status: 'checking' }
+  | {
+    status: 'protected';
+    problem: StorageProblem;
+    /** The unreadable stored value is preserved (quarantined, or nothing was stored). */
+    preserved: boolean;
+    canRestore: boolean;
+    canContinue: boolean;
+    /** Entries in a verified backup; -1 when there is none. */
+    backupEntries: number;
+    validEntries: number;
+    invalidEntries: number;
+  };
+
+/**
+ * DI-1.1: read-only storage report for the diagnostics screen. Every field is measured now from
+ * the stored data (fresh reads, no writes); null / 'unknown' when it cannot be verified.
+ */
+export interface StorageReport {
+  state: 'healthy' | 'protected' | 'unavailable' | 'unknown';
+  /** Protection reason (codes of StorageProblem), when protected or unavailable. */
+  problem: StorageProblem | null;
+  /** Entries of the stored list that pass validation; null when the list cannot be read. */
+  listEntries: number | null;
+  backup: 'missing' | 'valid' | 'invalid' | 'unreadable' | 'unknown';
+  /** Entries of the verified backup; null unless backup === 'valid'. */
+  backupEntries: number | null;
+  /** Count + checksum + validation of the backup: 'ok' only for a verified backup. */
+  integrity: 'ok' | 'failed' | 'unknown';
+}
+
+export interface StorageActionResult {
+  ok: boolean;
+  code: 'restored' | 'continued' | 'not-protected' | 'not-preserved' | 'no-backup' | 'backup-keep-failed' | 'write-failed';
+  entries?: number;
+}
 
 export type SaveDefResult =
   | { ok: true; playlist: PlaylistDef }
@@ -94,6 +164,8 @@ export type LiveLoad =
 export interface RecoveryReport {
   interrupted: string | null;
   removedFiles: number;
+  /** DI-1: true when start-up cleanup did not run because the playlist list is not verified. */
+  cleanupSkipped?: boolean;
 }
 
 export interface PlaylistServiceOptions {
@@ -117,6 +189,14 @@ export interface PlaylistServiceOptions {
    * (or Search) does not re-read and re-decode the channel file. Absent = no cache (old behaviour).
    */
   liveCache?: LiveCacheOptions;
+  /** DI-1: file store for the playlist-list backup (absent = no backup). */
+  files?: FileStore | null;
+  /** DI-1: persistent diagnostics log. */
+  diag?: DiagLog | null;
+  /** DI-1: false when localStorage is unavailable (memory fallback): the list is then protected. */
+  storagePersistent?: boolean;
+  /** S2: Xtream account metadata (expiry, status), stored apart from the playlist list. */
+  accounts?: AccountInfoStore | null;
 }
 
 export interface LiveCacheOptions {
@@ -144,9 +224,25 @@ export interface PlaylistService {
   get(id: string): PlaylistDef | null;
   add(input: PlaylistInput): Promise<SaveDefResult>;
   update(id: string, changes: PlaylistChanges): Promise<SaveDefResult>;
-  /** Removes the definition, its credentials and its catalogue files. */
+  /** Removes the definition, its credentials and its catalogue files. Rejects while storage is protected. */
   remove(id: string): Promise<void>;
+  /** DI-1: whether the playlist list is verified, being checked, or protected. */
+  storageState(): PlaylistStorageState;
+  /** DI-1: the state once a missing list has been classified (first start or loss). */
+  whenChecked(): Promise<PlaylistStorageState>;
+  /** DI-1.1: read-only report (diagnostics). Never writes, quarantines, cleans up or changes state. */
+  storageReport(): Promise<StorageReport>;
+  /** DI-1: reads the list again (for example after a read error) and re-checks. */
+  recheckStorage(): Promise<PlaylistStorageState>;
+  /** DI-1: user decision: rebuild the list from the verified backup (the unreadable value stays quarantined). */
+  restoreBackup(): Promise<StorageActionResult>;
+  /** DI-1: user decision: carry on with the valid entries (or none); quarantine, backup and files are kept. */
+  continueWithoutRestore(): Promise<StorageActionResult>;
   activeId(): string | null;
+  /** CP1: false where no secure store exists; logins are then kept for this session only. */
+  credentialsPersistent(): boolean;
+  /** CP1: true when the playlist's login is available now (false after a restart in session-only mode). */
+  hasCredentials(id: string): Promise<boolean>;
   /** Switches the active playlist. False for an unknown id. */
   setActive(id: string): boolean;
   /** Downloads and stores the catalogue. One import at a time ('busy' otherwise). */
@@ -167,7 +263,7 @@ export interface PlaylistService {
   recover(): Promise<RecoveryReport>;
   /** Stored catalogue metadata (small file; no channel list). */
   meta(id: string): Promise<CatalogueMeta | null>;
-  /** Aborts a running import and deletes every playlist, its credentials and its files (unauthenticated PIN reset). */
+  /** Aborts a running import and deletes every playlist, its credentials and its files (unauthenticated PIN reset). Rejects while storage is protected. */
   removeAll(): Promise<void>;
   /** Xtream short EPG for one channel (Xtream references only; credentials stay inside the service). */
   shortEpg(id: string, channel: Channel, limit: number): Promise<Programme[] | null>;
@@ -208,6 +304,40 @@ function extOf(url: string): string {
   const path = url.split('?')[0].split('#')[0];
   const m = /\.([A-Za-z0-9]{1,5})$/.exec(path);
   return m ? m[1] : '';
+}
+
+function isArrayValue(x: unknown): x is unknown[] {
+  return Object.prototype.toString.call(x) === '[object Array]';
+}
+
+function isIdList(x: unknown): x is string[] {
+  if (!isArrayValue(x)) { return false; }
+  for (let i = 0; i < x.length; i++) { if (!isPlaylistId(x[i])) { return false; } }
+  return true;
+}
+
+/** DI-1: small checksum of the backup content (detects truncation and damage; not a security measure). */
+function textHash(t: string): string {
+  let h = 5381;
+  for (let i = 0; i < t.length; i++) { h = ((h * 33) ^ t.charCodeAt(i)) >>> 0; }
+  return h.toString(36) + '.' + t.length.toString(36);
+}
+
+function backupText(list: PlaylistDef[]): string {
+  return JSON.stringify({ v: 1, count: list.length, hash: textHash(JSON.stringify(list)), list: list });
+}
+
+/** Verified backup list, or null (unreadable, truncated, invalid). */
+function parseBackup(text: string): PlaylistDef[] | null {
+  try {
+    const o = JSON.parse(text);
+    if (!o || o.v !== 1 || !isPlaylistList(o.list) || o.count !== o.list.length || o.hash !== textHash(JSON.stringify(o.list))) {
+      return null;
+    }
+    return o.list;
+  } catch (e) {
+    return null;
+  }
 }
 
 function trim(s: unknown): string {
@@ -330,8 +460,244 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
     return o.kv.get<string | null>(KV_ACTIVE, isActive, null);
   }
 
+  // ---------------------------------------------------------------- DI-1: fail-safe list storage
+  const backupFiles = o.files || null;
+  const diag = o.diag || null;
+  const persistentKv = o.storagePersistent !== false;
+  type State = { status: 'ok' } | { status: 'checking' } | { status: 'protected'; problem: StorageProblem; preserved: boolean; valid: number; invalid: number };
+  let st: State = { status: 'checking' };
+  /** The last list read successfully (shown while protected: never an invented empty list). */
+  let lastGood: PlaylistDef[] = [];
+  let checked: Promise<void> | null = null;
+  let backup: PlaylistDef[] | null = null;
+  let backupStored: string | null = null;
+  let backupChain: Promise<void> = Promise.resolve();
+
+  type Inspect =
+    | { kind: 'ok'; list: PlaylistDef[] }
+    | { kind: 'missing' }
+    | { kind: 'partial'; list: PlaylistDef[]; invalid: number; raw: string }
+    | { kind: KvProblem; raw: string | null };
+
+  function record(e: string, d?: Record<string, unknown>): void {
+    if (diag) { diag.record(e, d); }
+  }
+
+  /** Reads the stored list without changing anything; valid entries are separated from invalid ones. */
+  function inspect(): Inspect {
+    const r = o.kv.read<unknown[]>(KV_LIST, isArrayValue);
+    if (r.status === 'missing') { return { kind: 'missing' }; }
+    if (r.status !== 'ok') { return { kind: r.status, raw: r.raw }; }
+    const valid: PlaylistDef[] = [];
+    const seen: Record<string, boolean> = {};
+    let invalid = 0;
+    for (let i = 0; i < r.value.length; i++) {
+      const x = r.value[i];
+      if (isPlaylistDef(x) && !seen['k' + x.id]) {
+        seen['k' + x.id] = true;
+        valid.push(x);
+      } else {
+        invalid++;
+      }
+    }
+    if (!invalid) { return { kind: 'ok', list: valid }; }
+    return { kind: 'partial', list: valid, invalid: invalid, raw: JSON.stringify({ v: 1, d: r.value }) };
+  }
+
+  function protect(problem: StorageProblem, preserved: boolean, valid: number, invalid: number): void {
+    st = { status: 'protected', problem: problem, preserved: preserved, valid: valid, invalid: invalid };
+    log.warn('playlists: storage protected; existing data kept', { problem: problem, preserved: preserved, valid: valid, invalid: invalid });
+    record('pl-protected', { reason: problem, kept: preserved, valid: valid, invalid: invalid });
+  }
+
+  /** Enters the protected state for an inspection that is not a clean list. */
+  function degrade(r: Inspect): void {
+    if (r.kind === 'ok') { return; }
+    if (r.kind === 'missing') {
+      protect(backup && backup.length ? 'missing-with-backup' : 'missing-with-data', true, 0, 0);
+    } else if (r.kind === 'partial') {
+      lastGood = r.list;
+      protect('partial', o.kv.quarantine(KV_LIST, r.raw, 'invalid'), r.list.length, r.invalid);
+    } else {
+      protect(r.kind, r.raw !== null && o.kv.quarantine(KV_LIST, r.raw, r.kind), lastGood.length, 0);
+    }
+  }
+
+  /** Classifies the stored list (start-up and recheck). Synchronous: the list key is in localStorage. */
+  function evaluate(): void {
+    checked = null;
+    if (!persistentKv) {
+      lastGood = [];
+      protect('no-local-storage', true, 0, 0);
+      return;
+    }
+    const r = inspect();
+    if (r.kind === 'ok') {
+      lastGood = r.list;
+      st = { status: 'ok' };
+    } else if (r.kind === 'missing') {
+      lastGood = [];
+      st = { status: 'checking' };
+    } else {
+      if (r.kind !== 'partial') { lastGood = []; }
+      degrade(r);
+    }
+  }
+
+  function loadBackup(): Promise<void> {
+    if (!backupFiles) { backup = null; return Promise.resolve(); }
+    return backupFiles.read(BACKUP_FILE).then(function (text) {
+      if (text === null) { backup = null; return; }
+      const list = parseBackup(text);
+      if (!list) {
+        backup = null;
+        log.warn('playlists: backup failed verification; kept as it is');
+        record('backup-invalid', { chars: text.length });
+        return;
+      }
+      backup = list;
+      backupStored = text;
+    }, function () {
+      backup = null;
+      record('backup-unreadable');
+    });
+  }
+
+  /** Writes the backup after a successful, validated save (or a verified read); never from a protected state. */
+  function writeBackup(list: PlaylistDef[]): void {
+    if (!backupFiles || st.status !== 'ok') { return; }
+    if (!isPlaylistList(list)) { record('backup-skipped', { why: 'invalid' }); return; }
+    const text = backupText(list);
+    if (text === backupStored) { return; }
+    backupStored = text;
+    const copy = list.slice();
+    const fs = backupFiles;
+    backupChain = backupChain.then(function () {
+      return fs.write(BACKUP_FILE, text).then(function () {
+        backup = copy;
+        record('backup-written', { entries: copy.length });
+      }, function () {
+        backupStored = null;
+        log.warn('playlists: backup could not be written');
+        record('backup-failed', { entries: copy.length });
+      });
+    });
+  }
+
+  /** Preserves the current backup once (never overwritten) before a recovery decision replaces it. */
+  function keepBackup(): Promise<boolean> {
+    if (!backupFiles || !backup || !backupStored) { return Promise.resolve(true); }
+    const fs = backupFiles;
+    const text = backupStored;
+    return fs.read(BACKUP_KEEP_FILE).then(function (have): boolean | Promise<boolean> {
+      if (have !== null) { return true; }
+      return fs.write(BACKUP_KEEP_FILE, text).then(function () { return true; }, function () { return false; });
+    }, function () { return false; });
+  }
+
+  function tombstones(): string[] {
+    return o.kv.get<string[]>(KV_REMOVED, isIdList, []);
+  }
+
+  function addTombstones(ids: string[]): void {
+    const t = tombstones();
+    for (let i = 0; i < ids.length; i++) {
+      if (isPlaylistId(ids[i]) && t.indexOf(ids[i]) < 0) { t.push(ids[i]); }
+    }
+    o.kv.set(KV_REMOVED, t.length > MAX_TOMBSTONES ? t.slice(t.length - MAX_TOMBSTONES) : t);
+  }
+
+  /**
+   * Resolves once a missing list has been classified: first start (ok), or protected because a
+   * backup or catalogue files of earlier playlists exist. Also loads the backup.
+   */
+  function ensureChecked(): Promise<void> {
+    if (checked) { return checked; }
+    checked = loadBackup().then(function (): void | Promise<void> {
+      if (st.status === 'ok') { writeBackup(lastGood); return; }
+      if (st.status !== 'checking') { return; }
+      if (backup && backup.length) {
+        protect('missing-with-backup', true, 0, 0);
+        return;
+      }
+      return o.catalogue.ownerIds().then(function (owners) {
+        if (st.status !== 'checking') { return; }
+        const gone = tombstones();
+        let unexplained = 0;
+        for (let i = 0; i < owners.length; i++) {
+          if (gone.indexOf(owners[i]) < 0) { unexplained++; }
+        }
+        if (unexplained) {
+          protect('missing-with-data', true, 0, 0);
+          record('pl-orphan-data', { count: unexplained });
+        } else {
+          st = { status: 'ok' };
+        }
+      }, function () {
+        if (st.status === 'checking') { protect('unverified', true, 0, 0); }
+      });
+    });
+    return checked;
+  }
+
+  function refuse(op: string): void {
+    const reason = st.status === 'protected' ? st.problem : st.status;
+    log.warn('playlists: write refused, storage protected', { op: op, reason: reason });
+    record('pl-write-refused', { op: op, reason: reason });
+  }
+
+  /**
+   * The current list for a write: only in the verified state, and only after a fresh, clean read.
+   * A list that became unreadable (or vanished) while the app ran switches to the protected state.
+   */
+  function freshList(op: string): PlaylistDef[] | null {
+    if (st.status !== 'ok') { refuse(op); return null; }
+    const r = inspect();
+    if (r.kind === 'ok') { lastGood = r.list; return r.list; }
+    if (r.kind === 'missing' && !lastGood.length) { return []; }
+    degrade(r);
+    refuse(op);
+    return null;
+  }
+
+  /** Saves the list (after a fresh guard read), then refreshes the backup. False = nothing saved. */
+  function saveList(list: PlaylistDef[], op: string): boolean {
+    if (!freshList(op)) { return false; }
+    if (!o.kv.set(KV_LIST, list)) {
+      record('pl-write-failed', { op: op });
+      return false;
+    }
+    lastGood = list.slice();
+    writeBackup(lastGood);
+    return true;
+  }
+
+  function protectedError(): SaveDefResult {
+    return { ok: false, code: 'storage-protected', message: 'playlist storage is protected; existing data was kept' };
+  }
+
+  function canResolve(): boolean {
+    return st.status === 'protected' && st.preserved && st.problem !== 'read-error' && st.problem !== 'no-local-storage';
+  }
+
+  function stateCopy(): PlaylistStorageState {
+    if (st.status !== 'protected') { return { status: st.status }; }
+    const restore = canResolve() && !!backup && backup.length > 0;
+    return {
+      status: 'protected', problem: st.problem, preserved: st.preserved, canRestore: restore, canContinue: canResolve(),
+      backupEntries: backup ? backup.length : -1, validEntries: st.valid, invalidEntries: st.invalid
+    };
+  }
+
+  /** The list for display and lookups: never an invented empty list while protected. */
   function readList(): PlaylistDef[] {
-    return o.kv.get<PlaylistDef[]>(KV_LIST, isPlaylistList, []);
+    if (st.status === 'ok') {
+      const r = inspect();
+      if (r.kind === 'ok') { lastGood = r.list; return r.list; }
+      if (r.kind === 'missing' && !lastGood.length) { return []; }
+      degrade(r);
+    }
+    return lastGood.slice();
   }
 
   function find(list: PlaylistDef[], id: string): number {
@@ -350,13 +716,16 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
   }
 
   function patch(id: string, fn: (d: PlaylistDef) => void): void {
-    const list = readList();
+    const list = freshList('patch');
+    if (!list) { return; }
     const i = find(list, id);
     if (i >= 0) {
       fn(list[i]);
-      o.kv.set(KV_LIST, list);
+      saveList(list, 'patch');
     }
   }
+
+  evaluate();
 
   function storageError(): SaveDefResult {
     return { ok: false, code: 'storage', message: 'the playlist could not be saved' };
@@ -422,7 +791,9 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
           },
           retry: o.retry, timers: o.timers, slice: slice
         }),
-        liveFormat: def.liveFormat, now: o.now, onProgress: onProgress
+        liveFormat: def.liveFormat, now: o.now, onProgress: onProgress,
+        // S2: saved right after the login, so a later failure never loses it (separate KV key).
+        onAccount: function (a) { if (o.accounts) { o.accounts.save(def.id, a); } }
       });
     }
     return importM3u({
@@ -472,10 +843,6 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       if (!name) {
         return Promise.resolve<SaveDefResult>({ ok: false, code: 'invalid-name', message: 'a name is required' });
       }
-      const list = readList();
-      if (list.length >= MAX_PLAYLISTS) {
-        return Promise.resolve<SaveDefResult>({ ok: false, code: 'limit', message: 'at most ' + MAX_PLAYLISTS + ' playlists' });
-      }
       if (input.kind !== 'm3u' && input.kind !== 'xtream') {
         return Promise.resolve<SaveDefResult>({ ok: false, code: 'invalid-url', message: 'unknown playlist type' });
       }
@@ -486,6 +853,15 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       const epg = validEpg(input.epgUrl);
       if (epg === false) {
         return Promise.resolve<SaveDefResult>({ ok: false, code: 'invalid-url', message: 'EPG address is not a valid http(s) URL' });
+      }
+      // DI-1: never add to a list that could not be read (that would overwrite the real one).
+      return ensureChecked().then(function (): SaveDefResult | Promise<SaveDefResult> {
+      const list = freshList('add');
+      if (!list) {
+        return protectedError();
+      }
+      if (list.length >= MAX_PLAYLISTS) {
+        return { ok: false, code: 'limit', message: 'at most ' + MAX_PLAYLISTS + ' playlists' };
       }
       let id = newId();
       while (find(list, id) >= 0) {
@@ -501,8 +877,9 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       // Secret first: a definition without its credentials would be unusable.
       return o.secrets.put(id, src.secret).then(function (): SaveDefResult | Promise<SaveDefResult> {
         list.push(def);
-        if (!o.kv.set(KV_LIST, list)) {
-          return o.secrets.remove(id).then(storageError, storageError);
+        if (!saveList(list, 'add')) {
+          const fail = st.status === 'ok' ? storageError : protectedError;
+          return o.secrets.remove(id).then(fail, fail);
         }
         if (!o.kv.get<string | null>(KV_ACTIVE, isActive, null)) {
           o.kv.set(KV_ACTIVE, id);
@@ -512,26 +889,31 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       }, function (): SaveDefResult {
         return { ok: false, code: 'storage', message: 'credentials could not be stored securely' };
       });
+      });
     },
 
     update: function (id, ch) {
-      const list = readList();
+      return ensureChecked().then(function (): SaveDefResult | Promise<SaveDefResult> {
+      const list = freshList('update');
+      if (!list) {
+        return protectedError();
+      }
       const i = find(list, id);
       if (i < 0) {
-        return Promise.resolve<SaveDefResult>({ ok: false, code: 'not-found', message: 'unknown playlist' });
+        return { ok: false, code: 'not-found', message: 'unknown playlist' };
       }
       const def = list[i];
       if (ch.name !== undefined) {
         const n = cleanText(ch.name, 64);
         if (!n) {
-          return Promise.resolve<SaveDefResult>({ ok: false, code: 'invalid-name', message: 'a name is required' });
+          return { ok: false, code: 'invalid-name', message: 'a name is required' };
         }
         def.name = n;
       }
       if (ch.epgUrl !== undefined) {
         const e = validEpg(ch.epgUrl);
         if (e === false) {
-          return Promise.resolve<SaveDefResult>({ ok: false, code: 'invalid-url', message: 'EPG address is not a valid http(s) URL' });
+          return { ok: false, code: 'invalid-url', message: 'EPG address is not a valid http(s) URL' };
         }
         if (e) { def.epgUrl = e; } else { delete def.epgUrl; }
       }
@@ -540,7 +922,7 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       }
       const sourceChanged = ch.url !== undefined || ch.server !== undefined || ch.username !== undefined || ch.password !== undefined;
       if (!sourceChanged) {
-        return Promise.resolve<SaveDefResult>(o.kv.set(KV_LIST, list) ? { ok: true, playlist: def } : storageError());
+        return saveList(list, 'update') ? { ok: true, playlist: def } : (st.status === 'ok' ? storageError() : protectedError());
       }
       return o.secrets.get(id).then(function (old): SaveDefResult | Promise<SaveDefResult> {
         const src = validateSource(def.kind, {
@@ -557,8 +939,8 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
             delete def.cleartextNoticeSeen;
           }
           def.server = src.server;
-          if (!o.kv.set(KV_LIST, list)) {
-            return storageError();
+          if (!saveList(list, 'update')) {
+            return st.status === 'ok' ? storageError() : protectedError();
           }
           log.info('playlist source updated', { id: id });
           return { ok: true, playlist: def };
@@ -566,21 +948,30 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       }).then(null, function (): SaveDefResult {
         return { ok: false, code: 'storage', message: 'credentials could not be stored securely' };
       });
+      });
     },
 
     remove: function (id) {
+      return ensureChecked().then(function (): void | Promise<void> {
+      // DI-1: a removal needs a verified list; nothing is deleted while storage is protected.
+      const list = freshList('remove');
+      if (!list) {
+        throw new Error('playlist storage is protected');
+      }
       if (cached && cached.id === id) { releaseCache('removed'); }
-      const list = readList();
       const i = find(list, id);
+      if (isPlaylistId(id)) { addTombstones([id]); } // before any deletion: leftovers are then known garbage
       if (i >= 0) {
         list.splice(i, 1);
-        o.kv.set(KV_LIST, list);
+        if (!saveList(list, 'remove')) {
+          throw new Error('the playlist list could not be saved');
+        }
       }
       if (o.kv.get<string | null>(KV_ACTIVE, isActive, null) === id) {
         if (list.length) { o.kv.set(KV_ACTIVE, list[0].id); } else { o.kv.remove(KV_ACTIVE); }
       }
       if (!isPlaylistId(id)) {
-        return Promise.resolve();
+        return;
       }
       // Favourites and recently watched (keys of services/user-lists.ts) belong to the playlist.
       o.kv.remove('fav.' + id);
@@ -591,20 +982,137 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       o.kv.remove('catprefs.live.' + id); // Stage 14: category order / hidden (content/category-prefs.ts)
       o.kv.remove('catprefs.movie.' + id);
       o.kv.remove('catprefs.series.' + id);
+      o.kv.remove(ACCOUNT_KEY_PREFIX + id); // S2 (approved exception): expiry of an explicitly removed playlist
       return o.secrets.remove(id).then(null, function () { /* already gone */ }).then(function () {
         return o.catalogue.removePlaylist(id);
       }).then(function () {
         log.info('playlist removed', { id: id });
+        record('pl-removed', { id: id });
+      });
       });
     },
 
+    storageState: stateCopy,
+
+    whenChecked: function () { return ensureChecked().then(stateCopy); },
+
+    storageReport: function () {
+      // Read-only by construction: inspect() is kv.read() (no writes) and the backup is only read.
+      // The service state is reported as it is; nothing here calls degrade(), protect(),
+      // quarantine, saveList, writeBackup, ensureChecked or cleanup.
+      let state: StorageReport['state'] = 'unknown';
+      let problem: StorageProblem | null = null;
+      if (st.status === 'ok') {
+        state = 'healthy';
+      } else if (st.status === 'protected') {
+        problem = st.problem;
+        state = st.problem === 'read-error' || st.problem === 'no-local-storage' ? 'unavailable' : 'protected';
+      }
+      let listEntries: number | null = null;
+      if (persistentKv) {
+        const r = inspect();
+        if (r.kind === 'ok' || r.kind === 'partial') {
+          listEntries = r.list.length;
+        } else if (r.kind === 'missing' && st.status === 'ok') {
+          listEntries = 0; // verified first start: no list yet
+        }
+      }
+      const base: StorageReport = { state: state, problem: problem, listEntries: listEntries, backup: 'unknown', backupEntries: null, integrity: 'unknown' };
+      if (!backupFiles) {
+        return Promise.resolve(base);
+      }
+      return backupFiles.read(BACKUP_FILE).then(function (text): StorageReport {
+        if (text === null) {
+          base.backup = 'missing';
+          return base;
+        }
+        const list = parseBackup(text);
+        if (!list) {
+          base.backup = 'invalid';
+          base.integrity = 'failed';
+          return base;
+        }
+        base.backup = 'valid';
+        base.backupEntries = list.length;
+        base.integrity = 'ok';
+        return base;
+      }, function (): StorageReport {
+        base.backup = 'unreadable';
+        return base;
+      });
+    },
+
+    recheckStorage: function () {
+      evaluate();
+      return ensureChecked().then(function () {
+        record('pl-recheck', { state: st.status });
+        return stateCopy();
+      });
+    },
+
+    restoreBackup: function () {
+      return ensureChecked().then(function (): StorageActionResult | Promise<StorageActionResult> {
+        if (st.status !== 'protected') { return { ok: false, code: 'not-protected' }; }
+        if (!canResolve()) { return { ok: false, code: 'not-preserved' }; }
+        const from = backup;
+        if (!from || !from.length) { return { ok: false, code: 'no-backup' }; }
+        return keepBackup().then(function (): StorageActionResult {
+          // Union: the backup, plus valid entries of a partial list that the backup does not have.
+          const merged = from.slice();
+          for (let i = 0; i < lastGood.length && merged.length < MAX_PLAYLISTS; i++) {
+            if (find(merged, lastGood[i].id) < 0) { merged.push(lastGood[i]); }
+          }
+          if (!o.kv.set(KV_LIST, merged)) {
+            record('pl-write-failed', { op: 'restore' });
+            return { ok: false, code: 'write-failed' };
+          }
+          st = { status: 'ok' };
+          lastGood = merged.slice();
+          const a = readActive();
+          if (!a || find(merged, a) < 0) { o.kv.set(KV_ACTIVE, merged[0].id); }
+          writeBackup(merged);
+          log.warn('playlists: list restored from the backup', { entries: merged.length });
+          record('pl-restored', { entries: merged.length });
+          return { ok: true, code: 'restored', entries: merged.length };
+        });
+      });
+    },
+
+    continueWithoutRestore: function () {
+      return ensureChecked().then(function (): StorageActionResult | Promise<StorageActionResult> {
+        if (st.status !== 'protected') { return { ok: false, code: 'not-protected' }; }
+        if (!canResolve()) { return { ok: false, code: 'not-preserved' }; }
+        const keep = st.problem === 'partial' ? lastGood.slice() : [];
+        return keepBackup().then(function (kept): StorageActionResult {
+          if (!kept) { return { ok: false, code: 'backup-keep-failed' }; }
+          if (!o.kv.set(KV_LIST, keep)) {
+            record('pl-write-failed', { op: 'continue' });
+            return { ok: false, code: 'write-failed' };
+          }
+          st = { status: 'ok' };
+          lastGood = keep.slice();
+          writeBackup(keep);
+          log.warn('playlists: continued without restoring; quarantine, backup and files kept', { entries: keep.length });
+          record('pl-continued', { entries: keep.length });
+          return { ok: true, code: 'continued', entries: keep.length };
+        });
+      });
+    },
+
+    credentialsPersistent: function () { return o.secrets.persistent; },
+    hasCredentials: function (id) {
+      const def = getDef(id);
+      if (!def) { return Promise.resolve(false); }
+      return o.secrets.get(id).then(function (s) { return !!s && (def.kind === 'xtream') === (s.kind === 'xtream'); }, function () { return false; });
+    },
     activeId: function () {
       const a = o.kv.get<string | null>(KV_ACTIVE, isActive, null);
       return a && find(readList(), a) >= 0 ? a : null;
     },
 
     setActive: function (id) {
-      const ok = find(readList(), id) >= 0 && o.kv.set(KV_ACTIVE, id);
+      const list = freshList('set-active');
+      const ok = !!list && find(list, id) >= 0 && o.kv.set(KV_ACTIVE, id);
       // Stage 9: another account's channels never survive a switch.
       if (ok && cached && cached.id !== id) { releaseCache('account-switch'); }
       return ok;
@@ -861,8 +1369,22 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
       const wait: Promise<unknown> = running ? running.result : Promise.resolve();
       releaseCache('remove-all');
       return wait.then(function () {
+        return ensureChecked();
+      }).then(function () {
         releaseCache('remove-all');
-        const list = readList();
+        // DI-1: the wipe needs a verified list; while storage is protected it is refused (the PIN
+        // service then keeps the PIN and retries on the next start, see pin.ts wipe()).
+        const list = freshList('remove-all');
+        if (!list) {
+          return Promise.reject(new Error('playlist storage is protected'));
+        }
+        const ids: string[] = [];
+        for (let i = 0; i < list.length; i++) { ids.push(list[i].id); }
+        addTombstones(ids);
+        // An explicit empty list (not a missing key): a later start knows nothing was lost.
+        if (!saveList([], 'remove-all')) {
+          return Promise.reject(new Error('the playlist list could not be saved'));
+        }
         let chain: Promise<void> = Promise.resolve();
         for (let i = 0; i < list.length; i++) {
           const id = list[i].id;
@@ -874,6 +1396,7 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
           o.kv.remove('catprefs.live.' + id); // Stage 14: category order / hidden (content/category-prefs.ts)
           o.kv.remove('catprefs.movie.' + id);
           o.kv.remove('catprefs.series.' + id);
+          o.kv.remove(ACCOUNT_KEY_PREFIX + id); // S2 (approved exception): explicit wipe only
           chain = chain.then(function () {
             return o.secrets.remove(id).then(null, function () { /* already gone */ }).then(function () {
               return o.catalogue.removePlaylist(id);
@@ -881,35 +1404,59 @@ export function createPlaylistService(o: PlaylistServiceOptions): PlaylistServic
           });
         }
         return chain.then(function () {
-          o.kv.remove(KV_LIST);
           o.kv.remove(KV_ACTIVE);
           o.kv.remove(KV_JOURNAL);
-          return o.catalogue.cleanup([]);
+          // A user-confirmed wipe (unauthenticated PIN reset): every catalogue file goes, also files
+          // of earlier playlists whose owner is unknown.
+          return o.catalogue.ownerIds().then(function (owners) { return o.catalogue.cleanup(owners, owners); });
+        }).then(function () {
+          if (backupFiles) { return backupFiles.remove(BACKUP_KEEP_FILE).then(null, function () { /* keep going */ }); }
+          return undefined;
         }).then(function () {
           log.warn('all playlists removed', { count: list.length });
+          record('pl-removed-all', { count: list.length });
         });
       });
     },
 
     recover: function () {
-      const j = o.kv.get<Journal | null>(KV_JOURNAL, isJournalOrNull, null);
-      let interrupted: string | null = null;
-      if (j && busy === null) {
-        interrupted = j.id;
-        o.kv.remove(KV_JOURNAL);
-        patch(j.id, function (d) {
-          d.lastStatus = { ok: false, at: o.now(), code: 'interrupted', message: 'the last import did not finish' };
+      return ensureChecked().then(function (): RecoveryReport | Promise<RecoveryReport> {
+        // DI-1: no cleanup (and no journal handling) unless the list was read and verified.
+        if (st.status !== 'ok') {
+          const reason = st.status === 'protected' ? st.problem : st.status;
+          log.warn('playlists: start-up cleanup skipped; storage not verified', { reason: reason });
+          record('cleanup-skipped', { reason: reason });
+          return { interrupted: null, removedFiles: 0, cleanupSkipped: true };
+        }
+        const j = o.kv.get<Journal | null>(KV_JOURNAL, isJournalOrNull, null);
+        let interrupted: string | null = null;
+        if (j && busy === null) {
+          interrupted = j.id;
+          patch(j.id, function (d) {
+            d.lastStatus = { ok: false, at: o.now(), code: 'interrupted', message: 'the last import did not finish' };
+          });
+          o.kv.remove(KV_JOURNAL);
+          log.warn('interrupted import detected', { id: j.id });
+        }
+        const list = freshList('recover');
+        if (!list) {
+          record('cleanup-skipped', { reason: 'changed' });
+          return { interrupted: interrupted, removedFiles: 0, cleanupSkipped: true };
+        }
+        const ids: string[] = [];
+        for (let i = 0; i < list.length; i++) {
+          ids.push(list[i].id);
+        }
+        const t = tombstones();
+        const gone: string[] = [];
+        for (let i = 0; i < t.length; i++) {
+          if (ids.indexOf(t[i]) < 0) { gone.push(t[i]); }
+        }
+        return o.catalogue.cleanup(gone, ids).then(function (r) {
+          if (r.removed > 0) { releaseCache('recovery'); }
+          if (r.removed || r.kept) { record('cleanup', { removed: r.removed, kept: r.kept }); }
+          return { interrupted: interrupted, removedFiles: r.removed };
         });
-        log.warn('interrupted import detected', { id: j.id });
-      }
-      const ids: string[] = [];
-      const list = readList();
-      for (let i = 0; i < list.length; i++) {
-        ids.push(list[i].id);
-      }
-      return o.catalogue.cleanup(ids).then(function (r) {
-        if (r.removed > 0) { releaseCache('recovery'); }
-        return { interrupted: interrupted, removedFiles: r.removed };
       });
     }
   };

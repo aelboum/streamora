@@ -19,6 +19,8 @@ export interface DetailsDeps {
   doc: Document;
   playlists: PlaylistService;
   t: Translate;
+  /** S2: subscription rows (expiry, status, checked, time basis); absent = the old expiry line. */
+  subscription?: (playlistId: string) => Array<{ label: string; value: string }>;
 }
 
 export interface DetailsParams {
@@ -64,7 +66,10 @@ export function createPlaylistDetails(d: DetailsDeps, p: DetailsParams, nav: Rou
         lines.push({ label: t('details.skipped'), value: formatCount(meta.counts.invalid + meta.counts.duplicate) });
       }
     }
-    if (st && st.expiresAt) {
+    if (d.subscription) {
+      const sub = d.subscription(def.id);
+      for (let i = 0; i < sub.length; i++) { lines.push(sub[i]); }
+    } else if (st && st.expiresAt) {
       lines.push({ label: t('details.expires'), value: formatDate(st.expiresAt) });
     }
     if (st && st.maxConnections) {
@@ -112,7 +117,14 @@ export function createPlaylistDetails(d: DetailsDeps, p: DetailsParams, nav: Rou
       paragraphs: [t('remove.body')],
       buttons: [
         { label: t('common.cancel') },
-        { label: t('remove.confirm'), run: function () { d.playlists.remove(p.id).then(function () { if (alive) { nav.pop(); } }); } }
+        { label: t('remove.confirm'), run: function () {
+          d.playlists.remove(p.id).then(function () { if (alive) { nav.pop(); } }, function () {
+            // DI-1: refused (storage protected) or not saved: nothing was deleted; say so.
+            if (!alive) { return; }
+            const n: ConfirmParams = { title: t('storage.title'), paragraphs: [t('storage.removeRefused')], buttons: [{ label: t('common.ok') }] };
+            nav.openOverlay('confirm', n as unknown as Record<string, unknown>);
+          });
+        } }
       ]
     };
     nav.openOverlay('confirm', cp as unknown as Record<string, unknown>);

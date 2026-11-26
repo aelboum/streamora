@@ -58,8 +58,16 @@ export interface CatalogueStore {
   removePages(playlistId: string, section: VodPageSection, keepGen: string | null): Promise<number>;
   /** Deletes every section of one playlist (and its page files). Resolves the number of files removed. */
   removePlaylist(playlistId: string): Promise<number>;
-  /** Removes files of unknown playlists, leftover temp files and unrecognised catalogue files. */
-  cleanup(knownPlaylistIds: string[]): Promise<{ removed: number }>;
+  /**
+   * DI-1: removes only what is positively known to be garbage: every file of a playlist the user
+   * removed (`removedPlaylistIds`, the tombstones) and leftover temp files of known or removed
+   * playlists. Files of any other playlist id, and unrecognised cat.* names, are kept: their owner is
+   * uncertain (a lost or unreadable playlist list must never cost the catalogue). `kept` counts them.
+   * The caller runs it only after a successful, validated read of the playlist list.
+   */
+  cleanup(removedPlaylistIds: string[], knownPlaylistIds: string[]): Promise<{ removed: number; kept: number }>;
+  /** DI-1: playlist ids that own at least one catalogue file (evidence of earlier playlists). */
+  ownerIds(): Promise<string[]>;
 }
 
 export function catalogueFileName(playlistId: string, section: CatalogueSection): string {
@@ -294,17 +302,33 @@ export function createCatalogueStore(files: FileStore, limits: CatalogueLimits, 
       }).then(function (pages) { return removed + pages; });
     },
 
-    cleanup: function (known) {
+    ownerIds: function () {
+      return files.list().then(function (names) {
+        const out: string[] = [];
+        for (let i = 0; i < names.length; i++) {
+          const m = FILE_RE.exec(names[i]);
+          if (m && out.indexOf(m[1]) < 0) { out.push(m[1]); }
+        }
+        return out;
+      });
+    },
+
+    cleanup: function (removedIds, known) {
       return files.list().then(function (names) {
         const doomed: string[] = [];
+        let kept = 0;
         for (let i = 0; i < names.length; i++) {
           const n = names[i];
           if (n.indexOf('cat.') !== 0) {
             continue; // not ours
           }
           const m = FILE_RE.exec(n);
-          if (!m || m[6] || known.indexOf(m[1]) < 0) {
-            doomed.push(n);
+          if (m && removedIds.indexOf(m[1]) >= 0) {
+            doomed.push(n); // the user removed this playlist
+          } else if (m && m[6] && known.indexOf(m[1]) >= 0) {
+            doomed.push(n); // half-written temp file of a known playlist (the real file is untouched)
+          } else if (!m || known.indexOf(m[1]) < 0) {
+            kept++; // owner uncertain: keep
           }
         }
         let chain: Promise<void> = Promise.resolve();
@@ -316,8 +340,8 @@ export function createCatalogueStore(files: FileStore, limits: CatalogueLimits, 
           });
         }
         return chain.then(function () {
-          if (removed && log) { log.info('catalogue: cleanup removed files', { removed: removed }); }
-          return { removed: removed };
+          if ((removed || kept) && log) { log.info('catalogue: cleanup', { removed: removed, kept: kept }); }
+          return { removed: removed, kept: kept };
         });
       });
     }

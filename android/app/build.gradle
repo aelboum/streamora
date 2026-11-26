@@ -11,8 +11,8 @@ android {
         // Android 5.0+: Android TV boxes and phones. Secrets need Android 6.0+ (Keystore AES).
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName '0.2.0'
+        versionCode 2
+        versionName '0.3.0'
     }
 
     buildTypes {

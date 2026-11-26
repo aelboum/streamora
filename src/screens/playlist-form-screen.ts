@@ -191,6 +191,10 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
     mount: function (layer: HostLayer) {
       const title = editing ? t('form.edit') : kind === 'm3u' ? t('form.addM3u') : t('form.addXtream');
       frame = createFrame(d.doc, t('app.title'), title);
+      // CP1 (R0 decision 4): no secure store on this device: the login is not stored.
+      if (!d.playlists.credentialsPersistent()) {
+        frame.body.appendChild(h(d.doc, 'div', { className: 'ss-message ss-form__session', text: t('form.sessionOnly') }));
+      }
       frame.body.appendChild(h(d.doc, 'div', { className: 'ss-panel ss-panel--wide' }, [list.element, buttons.element]));
       (layer.element as HTMLElement).appendChild(frame.root);
       render();

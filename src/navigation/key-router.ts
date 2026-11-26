@@ -5,6 +5,7 @@
 import type { KeyInput, RawKeyEvent } from '../app/platform/platform.ts';
 import type { RemoteKey } from './keys.ts';
 import { isArrow, mapKeyCode } from './keys.ts';
+import type { KeyPlatform } from './keys.ts';
 
 export interface RemoteKeyEvent {
   key: RemoteKey;
@@ -20,6 +21,8 @@ export interface KeyRouterOptions {
   now: () => number;
   throttleMs: number;
   allowBrowserKeys: boolean;
+  /** CP1: the platform's key table (keys.ts); absent = the Samsung table. */
+  platform?: KeyPlatform;
   /** Returns true when the event was consumed. */
   dispatch: (e: RemoteKeyEvent) => boolean;
   /** When true (a text field has focus), only Back is routed; other keys go to the field. */
@@ -39,7 +42,7 @@ export function createKeyRouter(opts: KeyRouterOptions): KeyRouter {
   const down: Record<number, { since: number; lastSent: number }> = {};
 
   function keyDown(e: RawKeyEvent): void {
-    const mapped = mapKeyCode(e.keyCode, opts.allowBrowserKeys);
+    const mapped = mapKeyCode(e.keyCode, opts.allowBrowserKeys, opts.platform);
     if (!mapped) {
       return;
     }

@@ -148,6 +148,11 @@ export function createAndroidEngine(host: AndroidPlayerHost): PlaybackEngine | n
         if (i >= 0) { listeners.splice(i, 1); }
       };
     },
+    // CP1: one Media3 player in PlayerBridge.java; tracks via TrackSelectionOverride; cues forwarded;
+    // the buffer size is passed to the bridge. Not verified on a device yet (CP2).
+    capabilities: function () {
+      return { multiDecoder: false, trackSwitching: true, embeddedSubtitles: true, bufferControl: true, maxTracks: 0 };
+    },
     destroy: function () {
       session++;
       try { player.stop(); } catch (e) { /* not open */ }

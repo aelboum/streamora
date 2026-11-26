@@ -5,6 +5,9 @@
 //   4. CSS: token substitution + feature gate -> dist/<mode>/app.css
 //   5. index.html, icon.png, config.xml (generated per mode)
 //   6. release only: development-logging exclusion check
+// CP1: --platform <all|tizen|android|browser> (default all = today's bundle, every adapter, in
+// dist/<mode>). Another value keeps only that platform's adapter (detect.ts) and writes
+// dist/<mode>-<platform>; config.xml only for all and tizen.
 // Dev sink endpoint (dev builds only): SS_DEV_SINK_URL=http://<private-ip>:<port>/ingest
 import { execFileSync } from 'node:child_process';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync, readdirSync, statSync } from 'node:fs';
@@ -39,8 +42,12 @@ function fail(msg, details) {
   process.exit(1);
 }
 
-export async function build(mode, env) {
+export const PLATFORMS = ['all', 'tizen', 'android', 'browser'];
+
+export async function build(mode, env, platform) {
   if (mode !== 'dev' && mode !== 'release') throw new Error('mode must be dev or release');
+  const target = platform || 'all';
+  if (PLATFORMS.indexOf(target) < 0) throw new Error('platform must be one of ' + PLATFORMS.join(', '));
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
   const version = pkg.version;
 
@@ -53,8 +60,9 @@ export async function build(mode, env) {
   }
   // Release builds ignore SS_DEV_SINK_URL entirely.
 
-  const tscDir = join(root, 'build', 'tsc', mode);
-  const out = join(root, 'dist', mode);
+  const tag = target === 'all' ? mode : mode + '-' + target;
+  const tscDir = join(root, 'build', 'tsc', tag);
+  const out = join(root, 'dist', tag);
   rmSync(tscDir, { recursive: true, force: true });
   rmSync(out, { recursive: true, force: true });
   mkdirSync(out, { recursive: true });
@@ -82,7 +90,8 @@ export async function build(mode, env) {
     define: {
       __SS_BUILD_MODE__: JSON.stringify(mode),
       __SS_VERSION__: JSON.stringify(version),
-      __SS_DEV_SINK_URL__: JSON.stringify(mode === 'dev' ? sink.url : '')
+      __SS_DEV_SINK_URL__: JSON.stringify(mode === 'dev' ? sink.url : ''),
+      __SS_PLATFORM__: JSON.stringify(target)
     },
     plugins: mode === 'release' ? [releaseDevStub(tscDir)] : [],
     logLevel: 'warning'
@@ -105,21 +114,24 @@ export async function build(mode, env) {
   cpSync(join(root, 'tizen', 'icon.png'), join(out, 'icon.png'));
   // Bundled fonts (WOFF2 + licence files), referenced by app.css as fonts/<file>.
   cpSync(join(root, 'src', 'fonts'), join(out, 'fonts'), { recursive: true });
-  const template = readFileSync(join(root, 'tizen', 'config.template.xml'), 'utf8');
-  writeFileSync(join(out, 'config.xml'), renderConfig(template, { mode, version, sinkOrigin: sink.origin || undefined }));
+  if (target === 'all' || target === 'tizen') {
+    const template = readFileSync(join(root, 'tizen', 'config.template.xml'), 'utf8');
+    writeFileSync(join(out, 'config.xml'), renderConfig(template, { mode, version, sinkOrigin: sink.origin || undefined }));
+  }
 
   // 6. Release exclusion check
   if (mode === 'release') {
-    const rc = checkReleaseDir(out);
+    const rc = checkReleaseDir(out, { config: target === 'all' || target === 'tizen' });
     if (!rc.ok) fail('release check failed', rc.errors);
   }
 
   const files = readdirSync(out).map((f) => f + ' (' + statSync(join(out, f)).size + ' B)');
-  console.log(`build ${mode} ${version}: OK -> dist/${mode}: ${files.join(', ')}`);
+  console.log(`build ${mode} ${version}${target === 'all' ? '' : ' [' + target + ']'}: OK -> dist/${tag}: ${files.join(', ')}`);
   if (mode === 'dev') console.log('dev sink: ' + (sink.url || 'not configured (set SS_DEV_SINK_URL)'));
   return { out, js, sink };
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  build(process.argv[2], process.env).catch((e) => fail(e.message));
+  const pi = process.argv.indexOf('--platform');
+  build(process.argv[2], process.env, pi > 0 ? process.argv[pi + 1] : undefined).catch((e) => fail(e.message));
 }

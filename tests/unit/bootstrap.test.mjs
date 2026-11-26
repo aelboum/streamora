@@ -23,7 +23,8 @@ test('context: all services present on a capable platform', () => {
   const { ctx } = boot(fp);
   assert.ok(ctx.catalogue && ctx.secrets && ctx.pin && ctx.http && ctx.kv && ctx.lifecycle && ctx.playlists);
   assert.equal(ctx.config.player.liveBufferSec, 2);
-  assert.deepEqual(ctx.warnings, ['secure key store is session-only: credentials are forgotten on restart', 'video playback unavailable on this platform']);
+  // The fake platform's key store is the in-memory (session-only) double.
+  assert.deepEqual(ctx.warnings, ['no secure key store: logins are kept for this session only', 'video playback unavailable on this platform']);
   assert.ok(ctx.epg && ctx.lists, 'Stage 5 services present');
   assert.equal(ctx.engine, null, 'no engine factory in the test platform');
 });
@@ -32,9 +33,11 @@ test('context: missing capabilities disable features instead of degrading securi
   const fp = createFakePlatform({ fileStore: null, keyStore: null, crypto: null, localStore: null });
   const { ctx } = boot(fp);
   assert.equal(ctx.catalogue, null);
-  assert.equal(ctx.secrets, null, 'no plaintext credential fallback');
+  // CP1 (R0 decision 4): without a secure store logins are kept in memory for the session only and
+  // asked for again after a restart; still no plaintext fallback: nothing persistent is used.
+  assert.equal(ctx.secrets.persistent, false, 'session-only, never a plaintext store');
   assert.equal(ctx.pin, null, 'no JS PBKDF2 fallback');
-  assert.equal(ctx.playlists, null, 'no playlist service without secure credential storage');
+  assert.equal(ctx.playlists, null, 'no playlist service without file storage');
   assert.equal(ctx.warnings.length, 6);
   assert.equal(ctx.epg, null, 'no EPG service without playlists');
   assert.ok(ctx.log.entries().some((e) => e.level === 'warn' && /parental PIN disabled/.test(e.msg)));

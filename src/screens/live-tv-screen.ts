@@ -62,6 +62,8 @@ export interface LiveTvParams {
   playlistId: string;
   /** 'fav' opens on the Favourites category (Home bar / rail "Favourites"). */
   start?: 'fav';
+  /** S3: start-up resume — tune this channel in its own category once the list is loaded. */
+  resume?: { channelId: string };
 }
 
 /** What the player screen receives to zap within the current list. */
@@ -96,6 +98,7 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
   let idx: ChannelIndex | null = null;
   let cats: CatItem[] = [];
   let catPos = p.start === 'fav' ? 1 : 3; // "Favourites" or "All channels"
+  let resumeDone = false; // S3: the resume request is handled once
   const rail = createRail(d.doc, t, p.start === 'fav' ? 'favourites' : 'live', nav, d.playlists);
   let list: number[] = [];
   let query = '';
@@ -243,6 +246,8 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
   }
 
   function renderStatus(): void {
+    // S3: a note shown with flashNote stays for its 4 s (the guide status used to replace it at once).
+    if (noteTimer !== null) { return; }
     const s = d.epg.status();
     let text: string;
     if (s.refreshing) {
@@ -370,6 +375,36 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       playing = true;
       nav.push('player', pp as unknown as Record<string, unknown>);
     });
+  }
+
+  /**
+   * S3: start-up resume. Shows the channel's own category (so CH± stays in it; "All channels" when
+   * that category is hidden or locked) and opens the channel through play(), the normal path.
+   * A missing channel, or an adult one while locked, is not opened and no PIN is asked.
+   */
+  function resumeTo(id: string): void {
+    if (!idx) { return; }
+    const ci = idx.indexOfId(id);
+    const ch = ci >= 0 ? idx.channels[ci] : null;
+    if (!ch || isLocked(d.parental, !!ch.adult)) {
+      d.log.info('resume: channel not opened', { reason: ch ? 'parental' : 'missing' });
+      flashNote(t('resume.unavailable'));
+      return;
+    }
+    let pos = -1;
+    for (let i = 0; i < cats.length && pos < 0; i++) {
+      if (cats[i].kind === 'cat' && cats[i].id === ch.categoryId && !isLocked(d.parental, !!cats[i].adult)) { pos = i; }
+    }
+    for (let i = 0; i < cats.length && pos < 0; i++) {
+      if (cats[i].kind === 'all') { pos = i; }
+    }
+    if (pos < 0) { flashNote(t('resume.unavailable')); return; }
+    showCategory(pos, false);
+    focus.focus('cats', pos);
+    const at = list.indexOf(ci);
+    if (at < 0) { flashNote(t('resume.unavailable')); return; }
+    focus.focus('chans', at);
+    play(at);
   }
 
   /** TV guide grid for the shown list, starting at the focused channel (Guide / Green key). */
@@ -608,6 +643,10 @@ export function createLiveTvScreen(d: LiveTvDeps, p: LiveTvParams, nav: Router):
       focus.focus('cats', catPos);
       if (list.length) {
         focus.focus('chans', 0);
+      }
+      if (p.resume && !resumeDone) {
+        resumeDone = true;
+        resumeTo(p.resume.channelId);
       }
       perf.renderMs = d.now() - t1;
       perf.channels = idx.channels.length;

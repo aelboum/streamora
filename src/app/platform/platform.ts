@@ -35,6 +35,7 @@ export interface MemoryInfo {
 
 /** Synchronous small-value storage (localStorage on both platforms). */
 export interface LocalStore {
+  /** DI-1: may throw when storage cannot be read; KeyValueStore reports that as 'read-error'. */
   getItem(key: string): string | null;
   /** Throws on quota errors; callers wrap it (KeyValueStore does). */
   setItem(key: string, value: string): void;

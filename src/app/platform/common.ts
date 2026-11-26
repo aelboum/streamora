@@ -52,12 +52,14 @@ export function listenKeyEvents(win: PlatformWindow, type: 'keydown' | 'keyup', 
   return function () { doc.removeEventListener(type, handler); };
 }
 
-/** Wraps window.localStorage. Reads never throw; writes throw on quota (caller handles). */
+/**
+ * Wraps window.localStorage. Writes throw on quota (caller handles). DI-1: a failing read throws too
+ * (it used to return null, which made an unreadable value look like a missing one); the
+ * KeyValueStore turns it into a 'read-error' result.
+ */
 export function createWebLocalStore(storage: Storage): LocalStore {
   return {
-    getItem: function (key) {
-      try { return storage.getItem(key); } catch (e) { return null; }
-    },
+    getItem: function (key) { return storage.getItem(key); },
     setItem: function (key, value) { storage.setItem(key, value); },
     removeItem: function (key) {
       try { storage.removeItem(key); } catch (e) { /* ignore */ }

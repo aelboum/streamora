@@ -11,6 +11,13 @@
 import type { AndroidPlatformBridge, FileStore, KeyStore, Platform, PlatformWindow, RawKeyEvent } from './platform.ts';
 import { checkAlias, checkFileName, createWebCrypto, createWebLocalStore, createXhrFactory, listenNetwork } from './common.ts';
 import type { WebCryptoLike } from './common.ts';
+import { createMemoryKeyStore } from './memory-stores.ts';
+
+/** API level from the bridge's version string "Android 9 (API 28)"; 0 when unknown. */
+export function androidApiLevel(version: string): number {
+  const m = /\(API (\d+)\)/.exec(version || '');
+  return m ? parseInt(m[1], 10) : 0;
+}
 
 interface EliteWindow {
   __eliteKey?: (code: number, down: boolean) => void;
@@ -195,6 +202,12 @@ export function createAndroidPlatform(win: PlatformWindow): Platform {
   fitPage(win);
 
   const crypto = createWebCrypto(win.crypto as unknown as WebCryptoLike);
+  // CP1 (R0 decision 4): the bridge encrypts secrets with an Android Keystore key, which exists from
+  // Android 6.0 (API 23). Before that nothing is stored: passwords stay in memory for this session.
+  let api = 0;
+  try { api = androidApiLevel(b.version()); } catch (e) { api = 0; }
+  const secure = api >= 23;
+  const keyStore: KeyStore = secure ? bridgeKeyStore(b) : createMemoryKeyStore();
   function add<T>(list: T[], cb: T): () => void {
     list.push(cb);
     return function () { const i = list.indexOf(cb); if (i >= 0) { list.splice(i, 1); } };
@@ -206,7 +219,7 @@ export function createAndroidPlatform(win: PlatformWindow): Platform {
       return { name: 'android', platformVersion: b.version() + ' (' + b.deviceType() + ')', width: win.innerWidth, height: win.innerHeight, userAgent: win.navigator.userAgent };
     },
     capabilities: function () {
-      return { appLifecycle: true, keyRegistration: true, avplay: false, fileStore: true, secureKeyStore: true, webCrypto: !!crypto };
+      return { appLifecycle: true, keyRegistration: true, avplay: false, fileStore: true, secureKeyStore: secure, webCrypto: !!crypto };
     },
     memory: function () {
       try { return { availableMB: b.availableMemoryMB(), totalMB: b.totalMemoryMB() }; } catch (e) { return { availableMB: -1, totalMB: -1 }; }
@@ -221,7 +234,7 @@ export function createAndroidPlatform(win: PlatformWindow): Platform {
     },
     localStore: win.localStorage ? createWebLocalStore(win.localStorage) : null,
     fileStore: bridgeFileStore(b),
-    keyStore: bridgeKeyStore(b),
+    keyStore: keyStore,
     crypto: crypto,
     xhrFactory: createXhrFactory(win)
   };

@@ -890,3 +890,51 @@
 }
 
 .ss-guide__hint { margin-top: 14px; font-size: 22px; color: {{color.textTertiary}}; }
+
+/* DI-1.1: diagnostics layout. The page is a fixed 1080 px TV frame: actions at the top, the
+   playlist-storage section first (always visible), everything else scrolls with ▲▼ inside a
+   clipped viewport (the inner block moves via `top`). */
+.ss-diag-actions {
+  margin-bottom: 24px;
+}
+
+.ss-diag-scroll {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ss-diag-scroll__inner {
+  position: relative;
+  top: 0;
+  padding-bottom: 48px;
+}
+
+.ss-diag-section {
+  margin-bottom: 24px;
+}
+
+.ss-details--diag {
+  margin-top: 16px;
+}
+
+.ss-details--diag dt {
+  width: 420px; /* 420 + 580 fits the 1018 px inside the panel border */
+}
+
+.ss-details--diag dd {
+  width: 580px;
+}
+
+.ss-diag-section .ss-log {
+  width: auto;
+  margin-top: 8px;
+}
+
+/* S1: About screen (read-only key/value list inside the 1080 px frame). */
+.ss-about__hint {
+  margin-top: 24px;
+  font-size: 22px;
+  color: {{color.textTertiary}};
+}

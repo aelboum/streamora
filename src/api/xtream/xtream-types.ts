@@ -6,6 +6,8 @@
 // capped. An item that fails validation is dropped and counted, never passed on.
 import { cleanText, decodeBase64Text, toFlag, toId, toInt } from '../../content/text.ts';
 import { checkUrl } from '../url.ts';
+import { parseExpiry } from '../../content/expiry.ts';
+import type { Expiry } from '../../content/expiry.ts';
 
 // ---------------------------------------------------------------- raw provider shapes
 export interface RawUserInfo {
@@ -53,8 +55,10 @@ export interface RawEpgListing {
 export interface XtreamUserInfo {
   auth: boolean;
   status: string;
-  /** epoch ms, null when unlimited or unknown */
+  /** epoch ms, null when unlimited or unknown (back-compatible view of `expiry`). */
   expiresAt: number | null;
+  /** S2: date / unlimited / unknown, with plausibility checks (content/expiry.ts). */
+  expiry: Expiry;
   trial: boolean;
   activeConnections: number | null;
   maxConnections: number | null;
@@ -111,7 +115,7 @@ export function parseAccount(x: unknown): XtreamAccount | null {
     return null;
   }
   const s = obj(root.server_info) || {};
-  const exp = toInt(u.exp_date);
+  const expiry = parseExpiry(u);
   const formats: string[] = [];
   const af = u.allowed_output_formats;
   if (Object.prototype.toString.call(af) === '[object Array]') {
@@ -126,7 +130,8 @@ export function parseAccount(x: unknown): XtreamAccount | null {
     user: {
       auth: toFlag(u.auth),
       status: str(u.status, 32) || 'unknown',
-      expiresAt: exp !== null && exp > 0 ? exp * 1000 : null,
+      expiresAt: expiry.kind === 'date' ? expiry.at : null,
+      expiry: expiry,
       trial: toFlag(u.is_trial),
       activeConnections: toInt(u.active_cons),
       maxConnections: toInt(u.max_connections),

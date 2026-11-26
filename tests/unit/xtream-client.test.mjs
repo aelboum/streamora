@@ -62,7 +62,8 @@ test('authentication: typed account; requests go only to the configured origin a
   assert.equal(r.ok, true);
   assert.deepEqual(r.data.user, {
     auth: true, status: 'Active', expiresAt: 1893456000000, trial: false, activeConnections: 0, maxConnections: 2,
-    allowedFormats: ['m3u8', 'ts', 'rtmp']
+    allowedFormats: ['m3u8', 'ts', 'rtmp'],
+    expiry: { kind: 'date', at: 1893456000000 } // S2: three-state expiry next to expiresAt
   });
   assert.deepEqual(r.data.server, { timezone: 'Europe/Amsterdam', serverTime: 1763856000000, protocol: 'http' });
   assert.equal(JSON.stringify(r.data).indexOf('demo_pass_9f3k'), -1, 'echoed password is not kept');

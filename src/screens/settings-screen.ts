@@ -34,6 +34,10 @@ export interface SettingsDeps {
   /** Stores the choice and rebuilds the screens in the new language. */
   setLanguage: (l: UiLanguage) => void;
   about: () => Array<{ label: string; value: string }>;
+  /** S3: "Play last channel on app startup" (off by default); absent where Live TV cannot play. */
+  resumeLast?: { get(): boolean; set(on: boolean): void };
+  /** S2: subscription rows of a playlist (information only). */
+  subscription?: (playlistId: string) => Array<{ label: string; value: string }>;
   /** Stage 7B.2 part 4 (null: no PIN support on this device). */
   parental?: Parental | null;
 }
@@ -72,7 +76,11 @@ export function createSettingsScreen(d: SettingsDeps, nav: Router): Screen {
     const def = pid ? d.playlists.get(pid) : null;
     function group(title: string): void { groups.push({ title: title, from: rows.length }); }
     group(t('set.accounts'));
-    rows.push({ id: 'accounts', label: t('set.accountsRow'), value: def ? def.name + ' · ' + t('set.accountCount', { n: d.playlists.list().length }) : t('home.noAccount'), act: function () { nav.push('playlists'); } });
+    rows.push({ id: 'accounts', label: t('set.accountsRow'), value: d.playlists.storageState().status === 'protected' ? t('set.storageProtected') : def ? def.name + ' · ' + t('set.accountCount', { n: d.playlists.list().length }) : t('home.noAccount'), act: function () { nav.push('playlists'); } });
+    if (pid && def && d.subscription) {
+      const sub = d.subscription(pid);
+      for (let i = 0; i < sub.length; i++) { rows.push({ id: i === 0 ? 'subscription' : 'subscription-' + i, label: sub[i].label, value: sub[i].value, act: null }); }
+    }
     group(t('set.language'));
     const langs: UiLanguage[] = ['en', 'nl'];
     for (let i = 0; i < langs.length; i++) {
@@ -85,6 +93,11 @@ export function createSettingsScreen(d: SettingsDeps, nav: Router): Screen {
       const p = prefs.get();
       rows.push({ id: 'audio', label: t('set.audioLang'), value: p.audio ? languageName(p.audio, uiLanguage(t)) : t('set.streamDefault'), act: function () { prefs.set({ audio: next(prefs.get().audio) }); } });
       rows.push({ id: 'subs', label: t('set.subLang'), value: p.text ? languageName(p.text, uiLanguage(t)) : t('vod.subsOff'), act: function () { prefs.set({ text: next(prefs.get().text) }); } });
+    }
+    const resume = d.resumeLast;
+    if (resume) {
+      if (!prefs) { group(t('set.playback')); }
+      rows.push({ id: 'resume-last', label: t('set.resumeLast'), value: resume.get() ? t('set.on') : t('set.off'), act: function () { resume.set(!resume.get()); build(); paint(); } });
     }
     group(t('set.parental'));
     const par = d.parental;
@@ -125,8 +138,12 @@ export function createSettingsScreen(d: SettingsDeps, nav: Router): Screen {
       act: function () { confirm(t('set.clearSearchesTitle'), t('set.clearSearchesText'), t('set.clear'), function () { d.kv.remove('search.recent'); }); }
     });
     group(t('set.about'));
+    // S1: one focusable row opens the About screen (version shown as its value); the details moved there.
     const info = d.about();
-    for (let i = 0; i < info.length; i++) { rows.push({ id: 'about-' + i, label: info[i].label, value: info[i].value, act: null }); }
+    rows.push({
+      id: 'about', label: t('set.aboutRow'), value: info.length ? info[0].value : '',
+      act: nav.isRegistered('about') ? function () { nav.push('about'); } : null
+    });
     if (nav.isRegistered('diagnostics')) {
       rows.push({ id: 'diagnostics', label: t('set.diagnostics'), value: '', act: function () { nav.push('diagnostics'); } });
     }

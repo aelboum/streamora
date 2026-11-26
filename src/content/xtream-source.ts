@@ -6,13 +6,16 @@ import type { XtreamErrorCode } from '../api/xtream/xtream-client.ts';
 import { checkUrl } from '../api/url.ts';
 import type { ImportCounts, ImportErrorCode, LiveFormat } from '../models/content.ts';
 import { createLiveBuilder, looksAdult } from './catalogue-codec.ts';
-import type { ImportHandle, ImportProgress, ImportResult, SourceImport } from './import-types.ts';
+import type { AccountReport, ImportHandle, ImportProgress, ImportResult, SourceImport } from './import-types.ts';
+import { clockBasis } from './expiry.ts';
 
 export interface XtreamImportOptions {
   client: XtreamClient;
   liveFormat: LiveFormat;
   now: () => number;
   onProgress?: (p: ImportProgress) => void;
+  /** S2: called once, right after a successful login (kept even if the import fails later). */
+  onAccount?: (a: AccountReport) => void;
 }
 
 function code(c: XtreamErrorCode): ImportErrorCode {
@@ -43,8 +46,16 @@ export function importXtream(o: XtreamImportOptions): ImportHandle {
       }
       const u = a.data.user;
       account = { expiresAt: u.expiresAt, maxConnections: u.maxConnections, trial: u.trial, status: u.status };
+      // S2: time basis from the same answer (server clock only with evidence; else the TV clock).
+      const t = o.now();
+      const basis = clockBasis(a.data.server.serverTime, t);
+      if (o.onAccount) {
+        try {
+          o.onAccount({ expiry: u.expiry, status: u.status, trial: u.trial, maxConnections: u.maxConnections, checkedAt: t, clock: basis });
+        } catch (e) { /* metadata never breaks an import */ }
+      }
       const st = u.status.toLowerCase();
-      if (st === 'expired' || (u.expiresAt !== null && u.expiresAt < o.now())) {
+      if (st === 'expired' || (u.expiry.kind === 'date' && u.expiry.at < t + basis.offsetMs)) {
         return fail('expired', 'subscription expired');
       }
       if (st !== 'active' && st !== 'unknown') {

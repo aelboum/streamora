@@ -1,6 +1,6 @@
 {
   "name": "screenshelf",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "ScreenShelf IPTV player for Samsung Tizen 3.0 TVs (Stage 3 foundation)",
   "type": "module",
@@ -23,6 +23,7 @@
     "tv:uninstall": "node scripts/tv.mjs uninstall",
     "dev-sink": "node scripts/dev-sink.mjs",
     "android:build": "node scripts/android.mjs",
+    "android:release": "node scripts/android.mjs release",
     "build:all": "npm run build:release && npm run check:release && npm run android:build"
   },
   "devDependencies": {

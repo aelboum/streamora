@@ -18,9 +18,13 @@ import type { KeyboardMode, KeyboardParams } from './keyboard-overlay.ts';
 import type { Translate } from '../i18n/strings.ts';
 import { maskUrl } from './format.ts';
 import { PHONE_PAIR_SCREEN } from './ai-phone-pair-screen.ts';
-import { XTREAM_PAIR_KIND } from './xtream-pair.ts';
-import type { XtreamDetails } from './xtream-pair.ts';
+import { m3uPurpose, xtreamPurpose } from './playlist-pair.ts';
+import type { PairPanel, PairPanelEvents, PairPurpose } from '../components/pair-panel.ts';
+import { M3U_PAIR_KIND, XTREAM_PAIR_KIND } from './playlist-pair.ts';
+import type { M3uDetails, XtreamDetails } from './playlist-pair.ts';
 import { h } from '../utils/dom.ts';
+import { xtreamFromLink } from '../content/credential-template.ts';
+import type { ConfirmParams } from './confirm-dialog.ts';
 
 export type FormMode = 'add-m3u' | 'add-xtream' | 'edit';
 
@@ -30,6 +34,8 @@ export interface FormDeps {
   t: Translate;
   /** Opens text entry: the system IME where preferred, else the app keyboard (Stage 5). */
   openText?: (nav: Router, p: KeyboardParams) => void;
+  /** Phone pairing panel: Add forms show the QR code on the left, the fields on the right. */
+  pairPanel?: (purpose: PairPurpose, ev: PairPanelEvents) => PairPanel;
 }
 
 export interface FormParams {
@@ -42,7 +48,7 @@ type FieldId = 'phone' | 'name' | 'url' | 'server' | 'username' | 'password' | '
 interface Field {
   id: FieldId;
   label: string;
-  /** 'action': the "Fill in with phone (QR)" row (Xtream only, when phone pairing is available). */
+  /** 'action': the "Fill in with phone (QR)" row (when phone pairing is available). */
   kind: KeyboardMode | 'choice' | 'action';
   max: number;
   /** For edit: credential fields start as "unchanged". */
@@ -54,8 +60,11 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
   const existing: PlaylistDef | null = p.mode === 'edit' && p.id ? d.playlists.get(p.id) : null;
   const kind = p.mode === 'add-xtream' || (existing && existing.kind === 'xtream') ? 'xtream' : 'm3u';
   const editing = p.mode === 'edit';
+  // Add: the pairing panel sits next to the fields. Edit: a "Fill in with phone (QR)" row opens
+  // the full-screen pairing screen.
+  const embedded = !editing && !!d.pairPanel;
   const fields: Field[] = [];
-  if (kind === 'xtream' && nav.isRegistered(PHONE_PAIR_SCREEN)) {
+  if (!embedded && nav.isRegistered(PHONE_PAIR_SCREEN)) {
     fields.push({ id: 'phone', label: t('form.phoneQr'), kind: 'action', max: 0, credential: false });
   }
   fields.push({ id: 'name', label: t('form.name'), kind: 'text', max: 64, credential: false });
@@ -86,7 +95,7 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
 
   function display(f: Field): Row {
     if (f.kind === 'action') {
-      return { primary: f.label, secondary: t('form.phoneQrHint') };
+      return { primary: f.label, secondary: kind === 'm3u' ? t('form.phoneQrHintM3u') : t('form.phoneQrHint') };
     }
     if (f.kind === 'choice') {
       return { primary: f.label, secondary: format === 'ts' ? t('form.format.ts') : t('form.format.m3u8') };
@@ -127,10 +136,22 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
     render();
   }
 
+  /** M3U link from the phone (after the check code was confirmed on the TV). */
+  function fillM3uFromPhone(v: M3uDetails): void {
+    values.url = v.url;
+    touched.url = true;
+    if (v.epg) { values.epg = v.epg; }
+    if (v.name && !values.name) { values.name = v.name; }
+    filledFromPhone = true;
+    render();
+  }
+
   function edit(i: number): void {
     const f = fields[i];
     if (f.kind === 'action') {
-      nav.push(PHONE_PAIR_SCREEN, { kind: XTREAM_PAIR_KIND, fill: fillFromPhone });
+      nav.push(PHONE_PAIR_SCREEN, kind === 'm3u'
+        ? { kind: M3U_PAIR_KIND, fill: fillM3uFromPhone }
+        : { kind: XTREAM_PAIR_KIND, fill: fillFromPhone });
       return;
     }
     if (f.kind === 'choice') {
@@ -165,14 +186,36 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
     return t('form.err.' + r.code, { max: MAX_PLAYLISTS });
   }
 
-  function save(): void {
+  /**
+   * An M3U link that is really an Xtream login (…/get.php?username=…&password=…): offer to add it
+   * as an Xtream account. Many providers no longer serve get.php (HTTP 884) while the Xtream API
+   * works, and Xtream also gives Movies and Series.
+   */
+  function askConvert(): void {
+    const c: ConfirmParams = {
+      title: t('form.xtLinkTitle'),
+      paragraphs: [t('form.xtLinkText')],
+      buttons: [
+        { label: t('form.xtLinkUse'), run: function () { save('xtream'); } },
+        { label: t('form.xtLinkKeep'), run: function () { save('m3u'); } },
+        { label: t('common.cancel') }
+      ]
+    };
+    nav.openOverlay('confirm', c as unknown as Record<string, unknown>);
+  }
+
+  function save(choice?: 'xtream' | 'm3u'): void {
     if (saving || !frame) {
       return;
     }
+    const asXtream = !editing && kind === 'm3u' ? xtreamFromLink(values.url) : null;
+    if (asXtream && !choice) { askConvert(); return; }
     saving = true;
     setMessage(frame.message, t('form.saving'));
     let pending: Promise<SaveDefResult>;
-    if (!editing) {
+    if (!editing && asXtream && choice === 'xtream') {
+      pending = d.playlists.add({ name: values.name, kind: 'xtream', server: asXtream.server, username: asXtream.username, password: asXtream.password, epgUrl: values.epg, liveFormat: format });
+    } else if (!editing) {
       pending = d.playlists.add(kind === 'm3u'
         ? { name: values.name, kind: 'm3u', url: values.url, epgUrl: values.epg, liveFormat: format }
         : { name: values.name, kind: 'xtream', server: values.server, username: values.username, password: values.password, epgUrl: values.epg, liveFormat: format });
@@ -215,14 +258,43 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
     });
   }
 
+  // Embedded pairing panel (Add forms): confirmed details fill the fields at once and Save is focused.
+  const panel: PairPanel | null = embedded && d.pairPanel ? d.pairPanel(
+    kind === 'm3u'
+      ? m3uPurpose(t, function (v) { fillM3uFromPhone(v); filledHere(); })
+      : xtreamPurpose(t, function (v) { fillFromPhone(v); filledHere(); }),
+    {
+      close: function () { /* embedded: never closes the form */ },
+      buttonsChanged: function (want: boolean) {
+        const cur = focus.current();
+        if (want || (cur && cur.zone === 'pair')) {
+          focus.focus('pair', 0);
+          if (panel) { panel.setFocused(0, true); } // new elements: the focus manager skips an unchanged position
+        }
+      }
+    }) : null;
+
+  function filledHere(): void {
+    filledFromPhone = false;
+    if (frame) { setMessage(frame.message, t('form.phoneFilled')); }
+    focus.focus('buttons', 0);
+    buttons.setFocused(0, true);
+  }
+
   const focus = createFocusManager(function (zone, index, focused) {
-    if (zone === 'fields') { list.setFocused(index, focused); } else { buttons.setFocused(index, focused); }
+    if (zone === 'fields') { list.setFocused(index, focused); } else if (zone === 'pair') { if (panel) { panel.setFocused(index, focused); } } else { buttons.setFocused(index, focused); }
   });
-  focus.register({ id: 'fields', kind: 'column', size: function () { return list.size(); }, neighbours: { down: 'buttons' }, onSelect: edit });
+  focus.register({ id: 'fields', kind: 'column', size: function () { return list.size(); }, neighbours: panel ? { down: 'buttons', left: 'pair' } : { down: 'buttons' }, onSelect: edit });
   focus.register({
-    id: 'buttons', kind: 'row', size: function () { return buttons.size(); }, neighbours: { up: 'fields' },
+    id: 'buttons', kind: 'row', size: function () { return buttons.size(); }, neighbours: panel ? { up: 'fields', left: 'pair' } : { up: 'fields' },
     onSelect: function (i) { if (i === 0) { save(); } else { nav.pop(); } }
   });
+  if (panel) {
+    focus.register({
+      id: 'pair', kind: 'row', size: function () { return panel.size(); }, neighbours: { right: 'fields' },
+      onSelect: function (i) { panel.select(i); }
+    });
+  }
 
   return {
     mount: function (layer: HostLayer) {
@@ -232,10 +304,24 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
       if (!d.playlists.credentialsPersistent()) {
         frame.body.appendChild(h(d.doc, 'div', { className: 'ss-message ss-form__session', text: t('form.sessionOnly') }));
       }
-      frame.body.appendChild(h(d.doc, 'div', { className: 'ss-panel ss-panel--wide' }, [list.element, buttons.element]));
+      const formPanel = h(d.doc, 'div', { className: 'ss-panel ss-panel--wide' }, [list.element, buttons.element]);
+      if (panel) {
+        // QR code on the left, the input fields on the right.
+        frame.body.appendChild(h(d.doc, 'div', { className: 'ss-form-split' }, [
+          h(d.doc, 'div', { className: 'ss-panel ss-form-split__pair' }, [
+            h(d.doc, 'div', { className: 'ss-panel__label', text: t('form.phoneQr') }),
+            h(d.doc, 'div', { className: 'ss-message ss-form-split__hint', text: kind === 'm3u' ? t('form.phoneQrHintM3u') : t('form.phoneQrHint') }),
+            panel.element
+          ]),
+          formPanel
+        ]));
+      } else {
+        frame.body.appendChild(formPanel);
+      }
       (layer.element as HTMLElement).appendChild(frame.root);
       render();
       focus.focus('fields', 0);
+      if (panel) { panel.start(); }
     },
     onShow: function () {
       render();
@@ -258,6 +344,7 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
     },
     onBack: function () { return false; }, // router pops = cancel
     destroy: function () {
+      if (panel) { panel.destroy(); }
       values.password = '';
       values.username = '';
       values.url = '';

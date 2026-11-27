@@ -847,17 +847,26 @@ test('Settings: accounts, language, playback languages, clear history (confirmed
   const rowIds = () => env.layer().findAll('ss-set__row').map((r) => r.attributes['data-row']);
   const focused = () => env.layer().findAll('ss-set__row').filter((r) => /is-focused/.test(r.className)).map((r) => r.attributes['data-row'])[0];
   const value = (id) => env.layer().findAll('ss-set__row').find((r) => r.attributes['data-row'] === id).findAll('ss-set__value')[0].textContent;
-  assert.deepEqual(rowIds().slice(0, 6), ['accounts', 'lang-en', 'lang-nl', 'audio', 'subs', 'pin-set']);
+  assert.deepEqual(rowIds().slice(0, 9), ['accounts', 'lang-en', 'lang-nl', 'lang-fr', 'lang-es', 'lang-de', 'audio', 'subs']);
   assert.equal(focused(), 'accounts');
   assert.match(value('accounts'), /^Provider · 1 in total$/);
   env.press('ok');
-  assert.equal(top(env), 'playlists');
+  assert.equal(top(env), 'playlist-details', 'Settings → Accounts opens the active account info page');
   env.press('back');
   assert.equal(top(env), 'settings');
   assert.equal(value('lang-en'), '✓');
   env.press('down', 2);
   env.press('ok');
   assert.deepEqual(env.langCalls, ['nl']);
+  env.press('down');
+  env.press('ok');
+  assert.deepEqual(env.langCalls, ['nl', 'fr']);
+  env.press('down');
+  env.press('ok');
+  env.press('down');
+  env.press('ok');
+  assert.deepEqual(env.langCalls, ['nl', 'fr', 'es', 'de']);
+  assert.match(env.layer().textContent, /Français[\s\S]*Español[\s\S]*Deutsch/, 'each language named in itself');
   // Playback: OK steps through the languages.
   env.press('down');
   assert.equal(focused(), 'audio');
@@ -874,7 +883,7 @@ test('Settings: accounts, language, playback languages, clear history (confirmed
   env.progress.save(env.pl.id, { key: 'm:5001', section: 'movie', title: item.name, sub: '', poster: '', ref: { kind: 'xtream', type: 'movie', id: '5001', ext: 'mkv' }, item, pos: 600000, dur: 6000000, at: 0 });
   env.router.resetTo('home');
   env.router.push('settings');
-  env.press('down', 6);
+  env.press('down', 9);
   assert.equal(value('clear-progress'), '1 unfinished');
   assert.equal(focused(), 'clear-progress');
   env.press('ok');
@@ -998,6 +1007,8 @@ test('Parental PIN: Forgot PIN with the recovery code removes the PIN; Remove PI
   env.router.resetTo('home');
   env.router.push('settings');
   const ids = () => env.layer().findAll('ss-set__row').map((x) => x.attributes['data-row']);
+  // The list shows 11 lines; scroll down until the PIN rows are on screen (five languages above them).
+  for (let i = 0; i < 20 && !(ids().includes('lock-adult') && ids().includes('pin-change')); i++) { env.press('down'); }
   assert.ok(ids().includes('lock-adult') && ids().includes('pin-change'));
   env.router.openOverlay('pin-dialog', { mode: 'verify' });
   env.press('down', 4); // pad → buttons: Forgot PIN?

@@ -30,7 +30,7 @@ interface NaclLike {
 const nacl = naclLib as unknown as NaclLike;
 
 export const PAIR_TTL_MS = 5 * 60000;
-export const PAIR_PROVIDERS = ['gemini', 'xtream'];
+export const PAIR_PROVIDERS = ['gemini', 'xtream', 'm3u'];
 /** Session ids: 16 bytes, base64url (22 characters); see sessionIdFor. */
 export const SID_RE = /^[A-Za-z0-9_-]{22}$/;
 /** Largest envelope accepted from the relay (characters of JSON). */

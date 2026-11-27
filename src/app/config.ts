@@ -37,7 +37,7 @@ export interface AppConfig {
   };
   ui: {
     keyRepeatThrottleMs: number;
-    language: 'en' | 'nl';
+    language: 'en' | 'nl' | 'fr' | 'es' | 'de';
     theme: 'dark' | 'light';
     /** 'auto' = Samsung IME where available, app keyboard otherwise; 'app' = always the app keyboard. */
     keyboard: 'auto' | 'app';
@@ -90,7 +90,7 @@ const NUMBER_RULES: Record<string, Record<string, NumRule>> = {
   logging: { capacity: [50, 2000] }
 };
 const ENUM_RULES: Record<string, Record<string, string[]>> = {
-  ui: { language: ['en', 'nl'], theme: ['dark', 'light'], keyboard: ['auto', 'app'] },
+  ui: { language: ['en', 'nl', 'fr', 'es', 'de'], theme: ['dark', 'light'], keyboard: ['auto', 'app'] },
   logging: { level: ['debug', 'info', 'warn', 'error'] }
 };
 

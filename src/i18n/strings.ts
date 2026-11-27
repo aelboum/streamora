@@ -1,6 +1,11 @@
-// UI strings, English and Dutch (decision P6). Whole sentences only, with {name} parameters;
-// no sentence is assembled from fragments. Screens get a `t` function; there is no other text source.
-export type Lang = 'en' | 'nl';
+// UI strings: English and Dutch (decision P6), French, Spanish and German (strings-fr/es/de.ts).
+// Whole sentences only, with {name} parameters; no sentence is assembled from fragments. Screens
+// get a `t` function; there is no other text source.
+import { FR } from './strings-fr.ts';
+import { ES } from './strings-es.ts';
+import { DE } from './strings-de.ts';
+
+export type Lang = 'en' | 'nl' | 'fr' | 'es' | 'de';
 
 const EN: Record<string, string> = {
   'app.title': 'EliteStream',
@@ -126,6 +131,19 @@ const EN: Record<string, string> = {
   'form.phoneQr': "Fill in with phone (QR)",
   'form.phoneQrHint': "Type the server, username and password on your phone",
   'form.phoneFilled': "Filled in from your phone. Check the details and choose Save.",
+  'pair.m3u.title': "M3U playlist with phone",
+  'pair.m3u.intro': "Scan the code with your phone and paste the playlist link there. It is end-to-end encrypted: only this TV can open it.",
+  'pair.m3u.received': "Playlist link received: {url} ({length} characters). Use it only if the code matches the one on your phone.",
+  'pair.m3u.use': "Use this link",
+  'pair.m3u.invalid': "The phone sent a link that cannot be used (it must start with http:// or https://). Nothing was used.",
+  'form.phoneQrHintM3u': "Paste the playlist link on your phone",
+  'pair.filled': "Filled in on the right. Check the details and choose Save.",
+  'form.xtLinkTitle': "This is an Xtream link",
+  'form.xtLinkText': "The link contains a server, username and password. Adding it as an Xtream account is more reliable (many providers no longer allow M3U downloads) and also gives you Movies and Series.",
+  'form.xtLinkUse': "Add as Xtream account",
+  'form.xtLinkKeep': "Keep as M3U",
+  'err.http884': "Your provider does not allow M3U downloads. Add the account as an Xtream account instead (Home → Add account → Xtream account).",
+  'details.allAccounts': "All accounts",
   'ai.keyInvalidFormat': "This does not look like an API key. Check it and try again.",
   'ai.keyNotSaved': "The API key could not be stored on this TV.",
   'ai.keyRemove': "Remove {provider} API key",
@@ -270,7 +288,7 @@ const EN: Record<string, string> = {
   'playlists.addM3u': 'Add M3U playlist',
   'playlists.addXtream': 'Add Xtream account',
   'playlists.diagnostics': 'Diagnostics',
-  'playlists.empty': 'No playlists yet. Add an M3U playlist or an Xtream Codes account to start.',
+  'playlists.empty': 'No playlists yet. Add one with Add account on the home screen.',
   'playlists.active': 'Active',
   'playlists.neverLoaded': 'Not loaded yet',
   'playlists.loadedAt': 'Updated {when}',
@@ -776,6 +794,19 @@ const NL: Record<string, string> = {
   'form.phoneQr': "Invullen via telefoon (QR)",
   'form.phoneQrHint': "Typ server, gebruikersnaam en wachtwoord op je telefoon",
   'form.phoneFilled': "Ingevuld vanaf je telefoon. Controleer de gegevens en kies Opslaan.",
+  'pair.m3u.title': "M3U-playlist via telefoon",
+  'pair.m3u.intro': "Scan de code met je telefoon en plak daar de playlistlink. Hij is end-to-end versleuteld: alleen deze tv kan hem openen.",
+  'pair.m3u.received': "Playlistlink ontvangen: {url} ({length} tekens). Gebruik hem alleen als de code gelijk is aan die op je telefoon.",
+  'pair.m3u.use': "Deze link gebruiken",
+  'pair.m3u.invalid': "De telefoon stuurde een link die niet bruikbaar is (hij moet beginnen met http:// of https://). Er is niets gebruikt.",
+  'form.phoneQrHintM3u': "Plak de playlistlink op je telefoon",
+  'pair.filled': "Rechts ingevuld. Controleer de gegevens en kies Opslaan.",
+  'form.xtLinkTitle': "Dit is een Xtream-link",
+  'form.xtLinkText': "De link bevat een server, gebruikersnaam en wachtwoord. Als Xtream-account toevoegen is betrouwbaarder (veel aanbieders staan geen M3U-downloads meer toe) en geeft je ook Films en Series.",
+  'form.xtLinkUse': "Als Xtream-account toevoegen",
+  'form.xtLinkKeep': "Als M3U houden",
+  'err.http884': "Je aanbieder staat geen M3U-downloads toe. Voeg het account toe als Xtream-account (Start → Account toevoegen → Xtream-account).",
+  'details.allAccounts': "Alle accounts",
   'ai.keyInvalidFormat': "Dit lijkt geen API-sleutel. Controleer hem en probeer het opnieuw.",
   'ai.keyNotSaved': "De API-sleutel kon niet op deze tv worden opgeslagen.",
   'ai.keyRemove': "API-sleutel van {provider} verwijderen",
@@ -920,7 +951,7 @@ const NL: Record<string, string> = {
   'playlists.addM3u': 'M3U-lijst toevoegen',
   'playlists.addXtream': 'Xtream-account toevoegen',
   'playlists.diagnostics': 'Diagnose',
-  'playlists.empty': 'Nog geen afspeellijsten. Voeg een M3U-lijst of een Xtream Codes-account toe om te beginnen.',
+  'playlists.empty': 'Nog geen afspeellijsten. Voeg er een toe met Account toevoegen op het startscherm.',
   'playlists.active': 'Actief',
   'playlists.neverLoaded': 'Nog niet geladen',
   'playlists.loadedAt': 'Bijgewerkt {when}',
@@ -1305,7 +1336,7 @@ const NL: Record<string, string> = {
 export type Translate = (key: string, params?: Record<string, string | number>) => string;
 
 export function createTranslator(lang: Lang): Translate {
-  const table = lang === 'nl' ? NL : EN;
+  const table = lang === 'nl' ? NL : lang === 'fr' ? FR : lang === 'es' ? ES : lang === 'de' ? DE : EN;
   return function (key, params) {
     let s = Object.prototype.hasOwnProperty.call(table, key) ? table[key] : (Object.prototype.hasOwnProperty.call(EN, key) ? EN[key] : key);
     if (params) {
@@ -1319,14 +1350,19 @@ export function createTranslator(lang: Lang): Translate {
   };
 }
 
-/** Keys missing in either table (checked by a test). */
+/** Keys missing in any translation, or present there but not in English (checked by a test). */
 export function missingTranslations(): string[] {
   const out: string[] = [];
-  for (const k in EN) {
-    if (Object.prototype.hasOwnProperty.call(EN, k) && !Object.prototype.hasOwnProperty.call(NL, k)) { out.push('nl:' + k); }
-  }
-  for (const k2 in NL) {
-    if (Object.prototype.hasOwnProperty.call(NL, k2) && !Object.prototype.hasOwnProperty.call(EN, k2)) { out.push('en:' + k2); }
+  const others: Array<[string, Record<string, string>]> = [['nl', NL], ['fr', FR], ['es', ES], ['de', DE]];
+  for (let i = 0; i < others.length; i++) {
+    const code = others[i][0];
+    const table = others[i][1];
+    for (const k in EN) {
+      if (Object.prototype.hasOwnProperty.call(EN, k) && !Object.prototype.hasOwnProperty.call(table, k)) { out.push(code + ':' + k); }
+    }
+    for (const k2 in table) {
+      if (Object.prototype.hasOwnProperty.call(table, k2) && !Object.prototype.hasOwnProperty.call(EN, k2)) { out.push('en:' + k2 + ' (' + code + ')'); }
+    }
   }
   return out;
 }

@@ -192,3 +192,28 @@
   -webkit-transform: scale(1.08);
   transform: scale(1.08);
 }
+
+/* AI-02: Add M3U / Add Xtream: phone pairing QR on the left, the input fields on the right
+   (same 1600 px as the wide panel). */
+.ss-form-split {
+  display: flex;
+  align-items: flex-start;
+  width: 1600px;
+}
+
+.ss-form-split__pair {
+  width: 520px;
+  flex: 0 0 auto;
+  margin-right: 32px;
+  padding: 24px 28px;
+}
+
+.ss-form-split__hint {
+  font-size: 22px;
+  margin-top: 6px;
+}
+
+.ss-form-split .ss-panel--wide {
+  width: 1048px;
+  flex: 0 0 auto;
+}

@@ -1,4 +1,5 @@
-// Playlist overview (root screen). Top row: Add M3U, Add Xtream, Diagnostics. Below: one row per
+// Playlist overview (Settings → Accounts, All accounts). Top row: Live TV / Movies / Series when
+// active, Diagnostics (adding an account is on the home screen). Below: one row per
 // playlist with its type, server host and last status. OK on a playlist opens its details.
 // Back at the root opens the exit dialog (router root-back handler).
 import type { HostLayer, Router, Screen } from '../navigation/router.ts';
@@ -77,7 +78,8 @@ export function createPlaylistsScreen(d: PlaylistsDeps, nav: Router): Screen {
   function renderActions(active: string | null): void {
     const activeDef = active ? d.playlists.get(active) : null;
     const vod = !!(d.vod && activeDef && activeDef.kind === 'xtream');
-    const ids = (active && d.live ? ['live'] : []).concat(vod ? ['movies', 'series'] : []).concat(['m3u', 'xtream', 'diag']);
+    // Adding an account is on the home screen ("Add account"); this list only manages them.
+    const ids = (active && d.live ? ['live'] : []).concat(vod ? ['movies', 'series'] : []).concat(['diag']);
     if (ids.join() === actionIds.join()) {
       return;
     }

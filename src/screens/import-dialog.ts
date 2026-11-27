@@ -10,6 +10,7 @@ import type { PlaylistService, RefreshJob, RefreshResult } from '../services/pla
 import type { ImportProgress } from '../content/import-types.ts';
 import type { Translate } from '../i18n/strings.ts';
 import { clear, h } from '../utils/dom.ts';
+import { httpStatusSuffix } from './format.ts';
 
 export interface ImportDialogDeps {
   doc: Document;
@@ -136,8 +137,9 @@ export function createImportDialog(d: ImportDialogDeps, p: ImportDialogParams, n
       setButtons([t('common.close'), t('common.retry')], [function () { nav.closeOverlay(); }, start]);
     } else {
       status.className = 'ss-dialog__status ss-tone--error';
-      status.textContent = t('import.failed') + ' ' + t('err.' + r.code);
-      detail.textContent = t('import.keptOld');
+      status.textContent = t('import.failed') + ' ' + t('err.' + r.code) + httpStatusSuffix(r.code, r.message);
+      // HTTP 884: the provider no longer serves M3U downloads (get.php); its Xtream login still works.
+      detail.textContent = httpStatusSuffix(r.code, r.message) === ' (HTTP 884)' ? t('err.http884') + ' ' + t('import.keptOld') : t('import.keptOld');
       setButtons([t('common.close'), t('common.retry')], [function () { nav.closeOverlay(); }, start]);
     }
     if (p.onFinished) {

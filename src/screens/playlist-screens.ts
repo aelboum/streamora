@@ -14,6 +14,7 @@ import { createConfirmDialog } from './confirm-dialog.ts';
 import type { ConfirmParams } from './confirm-dialog.ts';
 import { createKeyboardOverlay } from './keyboard-overlay.ts';
 import type { KeyboardParams } from './keyboard-overlay.ts';
+import type { PairPanel, PairPanelEvents, PairPurpose } from '../components/pair-panel.ts';
 
 export interface PlaylistScreenDeps {
   doc: Document;
@@ -27,6 +28,8 @@ export interface PlaylistScreenDeps {
   /** S2: subscription rows (expiry, status, checked, time basis) of a playlist. */
   subscription?: (playlistId: string) => Array<{ label: string; value: string }>;
   vod?: boolean;
+  /** Phone pairing panel for the Add M3U / Add Xtream forms (absent: no relay or no crypto source). */
+  pairPanel?: (purpose: PairPurpose, ev: PairPanelEvents) => PairPanel;
 }
 
 export const PLAYLIST_SCREENS = ['playlists', 'playlist-form', 'playlist-details', 'import-dialog', 'confirm', 'keyboard'];
@@ -36,7 +39,7 @@ export function registerPlaylistScreens(router: Router, d: PlaylistScreenDeps): 
     return createPlaylistsScreen({ doc: d.doc, playlists: d.playlists, t: d.t, live: d.live, vod: d.vod }, nav);
   });
   router.register('playlist-form', function (p, nav) {
-    return createPlaylistForm({ doc: d.doc, playlists: d.playlists, t: d.t, openText: d.openText }, p as unknown as FormParams, nav);
+    return createPlaylistForm({ doc: d.doc, playlists: d.playlists, t: d.t, openText: d.openText, pairPanel: d.pairPanel }, p as unknown as FormParams, nav);
   });
   router.register('playlist-details', function (p, nav) {
     return createPlaylistDetails({ doc: d.doc, playlists: d.playlists, t: d.t, subscription: d.subscription }, p as unknown as DetailsParams, nav);

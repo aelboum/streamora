@@ -15,8 +15,11 @@ import {
 import { createPhonePairScreen, keyPurpose, PHONE_PAIR_SCREEN, maskKey } from '../../src/screens/ai-phone-pair-screen.ts';
 import { createAiEngine } from '../../src/ai/ai-engine.ts';
 import { qrMatrix, qrImage } from '../../src/components/qr-code.ts';
-import { parseXtreamPayload, xtreamPurpose } from '../../src/screens/xtream-pair.ts';
+import { parseXtreamPayload, xtreamPurpose, parseM3uPayload, m3uPurpose } from '../../src/screens/playlist-pair.ts';
 import { createPlaylistForm } from '../../src/screens/playlist-form-screen.ts';
+import { createPairPanel } from '../../src/components/pair-panel.ts';
+import { createConfirmDialog } from '../../src/screens/confirm-dialog.ts';
+import { xtreamFromLink } from '../../src/content/credential-template.ts';
 import worker, { validEnvelope, TTL_MS, MAX_FAILED_POSTS } from '../../relay/src/worker.js';
 import { localEnv } from '../../relay/local-relay.mjs';
 import { createRouter } from '../../src/navigation/router.ts';
@@ -196,8 +199,16 @@ test('relay files: phone page uses no storage or third-party code; vendored Twee
   for (const bad of ['localStorage', 'sessionStorage', 'document.cookie', 'indexedDB', 'console.', 'XMLHttpRequest']) {
     assert.equal(js.includes(bad), false, 'phone page must not use ' + bad);
   }
-  assert.deepEqual([...html.matchAll(/src="([^"]+)"/g)].map((m) => m[1]), ['/vendor/nacl-fast.min.js', '/app.js']);
-  assert.equal(/https?:\/\//.test(html.replace(/<!--[\s\S]*?-->/g, '')), false, 'no external resources');
+  assert.deepEqual([...html.matchAll(/src="([^"]+)"/g)].map((m) => m[1]), ['/assets/mark.png', '/assets/mark.png', '/vendor/nacl-fast.min.js', '/app.js']);
+  // Resources (scripts, styles, images, icons) are all local; links may only point to the website.
+  assert.deepEqual([...html.matchAll(/<link [^>]*href="([^"]+)"/g)].map((m) => m[1]), ['/assets/favicon.png', '/site.css', '/app.css']);
+  const links = [...html.matchAll(/<a [^>]*href="([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(links.length > 0 && links.every((h) => /^https:\/\/elitestreamplayer\.com\/([a-z]+\/)?$/.test(h)), 'links only to the website');
+  assert.equal(/\ssrc="https?:|url\(\s*['"]?https?:/.test(html), false, 'no external resources');
+  // One design system: the page's site.css is the website stylesheet (copied by website/build.mjs).
+  const siteCss = readFileSync(new URL('../../relay/public/site.css', import.meta.url), 'utf8');
+  assert.equal(siteCss.replace(/^\/\*[^\n]*\*\/\n/, ''), readFileSync(new URL('../../website/src/styles.css', import.meta.url), 'utf8'));
+  assert.equal(/https?:\/\//.test(siteCss + readFileSync(new URL('../../relay/public/app.css', import.meta.url), 'utf8')), false, 'styles load nothing external');
   assert.deepEqual([...js.matchAll(/fetch\('([^']+)'/g)].map((m) => m[1]), ['/v1/s/', '/v1/s/'], 'only the relay API');
   assert.equal(readFileSync(new URL('../../relay/public/vendor/nacl-fast.min.js', import.meta.url)).equals(
     readFileSync(new URL('../../node_modules/tweetnacl/nacl-fast.min.js', import.meta.url))), true);
@@ -529,4 +540,175 @@ test('Xtream with the phone, full run: form → QR → phone page splits a get.p
   await wait();
   assert.deepEqual(added.map((a) => [a.kind, a.server, a.username, a.password, a.name]),
     [['xtream', 'http://line.example.test:8080', 'alice', 's3cret!', 'Home']]);
+});
+
+// ---- M3U link with the phone --------------------------------------------------------------------
+
+test('M3U payload: only an http(s) link without spaces is accepted', () => {
+  const link = 'http://line.example.test:8080/get.php?username=alice&password=s3cret&type=m3u_plus&output=ts';
+  assert.deepEqual(parseM3uPayload({ p: 'm3u', x: { l: ' ' + link + ' ', e: 'https://epg.example.test/guide.xml.gz', n: 'Home' } }),
+    { url: link, epg: 'https://epg.example.test/guide.xml.gz', name: 'Home' });
+  assert.deepEqual(parseM3uPayload({ p: 'm3u', x: { l: link } }), { url: link, epg: '', name: '' });
+  for (const x of [{ l: 'ftp://h/list.m3u' }, { l: 'http://h/a b.m3u' }, { l: '' }, { l: link, e: 'not a url' }, { l: link + '\n' + 'x' }, { l: link, n: 'x'.repeat(65) }, { l: 'http://h/' + 'x'.repeat(2050) }]) {
+    assert.equal(parseM3uPayload({ p: 'm3u', x }), null, JSON.stringify(x).slice(0, 60));
+  }
+  assert.equal(parseM3uPayload({ p: 'xtream', x: { l: link } }), null);
+  assert.equal(m3uPurpose(t, () => {}).accept({ p: 'xtream', x: { s: 'http://h', u: 'a', w: 'b' } }).ok, false);
+  assert.equal(xtreamPurpose(t, () => {}).accept({ p: 'm3u', x: { l: link } }).ok, false);
+});
+
+test('M3U with the phone, full run: form → QR → phone page → TV code (link masked) → form filled → Save', async () => {
+  const relay = localEnv();
+  const doc = createFakeDocument();
+  const router = createRouter(createDomHost(doc, doc.body), createLogger(50));
+  const engine = createAiEngine({
+    kv: kvStore(), keyStore: createMemoryKeyStore(), files: null, xhrFactory: workerXhr(relay, []), log: createLogger(10),
+    now: () => Date.now(), setTimer: (fn, ms) => setTimeout(fn, ms), clearTimer: (h) => clearTimeout(h), pairingUrl: BASE
+  });
+  const added = [];
+  const playlists = {
+    add(def) { added.push(def); return Promise.resolve({ ok: true, playlist: { id: 'p1' } }); },
+    update() { return Promise.resolve({ ok: true, playlist: { id: 'p1' } }); },
+    get() { return null; },
+    credentialsPersistent() { return true; }
+  };
+  const blank = () => ({ mount() {}, onShow() {}, onHide() {}, onKey: () => false, onBack: () => false, destroy() {} });
+  router.register('home', blank);
+  router.register('playlist-details', blank);
+  router.register('confirm', (p, nav) => createConfirmDialog(doc, p, nav));
+  router.register('playlist-form', (p, nav) => createPlaylistForm({ doc, playlists, t }, p, nav));
+  router.register(PHONE_PAIR_SCREEN, (p, nav) => createPhonePairScreen({
+    doc, t, http: engine.pairing.http, baseUrl: engine.pairing.baseUrl, purpose: m3uPurpose(t, p.fill),
+    now: () => Date.now(), pollMs: 5, setTimer: (fn, ms) => setTimeout(fn, Math.min(ms, 20)), clearTimer: (h) => clearTimeout(h)
+  }, nav));
+  router.resetTo('home');
+  const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+  const key = (k) => router.handleKey({ key: k });
+
+  router.push('playlist-form', { mode: 'add-m3u' });
+  assert.match(doc.body.textContent, /Fill in with phone \(QR\)/);
+  assert.match(doc.body.textContent, /Paste the playlist link on your phone/);
+  key('ok');
+  await wait();
+  assert.match(doc.body.textContent, /M3U playlist with phone/);
+  const qr = decodeQrDataUri(doc.body.findAll('ss-pair__qr')[0].attributes.src);
+  assert.match(qr, /^https:\/\/pair\.example\.test\/#2\.[A-Za-z0-9_-]{43}\.m3u$/);
+
+  const phone = runPhonePage(relay, qr.slice(qr.indexOf('#')));
+  assert.equal(phone.el('bad').hidden, true, 'the m3u kind is accepted');
+  assert.equal(phone.el('provider').textContent, 'M3U playlist link');
+  assert.equal(phone.el('m3uBox').hidden, false);
+  assert.equal(phone.el('xtBox').hidden, true);
+  assert.equal(phone.el('keyBox').hidden, true);
+  const link = 'http://line.example.test:8080/get.php?username=alice&password=s3cret&type=m3u_plus&output=ts';
+  phone.el('m3uLink').value = link;
+  phone.el('m3uEpg').value = 'https://epg.example.test/guide.xml.gz';
+  phone.el('send').onclick();
+  assert.equal(phone.el('m3uLink').value, '', 'link field cleared after sealing');
+  await wait(200);
+
+  const tvText = doc.body.textContent;
+  assert.match(tvText, /Playlist link received: http:\/\/line\.example\.test:8080\/get\.php/);
+  assert.equal(/alice|s3cret/.test(tvText), false, 'credentials in the link are masked on the TV');
+  assert.ok(tvText.indexOf(phone.el('code').textContent) >= 0, 'same check code');
+  const posted = phone.fetches.filter((f) => f.init && f.init.method === 'POST').map((f) => f.init.body).join('');
+  assert.equal(/alice|s3cret|line\.example/.test(posted), false, 'the relay only sees ciphertext');
+
+  key('right');
+  key('ok'); // Use this link
+  await wait();
+  assert.equal(router.stack().slice(-1)[0], 'playlist-form');
+  assert.match(doc.body.textContent, /Filled in from your phone/);
+  assert.equal(/alice|s3cret/.test(doc.body.textContent), false, 'link masked on the form');
+  key('ok'); // Save
+  // The link is an Xtream login (get.php with username and password): offered as Xtream.
+  assert.equal(router.overlay(), 'confirm');
+  assert.match(doc.body.textContent, /This is an Xtream link/);
+  key('ok'); // Add as Xtream account
+  await wait();
+  assert.deepEqual(added.map((a) => [a.kind, a.server, a.username, a.password, a.epgUrl]),
+    [['xtream', 'http://line.example.test:8080', 'alice', 's3cret', 'https://epg.example.test/guide.xml.gz']]);
+});
+
+// ---- Add forms: QR code on the left, input fields on the right ------------------------------------
+
+test('Add Xtream form: QR panel on the left, fields on the right; phone details fill the fields, Save focused', async () => {
+  const relay = localEnv();
+  const doc = createFakeDocument();
+  const router = createRouter(createDomHost(doc, doc.body), createLogger(50));
+  const engine = createAiEngine({
+    kv: kvStore(), keyStore: createMemoryKeyStore(), files: null, xhrFactory: workerXhr(relay, []), log: createLogger(10),
+    now: () => Date.now(), setTimer: (fn, ms) => setTimeout(fn, ms), clearTimer: (h) => clearTimeout(h), pairingUrl: BASE
+  });
+  const added = [];
+  const playlists = {
+    add(def) { added.push(def); return Promise.resolve({ ok: true, playlist: { id: 'p1' } }); },
+    update() { return Promise.resolve({ ok: true, playlist: { id: 'p1' } }); },
+    get() { return null; },
+    credentialsPersistent() { return true; }
+  };
+  const blank = () => ({ mount() {}, onShow() {}, onHide() {}, onKey: () => false, onBack: () => false, destroy() {} });
+  router.register('home', blank);
+  router.register('playlist-details', blank);
+  router.register(PHONE_PAIR_SCREEN, blank); // registered, but the Add form embeds the panel instead
+  const pairPanel = (purpose, ev) => createPairPanel({
+    doc, t, http: engine.pairing.http, baseUrl: engine.pairing.baseUrl, purpose, now: () => Date.now(), pollMs: 5,
+    setTimer: (fn, ms) => setTimeout(fn, Math.min(ms, 20)), clearTimer: (h) => clearTimeout(h), qrMaxPx: 420, embedded: true
+  }, ev);
+  router.register('playlist-form', (p, nav) => createPlaylistForm({ doc, playlists, t, pairPanel }, p, nav));
+  router.resetTo('home');
+  const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+  const key = (k) => router.handleKey({ key: k });
+  const focused = () => doc.body.findAll('is-focused').map((b) => b.textContent);
+
+  router.push('playlist-form', { mode: 'add-xtream' });
+  await wait();
+  const split = doc.body.findAll('ss-form-split');
+  assert.equal(split.length, 1, 'split layout');
+  const [left, right] = split[0].childNodes;
+  assert.match(left.className, /ss-form-split__pair/);
+  assert.equal(left.findAll('ss-pair__qr').length, 1, 'QR code in the left panel');
+  assert.match(right.textContent, /Name/);
+  assert.equal(/Fill in with phone/.test(right.textContent), false, 'no phone row among the fields');
+  const img = left.findAll('ss-pair__qr')[0];
+  assert.ok(parseInt(img.style.width, 10) <= 420, 'QR fits the left panel');
+  assert.equal(focused().length, 1);
+  assert.match(focused()[0], /Name/, 'focus starts on the first field');
+  key('left');
+  assert.deepEqual(focused(), ['New code'], 'Left moves to the panel');
+  key('right');
+  assert.match(focused()[0], /Name/, 'Right moves back to the fields');
+
+  const qr = decodeQrDataUri(img.attributes.src);
+  assert.match(qr, /#2\.[A-Za-z0-9_-]{43}\.xtream$/);
+  const phone = runPhonePage(relay, qr.slice(qr.indexOf('#')));
+  phone.el('xtServer').value = 'https://panel.example.test';
+  phone.el('xtUser').value = 'bob';
+  phone.el('xtPass').value = 'hunter22';
+  phone.el('send').onclick();
+  await wait(200);
+  assert.ok(left.textContent.indexOf(phone.el('code').textContent) >= 0, 'check code in the left panel');
+  assert.deepEqual(focused(), ['Discard'], 'details arrived: focus on Discard in the panel');
+  key('right');
+  key('ok'); // Use these details
+  await wait();
+  assert.equal(router.stack().slice(-1)[0], 'playlist-form', 'still on the form');
+  assert.match(left.textContent, /Filled in on the right/);
+  assert.match(doc.body.textContent, /Filled in from your phone/);
+  assert.deepEqual(focused(), ['Save'], 'Save focused');
+  assert.match(right.textContent, /panel\.example\.test/);
+  assert.equal(/hunter22/.test(doc.body.textContent), false, 'password shown as dots');
+  key('ok');
+  await wait();
+  assert.deepEqual(added.map((a) => [a.kind, a.server, a.username, a.password]), [['xtream', 'https://panel.example.test', 'bob', 'hunter22']]);
+});
+
+test('xtreamFromLink: get.php / player_api.php links with a login become an Xtream server and login', () => {
+  assert.deepEqual(xtreamFromLink('http://line.example.test:8080/get.php?username=alice&password=s3cret&type=m3u_plus&output=ts'),
+    { server: 'http://line.example.test:8080', username: 'alice', password: 's3cret' });
+  assert.deepEqual(xtreamFromLink(' https://h.test/pre/fix/player_api.php?username=ab&password=c%26d '),
+    { server: 'https://h.test/pre/fix', username: 'ab', password: 'c&d' });
+  for (const u of ['http://h.test/list.m3u', 'http://h.test/get.php?type=m3u', 'http://u@h.test/get.php?username=ab&password=cd', 'ftp://h.test/get.php?username=ab&password=cd', '']) {
+    assert.equal(xtreamFromLink(u), null, u);
+  }
 });

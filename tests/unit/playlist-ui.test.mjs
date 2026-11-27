@@ -131,10 +131,8 @@ test('translations: every string exists in English and Dutch', () => {
 test('overview: empty state, remote navigation, one focus indicator, Back reaches the exit handler', () => {
   const env = setup({ fn: () => ({ status: 404 }) });
   assert.match(bodyText(env), /No playlists yet/);
-  assert.equal(env.focusedText(), 'Add M3U playlist');
-  env.press('right');
-  assert.equal(env.focusedText(), 'Add Xtream account');
-  env.press('right');
+  // Adding an account is on the home screen; this list has no Add buttons.
+  assert.equal(/Add M3U playlist|Add Xtream account/.test(bodyText(env)), false);
   assert.equal(env.focusedText(), 'Diagnostics');
   env.press('right');
   assert.equal(env.focusedText(), 'Diagnostics', 'no wrap past the last item');
@@ -151,7 +149,7 @@ test('overview: empty state, remote navigation, one focus indicator, Back reache
 
 test('add M3U with the on-screen keyboard, HTTP warning, import, details; no credential exposed', async () => {
   const env = setup({ fn: () => ({ status: 200, body: m3u('provider-extended.m3u'), chunk: 300 }) });
-  env.press('ok'); // Add M3U playlist
+  env.router.push('playlist-form', { mode: 'add-m3u' }); // home → Add account → M3U playlist
   assert.deepEqual(env.router.stack(), ['playlists', 'playlist-form']);
   env.press('ok'); // Name -> keyboard
   assert.equal(env.router.overlay(), 'keyboard');
@@ -166,6 +164,13 @@ test('add M3U with the on-screen keyboard, HTTP warning, import, details; no cre
   assert.equal(formText.includes(PASS), false);
   env.press('down', 3); // EPG, format, then buttons
   assert.equal(env.focusedText(), 'Save');
+  env.press('ok');
+  // A get.php link is an Xtream login: the form offers to add it as Xtream; this test keeps M3U.
+  assert.equal(env.router.overlay(), 'confirm');
+  assert.match(env.layer().textContent, /This is an Xtream link/);
+  assert.equal(env.focusedText(), 'Add as Xtream account');
+  env.press('right');
+  assert.equal(env.focusedText(), 'Keep as M3U');
   env.press('ok');
   await until(() => env.router.overlay() === 'confirm', 2000, 'HTTP warning');
   assert.deepEqual(env.router.stack(), ['playlists', 'playlist-details']);
@@ -190,8 +195,7 @@ test('add M3U with the on-screen keyboard, HTTP warning, import, details; no cre
 
 test('add Xtream: password masked while typing and on the form; https server shows no warning', async () => {
   const env = setup({ fn: () => ({ status: 404 }) });
-  env.press('right');
-  env.press('ok'); // Add Xtream account
+  env.router.push('playlist-form', { mode: 'add-xtream' }); // home → Add account → Xtream account
   assert.match(bodyText(env), /Add Xtream account/);
   env.press('ok'); env.type('xt', 'text');
   env.press('down'); env.press('ok'); env.type('https://panel.example.org', 'url');
@@ -358,8 +362,7 @@ test('50,000-channel import: progress updates, UI stays responsive, cancellation
 test('CP2 F12: an unexpected save failure shows the storage message instead of staying on "Saving…"', async () => {
   const env = setup({ fn: () => ({ status: 404 }) });
   env.svc.add = () => Promise.reject(new TypeError('Cannot read properties of undefined (reading \u0027length\u0027)'));
-  env.press('right');
-  env.press('ok'); // Add Xtream account
+  env.router.push('playlist-form', { mode: 'add-xtream' }); // home → Add account → Xtream account
   assert.match(bodyText(env), /Add Xtream account/);
   env.press('down', 6);
   assert.equal(env.focusedText(), 'Save');
@@ -368,4 +371,13 @@ test('CP2 F12: an unexpected save failure shows the storage message instead of s
   assert.equal(env.layer().textContent.includes('Saving…'), false, 'no longer stuck on Saving…');
   assert.equal(env.layer().textContent.includes('reading'), false, 'no technical error details shown');
   assert.equal(env.router.stack().length, 2, 'the form stays open so the user can retry or cancel');
+});
+
+test('import errors show the HTTP status number, never any other part of the message', async () => {
+  const { httpStatusSuffix } = await import('../../src/screens/format.ts');
+  assert.equal(httpStatusSuffix('http', 'HTTP 512'), ' (HTTP 512)');
+  assert.equal(httpStatusSuffix('auth', 'HTTP 403'), ' (HTTP 403)');
+  assert.equal(httpStatusSuffix('network', 'HTTP 500'), '');
+  assert.equal(httpStatusSuffix('http', 'HTTP 404 http://h/get.php?password=secret'), '');
+  assert.equal(httpStatusSuffix('http', undefined), '');
 });

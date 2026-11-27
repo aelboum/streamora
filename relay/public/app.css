@@ -1,0 +1,47 @@
+/* EliteStream phone pairing page: the form on top of the website design system (site.css, copied
+   from website/src/styles.css). Colours, radii, type and buttons follow the website design; the
+   error colour is the only addition (the website design has no error state). */
+.pair { padding-top: 72px; padding-bottom: 96px; }
+@media (max-width: 640px) { .pair { padding-top: 40px; } .pair .es-lead { font-size: 16px; } }
+.pair-card { margin-top: 40px; max-width: 640px; padding: clamp(24px,4vw,40px); border-radius: 24px; display: flex; flex-direction: column; }
+.pair-card[hidden] { display: none; }
+.pair-card h2 { margin: 16px 0 0; font-family: Sora, sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.02em; }
+.pair-card .es-pill { align-self: flex-start; }
+.pair-for { display: flex; align-items: baseline; gap: 12px; }
+.pair-for strong { font-family: Sora, sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.02em; }
+.pair-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #6E7891; }
+
+.pair-card label { display: block; margin: 22px 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #A5AEC0; }
+.pair-card input { width: 100%; min-width: 0; padding: 14px 16px; font: 400 16px 'DM Sans', system-ui, sans-serif; color: #FFFFFF; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); outline: none; }
+.pair-card input::placeholder { color: #6E7891; }
+.pair-card input:focus { border-color: rgba(108,99,255,0.7); background: rgba(108,99,255,0.06); }
+.pair-card input[type=password], #key, #xtServer, #m3uLink, #m3uEpg { font-family: 'JetBrains Mono', monospace; font-size: 15px; }
+.row { display: flex; gap: 8px; }
+.row input { flex: 1; }
+
+.pair-card button { cursor: pointer; font: 500 15px 'DM Sans', system-ui, sans-serif; border-radius: 999px; padding: 13px 22px; white-space: nowrap; }
+.pair-card button.secondary { border: 1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.04); color: #fff; }
+.pair-card button.secondary:hover { background: rgba(255,255,255,0.09); }
+.pair-card button.wide { margin-top: 10px; width: 100%; }
+.pair-card button.primary { margin-top: 24px; width: 100%; padding: 15px 26px; border: 0; background: #6C63FF; color: #fff; font-weight: 600; box-shadow: 0 10px 40px rgba(108,99,255,0.45), inset 0 1px 0 rgba(255,255,255,0.25); }
+.pair-card button.primary:hover { background: #7C74FF; }
+.pair-card button:disabled { opacity: .5; cursor: default; box-shadow: none; }
+
+.pair-code { margin-top: 28px; padding: 20px 22px; border-radius: 16px; background: #0E1421; border: 1px solid rgba(0,212,255,0.25); display: flex; flex-direction: column; gap: 6px; }
+.pair-code strong { font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: clamp(30px,8vw,40px); letter-spacing: 0.08em; color: #00D4FF; }
+.pair-code p { margin: 0; color: #A5AEC0; font-size: 14.5px; line-height: 1.55; }
+
+.pair-card .fine, .pair .fine { margin: 8px 0 0; color: #8B95AB; font-size: 13.5px; line-height: 1.55; max-width: none; }
+#msg { margin: 16px 0 0; min-height: 1.5em; color: #A5AEC0; font-size: 15px; line-height: 1.55; }
+#msg.err, .pair-card .err { color: #FF8A8A; }
+.pair-card .err { margin: 12px 0 0; font-size: 16px; line-height: 1.6; }
+.pair-card .ok { margin: 0; font-size: 18px; line-height: 1.6; color: #5FE0B0; color: oklch(0.82 0.14 165); }
+.pair-card .ok.err { color: #FF8A8A; }
+
+/* Form on the left, notes on the right (stacked on phones), like the website's Support layout. */
+.pair-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,340px),1fr)); gap: 40px; align-items: start; }
+.pair-main .pair-card { margin-top: 0; max-width: none; }
+.pair-notes { display: flex; flex-direction: column; gap: 16px; }
+.pair-notes .note-box p { font-size: 14.5px; }
+.pair-notes ol { margin: 12px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; color: #D6DCE8; font-size: 14.5px; line-height: 1.55; }
+@media (min-width: 1000px) { .pair-grid { grid-template-columns: minmax(0,1.35fr) minmax(0,1fr); gap: 56px; } }

@@ -2,6 +2,16 @@
 import { redactString, REDACTED } from '../utils/redact.ts';
 
 /** A URL as shown on screen: credential parts (query values, Xtream paths, userinfo, tokens) replaced with dots. */
+/**
+ * " (HTTP 404)" for a server error, so the user (and support) can tell why a download failed.
+ * Only the 3-digit status from "HTTP <status>" messages; never any other part of a message.
+ */
+export function httpStatusSuffix(code: string | undefined, message: string | undefined): string {
+  if (code !== 'http' && code !== 'auth') { return ''; }
+  const m = /^HTTP (\d{3})$/.exec(message || '');
+  return m ? ' (HTTP ' + m[1] + ')' : '';
+}
+
 export function maskUrl(url: string): string {
   return redactString(url).split(REDACTED).join('•••');
 }

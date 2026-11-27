@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#080B12">
+<title>Pair with your TV – EliteStream</title>
+<link rel="icon" href="/assets/favicon.png" type="image/png">
+<!-- site.css is the EliteStream website stylesheet (copied by website/build.mjs); app.css adds the form. -->
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="es-root">
+<header class="es-header">
+  <nav class="es-nav" aria-label="Primary">
+    <a class="es-brand" href="https://elitestreamplayer.com/">
+      <img src="/assets/mark.png" alt="" width="34" height="34">
+      <span>elitestream</span>
+    </a>
+    <div class="es-links"><a href="https://elitestreamplayer.com/">Home</a><a href="https://elitestreamplayer.com/features/">Features</a><a href="https://elitestreamplayer.com/platforms/">Platforms</a><a href="https://elitestreamplayer.com/ai/">AI</a><a href="https://elitestreamplayer.com/screenshots/">Screenshots</a><a href="https://elitestreamplayer.com/downloads/">Downloads</a><a href="https://elitestreamplayer.com/support/">Support</a></div>
+    <a class="es-cta" href="https://elitestreamplayer.com/downloads/">Get EliteStream</a>
+    <button class="es-menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="es-mobile">≡</button>
+  </nav>
+  <div class="es-mobile" id="es-mobile" hidden>
+    <a href="https://elitestreamplayer.com/">Home</a>
+    <a href="https://elitestreamplayer.com/features/">Features</a>
+    <a href="https://elitestreamplayer.com/platforms/">Platforms</a>
+    <a href="https://elitestreamplayer.com/ai/">AI</a>
+    <a href="https://elitestreamplayer.com/screenshots/">Screenshots</a>
+    <a href="https://elitestreamplayer.com/downloads/">Downloads</a>
+    <a href="https://elitestreamplayer.com/support/">Support</a>
+    <a class="es-mobile-cta" href="https://elitestreamplayer.com/downloads/">Get EliteStream</a>
+  </div>
+</header>
+
+<main id="main">
+<div class="es-fade es-page pair">
+  <div class="es-eyebrow">PAIR WITH YOUR TV</div>
+  <h1 class="es-h1">Send it to your TV.</h1>
+  <p class="es-lead">Type it here instead of with the remote. It is encrypted on this phone, and only your TV can open it.</p>
+
+  <div class="pair-grid">
+  <div class="pair-main">
+  <section id="bad" class="pair-card es-card" hidden>
+    <span class="es-pill st-planned">LINK NOT VALID</span>
+    <h2>This link cannot be used.</h2>
+    <p class="err">This link is not valid. Scan the QR code on the TV again.</p>
+  </section>
+
+  <section id="form" class="pair-card es-card" hidden>
+    <div class="pair-for"><span class="pair-label">FOR</span><strong id="provider"></strong></div>
+    <div id="keyBox">
+      <label for="key">API key</label>
+      <div class="row">
+        <input id="key" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="200">
+        <button id="show" type="button" class="secondary">Show</button>
+      </div>
+      <button id="paste" type="button" class="secondary wide">Paste from clipboard</button>
+    </div>
+    <div id="xtBox" hidden>
+      <label for="xtServer">Server address</label>
+      <input id="xtServer" type="url" inputmode="url" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="2048" placeholder="example.com:8080">
+      <p class="fine">You can also paste the whole link from your provider (…/get.php?username=…&amp;password=…); it is split automatically.</p>
+      <label for="xtUser">Username</label>
+      <input id="xtUser" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="256">
+      <label for="xtPass">Password</label>
+      <div class="row">
+        <input id="xtPass" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="256">
+        <button id="xtShow" type="button" class="secondary">Show</button>
+      </div>
+      <label for="xtName">Name on the TV (optional)</label>
+      <input id="xtName" type="text" autocomplete="off" maxlength="64">
+    </div>
+    <div id="m3uBox" hidden>
+      <label for="m3uLink">Playlist link (M3U)</label>
+      <input id="m3uLink" type="url" inputmode="url" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="2048">
+      <button id="m3uPaste" type="button" class="secondary wide">Paste from clipboard</button>
+      <label for="m3uEpg">Guide (EPG) address (optional)</label>
+      <input id="m3uEpg" type="url" inputmode="url" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="2048">
+      <label for="m3uName">Name on the TV (optional)</label>
+      <input id="m3uName" type="text" autocomplete="off" maxlength="64">
+    </div>
+    <div class="pair-code">
+      <span class="pair-label">CHECK CODE</span>
+      <strong id="code"></strong>
+      <p>Your TV shows the same code. Only choose "<span id="confirm"></span>" on the TV if it matches.</p>
+    </div>
+    <button id="send" type="button" class="primary">Send to TV</button>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="done" class="pair-card es-card" hidden>
+    <p class="ok" id="doneMsg" role="status" aria-live="polite"></p>
+  </section>
+
+  </div>
+  <aside class="pair-notes" aria-label="About pairing">
+    <div class="note-box">
+      <div class="h">HOW IT WORKS</div>
+      <ol>
+        <li>Open the QR code on your TV.</li>
+        <li>Scan it with this phone.</li>
+        <li>Fill in the details and send.</li>
+        <li>Compare the check code on both screens, then confirm on the TV.</li>
+      </ol>
+    </div>
+    <div class="note-box cyan">
+      <div class="h">END‑TO‑END ENCRYPTED</div>
+      <p>Everything is encrypted on this phone with the TV's one-time public key before it is sent. The relay only passes on the sealed message and deletes it once the TV has it, or after 5 minutes. Nothing is stored on this phone.</p>
+    </div>
+  </aside>
+  </div>
+</div>
+</main>
+
+<footer class="es-footer">
+  <div class="cols">
+    <div class="col brandcol">
+      <a href="https://elitestreamplayer.com/"><img src="/assets/mark.png" alt="" width="30" height="30"><span>elitestream</span></a>
+      <p>A cross‑platform media player. EliteStream does not provide content.</p>
+    </div>
+    <div class="col">
+      <span class="h">PRODUCT</span>
+      <a href="https://elitestreamplayer.com/features/">Features</a><a href="https://elitestreamplayer.com/platforms/">Platforms</a><a href="https://elitestreamplayer.com/ai/">EliteStream AI</a><a href="https://elitestreamplayer.com/screenshots/">Screenshots</a>
+    </div>
+    <div class="col">
+      <span class="h">COMPANY</span>
+      <a href="https://elitestreamplayer.com/downloads/">Downloads</a><a href="https://elitestreamplayer.com/support/">Support</a><a href="https://elitestreamplayer.com/about/">About</a>
+    </div>
+  </div>
+  <div class="base">
+    <span>© 2026 EliteStream. All rights reserved.</span>
+    <span>Samsung, LG, Philips and their OS names are trademarks of their respective owners.</span>
+  </div>
+</footer>
+</div>
+<script src="/vendor/nacl-fast.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

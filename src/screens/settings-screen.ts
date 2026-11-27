@@ -1,6 +1,6 @@
 // Settings (Stage 7B.2 part 3). One column of rows under group headings; every row does something real:
 //   Accounts      Accounts and playlists → the playlist screen (add, edit, refresh, remove)
-//   Language      English / Nederlands (applies at once; the screens are rebuilt in the new language)
+//   Language      English / Nederlands / Français / Español / Deutsch (applies at once; the screens are rebuilt in the new language)
 //   Playback      Audio language, Subtitles: OK steps through the choices (used by the movie player)
 //   History       Clear Continue watching and watched marks · Clear recent searches (both confirm first)
 //   About         version, platform, screen, storage; Diagnostics opens the diagnostics screen
@@ -21,7 +21,9 @@ import type { Parental } from '../services/parental.ts';
 import type { PinDialogParams, PinMode } from './pin-dialog.ts';
 import { clear, h } from '../utils/dom.ts';
 
-export type UiLanguage = 'en' | 'nl';
+export type UiLanguage = 'en' | 'nl' | 'fr' | 'es' | 'de';
+/** Each language is named in itself. */
+const LANGUAGE_LABELS: Record<UiLanguage, string> = { en: 'English', nl: 'Nederlands', fr: 'Français', es: 'Español', de: 'Deutsch' };
 
 export interface SettingsDeps {
   doc: Document;
@@ -76,16 +78,19 @@ export function createSettingsScreen(d: SettingsDeps, nav: Router): Screen {
     const def = pid ? d.playlists.get(pid) : null;
     function group(title: string): void { groups.push({ title: title, from: rows.length }); }
     group(t('set.accounts'));
-    rows.push({ id: 'accounts', label: t('set.accountsRow'), value: d.playlists.storageState().status === 'protected' ? t('set.storageProtected') : def ? def.name + ' · ' + t('set.accountCount', { n: d.playlists.list().length }) : t('home.noAccount'), act: function () { nav.push('playlists'); } });
+    rows.push({ id: 'accounts', label: t('set.accountsRow'), value: d.playlists.storageState().status === 'protected' ? t('set.storageProtected') : def ? def.name + ' · ' + t('set.accountCount', { n: d.playlists.list().length }) : t('home.noAccount'), act: function () {
+      // The active account's info page; without an active account, the account list.
+      if (pid && def) { nav.push('playlist-details', { id: pid, fromSettings: true }); } else { nav.push('playlists'); }
+    } });
     if (pid && def && d.subscription) {
       const sub = d.subscription(pid);
       for (let i = 0; i < sub.length; i++) { rows.push({ id: i === 0 ? 'subscription' : 'subscription-' + i, label: sub[i].label, value: sub[i].value, act: null }); }
     }
     group(t('set.language'));
-    const langs: UiLanguage[] = ['en', 'nl'];
+    const langs: UiLanguage[] = ['en', 'nl', 'fr', 'es', 'de'];
     for (let i = 0; i < langs.length; i++) {
       const l = langs[i];
-      rows.push({ id: 'lang-' + l, label: l === 'en' ? 'English' : 'Nederlands', value: d.language() === l ? '✓' : '', act: function () { d.setLanguage(l); } });
+      rows.push({ id: 'lang-' + l, label: LANGUAGE_LABELS[l], value: d.language() === l ? '✓' : '', act: function () { d.setLanguage(l); } });
     }
     const prefs = d.trackPrefs;
     if (prefs) {
@@ -137,6 +142,11 @@ export function createSettingsScreen(d: SettingsDeps, nav: Router): Screen {
       id: 'clear-searches', label: t('set.clearSearches'), value: '',
       act: function () { confirm(t('set.clearSearchesTitle'), t('set.clearSearchesText'), t('set.clear'), function () { d.kv.remove('search.recent'); }); }
     });
+    // AI-02: Settings → AI Intelligence (only where the screen is registered).
+    if (nav.isRegistered('ai-settings')) {
+      group(t('set.aiRow'));
+      rows.push({ id: 'ai', label: t('set.aiRow'), value: '', act: function () { nav.push('ai-settings'); } });
+    }
     group(t('set.about'));
     // S1: one focusable row opens the About screen (version shown as its value); the details moved there.
     const info = d.about();

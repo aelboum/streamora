@@ -15,6 +15,10 @@ const XTREAM_BARE = /(\w+:\/\/[^\/\s"'<>]+\/)[^\/\s?#"'<>]+\/[^\/\s?#"'<>]+(?=\/
 /** Opaque path tokens (20+ chars of letters/digits/-/_ in one segment) inside URLs. */
 const OPAQUE_SEGMENT = /(\w+:\/\/[^\s"'<>]*?\/)[A-Za-z0-9_-]{20,}(?=[\/?#\s"'<>]|$)/g;
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
+/** AI-02: Google API keys ("AIza" + 35 characters) anywhere in a string. */
+const GOOGLE_API_KEY = /AIza[0-9A-Za-z_\-]{20,}/g;
+/** AI-02: Google auth keys from AI Studio ("AQ." + letters, digits, -, _ and dots). */
+const GOOGLE_AUTH_KEY = /AQ\.[0-9A-Za-z_\-.]{20,}/g;
 const MAX_STRING = 500;
 const MAX_DEPTH = 4;
 const MAX_KEYS = 30;
@@ -28,7 +32,9 @@ export function redactString(s: string): string {
     .replace(SENSITIVE_PARAM, '$1' + REDACTED)
     .replace(XTREAM_PATH, '$1' + REDACTED + '/' + REDACTED)
     .replace(XTREAM_BARE, '$1' + REDACTED + '/' + REDACTED)
-    .replace(EMAIL, REDACTED);
+    .replace(EMAIL, REDACTED)
+    .replace(GOOGLE_API_KEY, REDACTED)
+    .replace(GOOGLE_AUTH_KEY, REDACTED);
   // Opaque tokens: repeat until stable (a URL can hold several).
   for (let i = 0; i < 5; i++) {
     const next = out.replace(OPAQUE_SEGMENT, '$1' + REDACTED);

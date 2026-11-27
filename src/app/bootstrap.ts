@@ -35,6 +35,16 @@ import type { KeyRouter } from '../navigation/key-router.ts';
 import { TIZEN_KEY_NAMES } from '../navigation/keys.ts';
 import { createDiagnosticsScreen } from '../screens/diagnostics-screen.ts';
 import { createAboutScreen } from '../screens/about-screen.ts';
+import { createAiSettingsScreen } from '../screens/ai-settings-screen.ts';
+import { createPhonePairScreen, keyPurpose, PHONE_PAIR_SCREEN } from '../screens/ai-phone-pair-screen.ts';
+import type { PairPurpose } from '../screens/ai-phone-pair-screen.ts';
+import { createPairPanel } from '../components/pair-panel.ts';
+import type { PairPanelEvents } from '../components/pair-panel.ts';
+import { m3uPurpose, M3U_PAIR_KIND, xtreamPurpose, XTREAM_PAIR_KIND } from '../screens/playlist-pair.ts';
+import type { M3uDetails, XtreamDetails } from '../screens/playlist-pair.ts';
+import { pairingCryptoAvailable } from '../ai/pairing/pair-crypto.ts';
+import { createAiEngine } from '../ai/ai-engine.ts';
+import type { AiEngine } from '../ai/ai-engine.ts';
 import { createResumeToast } from '../screens/resume-toast.ts';
 import type { ResumeToastParams } from '../screens/resume-toast.ts';
 import { createResumeLive } from '../services/resume-live.ts';
@@ -129,6 +139,8 @@ export interface AppContext {
   /** True while a text field owns the remote keys (system IME). */
   textInput: TextInputState;
   lifecycle: Lifecycle;
+  /** AI-02: AI Intelligence Engine (idle until the user enables it; nothing depends on it). */
+  ai: AiEngine;
   /** Start-up findings for diagnostics (capabilities missing, config fixes). */
   warnings: string[];
   startedAt: number;
@@ -293,6 +305,13 @@ export function createAppContext(deps: AppDeps): AppContext {
     platform: platform, build: deps.build, log: log, config: config, kv: kv,
     catalogue: catalogue, secrets: secrets, pin: pin, parental: pin ? createParental(pin, kv, deps.now) : null, http: http, playlists: playlists, epg: epg, vod: vod, lists: lists, myList: myList, catPrefs: catPrefs, memory: memory, diag: diag, accounts: accounts, progress: progress, trackPrefs: trackPrefs, engine: engine,
     textInput: { active: false }, lifecycle: lifecycle,
+    // AI-02: created idle; provider credentials live in the platform key store (ai_key_* /
+    // ai_session_*), switches, consent and routes in KV ai.settings, the cache in the file store
+    // (ai-cache.json). All off by default.
+    ai: createAiEngine({
+      kv: kv, keyStore: platform.keyStore, files: platform.fileStore, xhrFactory: platform.xhrFactory,
+      log: log.child('ai'), now: deps.now, setTimer: deps.setTimer, clearTimer: deps.clearTimer
+    }),
     warnings: warnings, startedAt: startedAt
   };
 }
@@ -474,10 +493,18 @@ export function startApp(ctx: AppContext, host: ScreenHost, doc: Document, now: 
   // Stage 5 keyboard strategy: the Samsung IME where available, the app keyboard otherwise.
   const preferIme = ctx.platform.name === 'tizen' && ctx.config.ui.keyboard === 'auto';
   if (ctx.playlists) {
+    // AI-02: the Add M3U / Add Xtream forms show the phone pairing QR code next to the fields.
+    const formPairing = ctx.ai.pairing && pairingCryptoAvailable() ? ctx.ai.pairing : null;
     registerPlaylistScreens(router, {
       doc: doc, playlists: ctx.playlists, t: t, now: now,
       setTimer: tm.setTimer, clearTimer: tm.clearTimer, openText: textOpener(preferIme), live: !!ctx.epg, vod: !!ctx.vod,
-      subscription: function (pid: string) { return subscriptionFor(pid, true); }
+      subscription: function (pid: string) { return subscriptionFor(pid, true); },
+      pairPanel: formPairing ? function (purpose: PairPurpose, ev: PairPanelEvents) {
+        return createPairPanel({
+          doc: doc, t: t, http: formPairing.http, baseUrl: formPairing.baseUrl, purpose: purpose, now: now,
+          setTimer: tm.setTimer, clearTimer: tm.clearTimer, qrMaxPx: 420, embedded: true
+        }, ev);
+      } : undefined
     });
   }
   if (ctx.playlists && ctx.epg) {
@@ -535,6 +562,40 @@ export function startApp(ctx: AppContext, host: ScreenHost, doc: Document, now: 
         }
       }, nav);
     });
+    // AI-02: Settings → AI Intelligence.
+    router.register('ai-settings', function (_p, nav) {
+      return createAiSettingsScreen({ doc: doc, t: t, ai: ctx.ai, openText: textOpener(preferIme) }, nav);
+    });
+    // AI-02: details with the phone (QR, end-to-end encrypted): an AI provider API key, or an Xtream
+    // login / M3U link for the playlist form (params { kind: 'xtream' | 'm3u', fill }). Only with a
+    // configured relay and a cryptographic random source.
+    const pairing = ctx.ai.pairing;
+    if (pairing && pairingCryptoAvailable()) {
+      router.register(PHONE_PAIR_SCREEN, function (p, nav) {
+        let purpose: PairPurpose;
+        if (p && p.kind === XTREAM_PAIR_KIND) {
+          const fill = typeof p.fill === 'function' ? p.fill as (v: XtreamDetails) => void : function () { /* none */ };
+          purpose = xtreamPurpose(t, fill);
+        } else if (p && p.kind === M3U_PAIR_KIND) {
+          const fillM3u = typeof p.fill === 'function' ? p.fill as (v: M3uDetails) => void : function () { /* none */ };
+          purpose = m3uPurpose(t, fillM3u);
+        } else {
+          const provider = String(p && p.provider || '');
+          const adapter = ctx.ai.registry.adapter(provider);
+          const desc = ctx.ai.registry.descriptor(provider);
+          const valid = adapter && adapter.validKey ? adapter.validKey : function () { return false; };
+          purpose = keyPurpose(t, {
+            provider: provider, providerName: desc ? desc.name : provider, validKey: valid,
+            saveKey: function (key: string) { return ctx.ai.settings.setCredential(provider, 'api-key', key, valid); },
+            onSaved: p && typeof p.onSaved === 'function' ? p.onSaved as () => void : function () { /* none */ }
+          });
+        }
+        return createPhonePairScreen({
+          doc: doc, t: t, http: pairing.http, baseUrl: pairing.baseUrl, purpose: purpose,
+          now: now, setTimer: tm.setTimer, clearTimer: tm.clearTimer
+        }, nav);
+      });
+    }
     router.register('settings', function (_p, nav) {
       return createSettingsScreen({
         resumeLast: resume ? { get: function () { return resume.enabled(); }, set: function (on: boolean) { resume.setEnabled(on); } } : undefined,

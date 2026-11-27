@@ -12,7 +12,7 @@ import type { CatalogueMeta, PlaylistDef } from '../models/content.ts';
 import type { Translate } from '../i18n/strings.ts';
 import type { ConfirmParams } from './confirm-dialog.ts';
 import type { ImportDialogParams } from './import-dialog.ts';
-import { formatCount, formatDate, formatDateTime } from './format.ts';
+import { formatCount, formatDate, formatDateTime, httpStatusSuffix } from './format.ts';
 import { h } from '../utils/dom.ts';
 
 export interface DetailsDeps {
@@ -27,12 +27,16 @@ export interface DetailsParams {
   id: string;
   /** Start an import right away (after adding a playlist). */
   autoRefresh?: boolean;
+  /** Opened from Settings → Accounts & playlists: with several playlists, an "All accounts" button. */
+  fromSettings?: boolean;
 }
 
 export function createPlaylistDetails(d: DetailsDeps, p: DetailsParams, nav: Router): Screen {
   const t = d.t;
   const info = createInfoList(d.doc);
-  const buttons = createButtonList(d.doc, [t('details.refresh'), t('details.edit'), t('details.activate'), t('details.remove')], true);
+  const labels = [t('details.refresh'), t('details.edit'), t('details.activate'), t('details.remove')];
+  if (p.fromSettings && d.playlists.list().length > 1) { labels.push(t('details.allAccounts')); }
+  const buttons = createButtonList(d.doc, labels, true);
   let frame: Frame | null = null;
   let meta: CatalogueMeta | null = null;
   let alive = true;
@@ -51,7 +55,7 @@ export function createPlaylistDetails(d: DetailsDeps, p: DetailsParams, nav: Rou
       { label: t('details.format'), value: def.liveFormat === 'ts' ? t('form.format.ts') : t('form.format.m3u8') },
       {
         label: t('details.status'),
-        value: !st ? t('playlists.neverLoaded') : st.ok ? t('details.ok') : t('err.' + (st.code || 'network')),
+        value: !st ? t('playlists.neverLoaded') : st.ok ? t('details.ok') : t('err.' + (st.code || 'network')) + httpStatusSuffix(st.code, st.message),
         tone: st && !st.ok ? 'error' : st ? 'ok' : 'normal'
       },
       { label: t('details.updated'), value: def.lastLoadedAt ? formatDateTime(def.lastLoadedAt) : t('details.never') }
@@ -138,6 +142,7 @@ export function createPlaylistDetails(d: DetailsDeps, p: DetailsParams, nav: Rou
       if (i === 1) { nav.push('playlist-form', { mode: 'edit', id: p.id }); }
       if (i === 2) { d.playlists.setActive(p.id); render(); }
       if (i === 3) { remove(); }
+      if (i === 4) { nav.push('playlists'); }
     }
   });
 

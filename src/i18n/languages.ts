@@ -1,11 +1,17 @@
 // Language codes and names (Stage 7E). ISO 639-2/T is the canonical form; ISO 639-1 and the
 // ISO 639-2/B "bibliographic" variants (dut, fre, ger, …) are folded into it. Names are given in
-// the app's UI languages (English, Dutch). A code not in the table is shown as the code itself.
+// the app's UI languages (English and Dutch here; French, Spanish and German from strings-fr/es/de.ts).
+// A code not in the table is shown as the code itself.
 //
 // AVPlay reports audio languages cut to two letters ("tu" for tur, "du" for dut, Stage 7E TV run).
 // Such a 2-letter value is only turned into a name when it cannot be the truncation of another
 // language in this table: "sw" could be Swahili (639-1) or "swe" cut short, so it stays "SW".
 import type { Translate } from './strings.ts';
+import { NAMES_FR } from './strings-fr.ts';
+import { NAMES_ES } from './strings-es.ts';
+import { NAMES_DE } from './strings-de.ts';
+
+const OTHER_NAMES: Record<string, Record<string, string>> = { fr: NAMES_FR, es: NAMES_ES, de: NAMES_DE };
 
 // [639-2/T, 639-1, 639-2/B, English, Dutch]
 const TABLE: Array<[string, string, string, string, string]> = [
@@ -111,10 +117,13 @@ export function languageName(code: string, ui?: string, exact?: boolean): string
     i = CANON[base];
   }
   if (i < 0) { return base.toUpperCase(); }
-  return ui === 'nl' ? TABLE[i][4] : TABLE[i][3];
+  if (ui === 'nl') { return TABLE[i][4]; }
+  const names = ui && Object.prototype.hasOwnProperty.call(OTHER_NAMES, ui) ? OTHER_NAMES[ui] : null;
+  return names && Object.prototype.hasOwnProperty.call(names, TABLE[i][0]) ? names[TABLE[i][0]] : TABLE[i][3];
 }
 
-/** The UI language of a translator ('en' | 'nl'), read from its "lang.ui" string. */
+/** The UI language of a translator ('en' | 'nl' | 'fr' | 'es' | 'de'), read from its "lang.ui" string. */
 export function uiLanguage(t: Translate): string {
-  return t('lang.ui') === 'nl' ? 'nl' : 'en';
+  const l = t('lang.ui');
+  return l === 'nl' || l === 'fr' || l === 'es' || l === 'de' ? l : 'en';
 }

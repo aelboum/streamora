@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>EliteStream – phone pairing test</title>
+<link rel="stylesheet" href="/p/app.css">
+</head>
+<body>
+<main>
+  <h1>EliteStream</h1>
+  <p class="warn" id="warn">EXPERIMENTAL TEST ONLY – NEVER ENTER A REAL API KEY.</p>
+  <p class="muted">Pairing ID: <strong id="pid">–</strong></p>
+  <label for="provider">Provider</label>
+  <select id="provider"><option value="gemini">Google Gemini</option></select>
+  <label for="key">Fake test key (format TEST-GEMINI-123456)</label>
+  <div class="row">
+    <input id="key" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="TEST-GEMINI-123456">
+    <button id="toggle" type="button">Show</button>
+  </div>
+  <p class="muted">The key is only checked on this phone and is never sent anywhere. Only the pairing ID and the provider go to the test server on your network.</p>
+  <button id="go" type="button" class="primary">Test pairing</button>
+  <p id="result" class="result" role="status"></p>
+</main>
+<script src="/p/app.js"></script>
+</body>
+</html>

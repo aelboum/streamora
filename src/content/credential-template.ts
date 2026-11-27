@@ -46,6 +46,21 @@ export function credentialsFromUrl(url: string): PlaylistCredentials | null {
   return u.length >= 2 && p.length >= 2 ? { username: u, password: p } : null;
 }
 
+/**
+ * An Xtream account hidden in an M3U link: http(s)://host[:port][/prefix]/get.php (or
+ * player_api.php) with username and password in the query. Returns the Xtream server address
+ * (scheme, host, port, prefix) and the login, or null for any other link. Many providers no longer
+ * serve get.php (e.g. HTTP 884) while their Xtream API keeps working.
+ */
+export function xtreamFromLink(url: string): { server: string; username: string; password: string } | null {
+  const link = String(url || '').replace(/^\s+|\s+$/g, '');
+  const m = /^(https?:\/\/[^\s\/?#@]+)((?:\/[^\s\/?#]+)*?)\/(?:get|player_api)\.php\?[^#\s]*$/i.exec(link);
+  if (!m) { return null; }
+  const cred = credentialsFromUrl(link);
+  if (!cred) { return null; }
+  return { server: m[1] + (m[2] || ''), username: cred.username, password: cred.password };
+}
+
 function escapeRe(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
 }

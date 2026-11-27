@@ -46,7 +46,7 @@ Crypto library: **TweetNaCl 1.0.3** (public domain, audited by Cure53).
 - **The phone page** shows Server address, Username, Password (with Show) and an optional Name.
   - A whole provider link such as `http://host:port/get.php?username=…&password=…&type=m3u_plus`, pasted into the server field, is split automatically. `player_api.php` and `xmltv.php` links are split too.
   - Payload: `{ v: 1, p: 'xtream', x: { s, u, w, n } }`, at most about 1,100 bytes.
-- **On the TV:** `parseXtreamPayload` (`src/screens/xtream-pair.ts`) accepts only complete details:
+- **On the TV:** `parseXtreamPayload` (`src/screens/playlist-pair.ts`) accepts only complete details:
   - the server is an http(s) address with no user info;
   - username and password are not empty;
   - no control characters; at most 256 characters (64 for the name).
@@ -56,6 +56,19 @@ Crypto library: **TweetNaCl 1.0.3** (public domain, audited by Cure53).
   - the screen is shared: `ai-phone-pair-screen.ts` takes a `PairPurpose` (`keyPurpose`, `xtreamPurpose`);
   - `pair-crypto.ts` `openSealed` / `openRaw` return the decrypted payload; `openEnvelope` (keys) is built on it.
 - **Tests:** payload rules, and the API-key screen and Xtream screen each refusing the other's payload. A full run goes: form, then QR, then the real phone page splitting a `get.php` link, then the relay (which saw only ciphertext), then the same check code with no credentials on the TV, then Use, then the form filled, then Save.
+
+## 1c. M3U playlist link with the phone (added 2026-11-27)
+
+- **On the TV:** Add M3U playlist (or Edit an M3U playlist) → first row **"Fill in with phone (QR)"**, described as "Paste the playlist link on your phone".
+- **The QR link:** `…/#2.<TV public key>.m3u`. The phone page's kind pattern now allows digits (`[a-z0-9]{2,20}`).
+- **The phone page** shows Playlist link (with Paste from clipboard), an optional Guide (EPG) address and an optional Name.
+  - Payload: `{ v: 1, p: 'm3u', x: { l, e, n } }`. A sealed message is at most about 1,100 bytes, which leaves room for a link of roughly 1,000 characters.
+- **On the TV:** `parseM3uPayload` (`src/screens/playlist-pair.ts`, renamed from `xtream-pair.ts`) accepts:
+  - an http(s) link with no spaces or control characters, at most 2,048 characters;
+  - an optional EPG address with the same rule;
+  - a name of at most 64 characters.
+- **The confirmation screen** shows the check code and the link **with its credentials masked** (`maskUrl`). The confirm button is **"Use this link"**. The form is then filled: the link, the EPG address if one was sent, and the name if empty. Save is focused.
+- **Tests:** payload rules and wrong-kind refusal. A full run goes: M3U form, then QR (`.m3u`), then the real phone page, then the relay (ciphertext only), then the masked link and the same check code on the TV, then Use, then Save with the link and EPG address.
 
 ## 2. Security properties, and what they do not cover
 
@@ -125,3 +138,7 @@ Prerequisites: the zone `elitestreamplayer.com` is active on Cloudflare, on the 
 4. Physical test, which needs its own approval: install 0.3.5 with this change on the Samsung as an upgrade, then run the flow with a real key on the user's own phone.
 
 Free-plan budget: one pairing is about 150 TV polls plus a few phone requests. That is far below 100,000 requests per day.
+
+## Phone page design (2026-11-27)
+
+The phone page now uses the EliteStream website design system: the same header, navigation, footer, fonts, cards and buttons, through `site.css`, which `website/build.mjs` copies from `website/src/styles.css`. See `docs/WEBSITE.md`. The pairing logic, element IDs and relay API are unchanged. `_headers` adds `font-src 'self'` for the self-hosted fonts.

@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import worker, { PairSession } from './src/worker.js';
 
 const PUBLIC = fileURLToPath(new URL('./public/', import.meta.url));
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8' };
 
 /** In-memory Durable Object storage (get/put/delete/deleteAll/setAlarm). */
 export function memoryStorage() {

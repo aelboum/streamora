@@ -36,7 +36,10 @@ import { TIZEN_KEY_NAMES } from '../navigation/keys.ts';
 import { createDiagnosticsScreen } from '../screens/diagnostics-screen.ts';
 import { createAboutScreen } from '../screens/about-screen.ts';
 import { createAiSettingsScreen } from '../screens/ai-settings-screen.ts';
-import { createPhonePairScreen, PHONE_PAIR_SCREEN } from '../screens/ai-phone-pair-screen.ts';
+import { createPhonePairScreen, keyPurpose, PHONE_PAIR_SCREEN } from '../screens/ai-phone-pair-screen.ts';
+import type { PairPurpose } from '../screens/ai-phone-pair-screen.ts';
+import { xtreamPurpose, XTREAM_PAIR_KIND } from '../screens/xtream-pair.ts';
+import type { XtreamDetails } from '../screens/xtream-pair.ts';
 import { pairingCryptoAvailable } from '../ai/pairing/pair-crypto.ts';
 import { createAiEngine } from '../ai/ai-engine.ts';
 import type { AiEngine } from '../ai/ai-engine.ts';
@@ -553,21 +556,30 @@ export function startApp(ctx: AppContext, host: ScreenHost, doc: Document, now: 
     router.register('ai-settings', function (_p, nav) {
       return createAiSettingsScreen({ doc: doc, t: t, ai: ctx.ai, openText: textOpener(preferIme) }, nav);
     });
-    // AI-02: API key with the phone (QR, end-to-end encrypted). Only with a configured relay and a
-    // cryptographic random source.
+    // AI-02: details with the phone (QR, end-to-end encrypted): an AI provider API key, or an Xtream
+    // login for the playlist form (params { kind: 'xtream', fill }). Only with a configured relay and
+    // a cryptographic random source.
     const pairing = ctx.ai.pairing;
     if (pairing && pairingCryptoAvailable()) {
       router.register(PHONE_PAIR_SCREEN, function (p, nav) {
-        const provider = String(p && p.provider || '');
-        const adapter = ctx.ai.registry.adapter(provider);
-        const desc = ctx.ai.registry.descriptor(provider);
-        const valid = adapter && adapter.validKey ? adapter.validKey : function () { return false; };
-        const onSaved = p && typeof p.onSaved === 'function' ? p.onSaved as () => void : function () { /* none */ };
+        let purpose: PairPurpose;
+        if (p && p.kind === XTREAM_PAIR_KIND) {
+          const fill = typeof p.fill === 'function' ? p.fill as (v: XtreamDetails) => void : function () { /* none */ };
+          purpose = xtreamPurpose(t, fill);
+        } else {
+          const provider = String(p && p.provider || '');
+          const adapter = ctx.ai.registry.adapter(provider);
+          const desc = ctx.ai.registry.descriptor(provider);
+          const valid = adapter && adapter.validKey ? adapter.validKey : function () { return false; };
+          purpose = keyPurpose(t, {
+            provider: provider, providerName: desc ? desc.name : provider, validKey: valid,
+            saveKey: function (key: string) { return ctx.ai.settings.setCredential(provider, 'api-key', key, valid); },
+            onSaved: p && typeof p.onSaved === 'function' ? p.onSaved as () => void : function () { /* none */ }
+          });
+        }
         return createPhonePairScreen({
-          doc: doc, t: t, http: pairing.http, baseUrl: pairing.baseUrl, provider: provider, providerName: desc ? desc.name : provider,
-          validKey: valid,
-          saveKey: function (key: string) { return ctx.ai.settings.setCredential(provider, 'api-key', key, valid); },
-          onSaved: onSaved, now: now, setTimer: tm.setTimer, clearTimer: tm.clearTimer
+          doc: doc, t: t, http: pairing.http, baseUrl: pairing.baseUrl, purpose: purpose,
+          now: now, setTimer: tm.setTimer, clearTimer: tm.clearTimer
         }, nav);
       });
     }

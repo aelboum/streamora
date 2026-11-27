@@ -1,12 +1,15 @@
-// AI-02: enter an API key with the phone (QR), end-to-end encrypted. docs/AI-02-PHONE-PAIRING.md.
-// Settings → AI Intelligence → "<provider> API key with phone (QR)".
-//   1. A fresh key pair and session id per code (pair-crypto.ts); the QR code holds the pairing
-//      page address with session id, TV PUBLIC key and provider in the URL fragment.
+// AI-02: enter details with the phone (QR), end-to-end encrypted. docs/AI-02-PHONE-PAIRING.md.
+// Used for an AI provider API key (Settings → AI Intelligence → "<provider> API key with phone (QR)")
+// and for an Xtream login (Add Xtream account → "Fill in with phone (QR)"); a PairPurpose says what
+// is expected and what happens with it.
+//   1. A fresh key pair per code (pair-crypto.ts); the QR code holds the pairing page address with
+//      the TV PUBLIC key and the kind in the URL fragment.
 //   2. The TV polls the relay (GET /v1/s/<sid>) every 2 s for at most 5 minutes.
-//   3. A sealed envelope arrives: decrypted here, the secret key is wiped at once. The screen shows
-//      the 6-digit check code (the phone shows the same) and a masked key; Discard is focused.
-//   4. Only "Save key" stores it, through the normal credential path (secure key store).
-// The key is never shown in full, logged or sent anywhere. Back, Cancel, expiry and leaving the
+//   3. A sealed envelope arrives: decrypted here, the secret key is wiped at once. The purpose
+//      validates it; the screen shows the 6-digit check code (the phone shows the same) and a
+//      masked summary; Discard is focused.
+//   4. Only the confirm button hands the details on (key: secure key store; Xtream: the form).
+// Secrets are never shown in full, logged or sent anywhere. Back, Cancel, expiry and leaving the
 // screen end the session at the relay (best effort) and wipe the secret key.
 import type { HostLayer, Router, Screen } from '../navigation/router.ts';
 import type { RemoteKeyEvent } from '../navigation/key-router.ts';
@@ -24,6 +27,21 @@ export const PHONE_PAIR_SCREEN = 'ai-phone-pair';
 /** Largest QR image (px of the 1920×1080 layout); the code uses a whole number of px per module. */
 const QR_MAX_PX = 560;
 
+/** What a pairing screen expects from the phone and what it does with it. */
+export interface PairPurpose {
+  /** Kind in the QR link and in the payload ("gemini", "xtream"). */
+  kind: string;
+  title: string;
+  intro: string;
+  confirmLabel: string;
+  /** Validates the decrypted payload. On success: a masked summary and the action for the confirm button. */
+  accept(data: Record<string, unknown>): { ok: true; summary: string; commit: () => Promise<void> } | { ok: false; note: string };
+  /** Text after commit; null closes the screen right after commit (another screen takes over). */
+  savedText: string | null;
+  /** Shown when commit fails. */
+  failText: string;
+}
+
 export interface PhonePairDeps {
   doc: Document;
   t: Translate;
@@ -31,13 +49,7 @@ export interface PhonePairDeps {
   http: AiHttpClient;
   /** https origin of the pairing relay (AI_PAIRING_URL). */
   baseUrl: string;
-  provider: string;
-  providerName: string;
-  validKey: (key: string) => boolean;
-  /** Stores the key (secure key store). Resolves when stored. */
-  saveKey: (key: string) => Promise<void>;
-  /** Called after a successful save (the settings screen shows a note). */
-  onSaved: () => void;
+  purpose: PairPurpose;
   now: () => number;
   setTimer: (fn: () => void, ms: number) => unknown;
   clearTimer: (h: unknown) => void;
@@ -52,13 +64,40 @@ export function maskKey(key: string): string {
   return key.substring(0, 4) + '…' + key.substring(key.length - 4);
 }
 
+/** API key for an AI provider: stored in the secure key store after confirmation. */
+export function keyPurpose(t: Translate, o: {
+  provider: string; providerName: string; validKey: (key: string) => boolean; saveKey: (key: string) => Promise<void>; onSaved: () => void;
+}): PairPurpose {
+  return {
+    kind: o.provider,
+    title: t('pair.title', { provider: o.providerName }),
+    intro: t('pair.intro'),
+    confirmLabel: t('pair.save'),
+    savedText: t('pair.saved', { provider: o.providerName }),
+    failText: t('ai.keyNotSaved'),
+    accept: function (data) {
+      if (data.p !== o.provider) { return { ok: false, note: t('pair.wrongProvider') }; }
+      const key = typeof data.k === 'string' ? data.k.replace(/^\s+|\s+$/g, '') : '';
+      data.k = '';
+      if (!key) { return { ok: false, note: t('pair.openFailed') }; }
+      if (!o.validKey(key)) { return { ok: false, note: t('ai.keyInvalidFormat') }; }
+      return {
+        ok: true,
+        summary: t('pair.received', { key: maskKey(key), length: key.length }),
+        commit: function () { return o.saveKey(key).then(function () { o.onSaved(); }); }
+      };
+    }
+  };
+}
+
 export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
   const t = d.t;
+  const purpose = d.purpose;
   let session: PairSession | null = null;
   let started = 0;
   let state: State = 'waiting';
   let failNote = '';
-  let pending = '';
+  let pending: { summary: string; commit: () => Promise<void> } | null = null;
   let code = '';
   let pollTimer: unknown = null;
   let tickTimer: unknown = null;
@@ -94,7 +133,6 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
     btnBox.appendChild(buttons.element);
     focus.focus('buttons', 0);
     buttons.setFocused(0, true); // new elements: the focus manager skips an unchanged position
-
   }
 
   function stopTimers(): void {
@@ -126,9 +164,9 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
     status.textContent =
       state === 'waiting' ? t('pair.waiting') :
       state === 'unreachable' ? t('pair.unreachable') :
-      state === 'received' ? t('pair.received', { key: maskKey(pending), length: pending.length }) :
+      state === 'received' ? (pending ? pending.summary : '') :
       state === 'saving' ? t('pair.saving') :
-      state === 'saved' ? t('pair.saved', { provider: d.providerName }) :
+      state === 'saved' ? (purpose.savedText || '') :
       state === 'expired' ? t('pair.expired') :
       state === 'failed' ? failNote :
       t('pair.cancelled');
@@ -141,6 +179,7 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
   function fail(note: string): void {
     stopTimers();
     endSession(false);
+    pending = null;
     state = 'failed';
     failNote = note;
     retryButtons();
@@ -149,15 +188,16 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
 
   function received(env: unknown): void {
     if (!session) { return; }
-    const r = session.open(env);
+    const r = session.openRaw(env);
     stopTimers();
     endSession(false); // the relay deleted the envelope when it handed it over; wipe the secret key now
-    if (!r.ok) { fail(r.reason === 'wrong-provider' ? t('pair.wrongProvider') : t('pair.openFailed')); return; }
-    if (!d.validKey(r.key)) { fail(t('ai.keyInvalidFormat')); return; }
-    pending = r.key;
+    if (!r.ok) { fail(t('pair.openFailed')); return; }
+    const a = purpose.accept(r.data);
+    if (!a.ok) { fail(a.note); return; }
+    pending = { summary: a.summary, commit: a.commit };
     code = r.code;
     state = 'received';
-    setButtons([{ label: t('pair.discard'), run: discard }, { label: t('pair.save'), run: save }]);
+    setButtons([{ label: t('pair.discard'), run: discard }, { label: purpose.confirmLabel, run: save }]);
     render();
   }
 
@@ -198,9 +238,9 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
   function fresh(): void {
     stopTimers();
     endSession(state === 'waiting' || state === 'unreachable');
-    pending = '';
+    pending = null;
     code = '';
-    session = createPairSession(d.provider);
+    session = createPairSession(purpose.kind);
     started = d.now();
     state = 'waiting';
     const q = qrImage(pairUrl(d.baseUrl, session), QR_MAX_PX, 'L');
@@ -214,7 +254,7 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
   }
 
   function discard(): void {
-    pending = '';
+    pending = null;
     code = '';
     state = 'cancelled';
     close();
@@ -222,29 +262,29 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
 
   function save(): void {
     if (state !== 'received' || !pending) { return; }
-    const key = pending;
-    pending = '';
+    const p = pending;
+    pending = null;
     state = 'saving';
     render();
-    d.saveKey(key).then(function () {
+    p.commit().then(function () {
       if (!alive) { return; }
       state = 'saved';
       code = '';
+      if (purpose.savedText === null) { close(); return; }
       setButtons([{ label: t('pair.done'), run: close }]);
       render();
-      d.onSaved();
     }, function () {
       if (!alive) { return; }
-      fail(t('ai.keyNotSaved'));
+      fail(purpose.failText);
     });
   }
 
-  /** Ends everything: relay session (best effort), timers, secret key, pending key. */
+  /** Ends everything: relay session (best effort), timers, secret key, pending details. */
   function shutdown(): void {
     const open = state === 'waiting' || state === 'unreachable';
     stopTimers();
     endSession(open);
-    pending = '';
+    pending = null;
     if (state !== 'saved') { state = 'cancelled'; }
   }
 
@@ -256,8 +296,8 @@ export function createPhonePairScreen(d: PhonePairDeps, nav: Router): Screen {
   return {
     mount: function (layer: HostLayer) {
       (layer.element as HTMLElement).appendChild(h(d.doc, 'div', { className: 'ss-live ss-set ss-pair' }, [
-        h(d.doc, 'div', { className: 'ss-live__header' }, [h(d.doc, 'div', { className: 'ss-live__title', text: t('pair.title', { provider: d.providerName }) })]),
-        h(d.doc, 'div', { className: 'ss-message', text: t('pair.intro') }),
+        h(d.doc, 'div', { className: 'ss-live__header' }, [h(d.doc, 'div', { className: 'ss-live__title', text: purpose.title })]),
+        h(d.doc, 'div', { className: 'ss-message', text: purpose.intro }),
         h(d.doc, 'div', { className: 'ss-pair__box' }, [img, hint, big, timeLine]),
         status, btnBox
       ]));

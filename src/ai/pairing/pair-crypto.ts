@@ -30,7 +30,7 @@ interface NaclLike {
 const nacl = naclLib as unknown as NaclLike;
 
 export const PAIR_TTL_MS = 5 * 60000;
-export const PAIR_PROVIDERS = ['gemini'];
+export const PAIR_PROVIDERS = ['gemini', 'xtream'];
 /** Session ids: 16 bytes, base64url (22 characters); see sessionIdFor. */
 export const SID_RE = /^[A-Za-z0-9_-]{22}$/;
 /** Largest envelope accepted from the relay (characters of JSON). */
@@ -100,13 +100,19 @@ export interface PairSession {
   publicKey: Uint8Array;
   /** Wipes the secret key (call when the session ends in any way). */
   wipe(): void;
-  /** Opens an envelope from the relay; the secret key stays inside this object. */
+  /** Opens an API-key envelope from the relay; the secret key stays inside this object. */
   open(env: unknown): PairOpenResult;
+  /** Opens any envelope and returns its JSON payload ({ v: 1, p: kind, … }); the caller validates it. */
+  openRaw(env: unknown): PairSealedResult;
 }
 
 export type PairOpenResult =
   | { ok: true; key: string; code: string }
   | { ok: false; reason: 'bad-envelope' | 'decrypt-failed' | 'bad-payload' | 'wrong-provider' | 'wiped' };
+
+export type PairSealedResult =
+  | { ok: true; data: Record<string, unknown>; code: string }
+  | { ok: false; reason: 'bad-envelope' | 'decrypt-failed' | 'bad-payload' | 'wiped' };
 
 /** Starts a pairing session: fresh key pair and session id. */
 export function createPairSession(provider: string): PairSession {
@@ -124,6 +130,10 @@ export function createPairSession(provider: string): PairSession {
     open: function (env: unknown) {
       if (!sk) { return { ok: false, reason: 'wiped' }; }
       return openEnvelope(env, kp.publicKey, sk, provider);
+    },
+    openRaw: function (env: unknown) {
+      if (!sk) { return { ok: false, reason: 'wiped' }; }
+      return openSealed(env, kp.publicKey, sk);
     }
   };
 }
@@ -155,9 +165,10 @@ function utf8Decode(b: Uint8Array): string | null {
 
 /**
  * Envelope (from the relay): { v: 1, epk, n, c } — phone public key, nonce, box, all base64url.
- * Plaintext: JSON { v: 1, p: provider, k: key }.
+ * Plaintext: a JSON object { v: 1, p: kind, … }. Returns it with the check code; the decrypted
+ * bytes are zeroed. Validating the fields is the caller's job (openEnvelope for API keys).
  */
-export function openEnvelope(env: unknown, tvPublicKey: Uint8Array, tvSecretKey: Uint8Array, provider: string): PairOpenResult {
+export function openSealed(env: unknown, tvPublicKey: Uint8Array, tvSecretKey: Uint8Array): PairSealedResult {
   const e = env as Record<string, unknown>;
   if (!e || typeof e !== 'object' || e.v !== 1 || typeof e.epk !== 'string' || typeof e.n !== 'string' || typeof e.c !== 'string') {
     return { ok: false, reason: 'bad-envelope' };
@@ -174,9 +185,16 @@ export function openEnvelope(env: unknown, tvPublicKey: Uint8Array, tvSecretKey:
   for (let i = 0; i < plain.length; i++) { plain[i] = 0; }
   let o: Record<string, unknown> | null = null;
   try { o = text ? JSON.parse(text) : null; } catch (x) { o = null; }
-  if (!o || typeof o !== 'object' || o.v !== 1 || typeof o.p !== 'string' || typeof o.k !== 'string' || !o.k) {
-    return { ok: false, reason: 'bad-payload' };
-  }
+  if (!o || typeof o !== 'object' || o.v !== 1 || typeof o.p !== 'string') { return { ok: false, reason: 'bad-payload' }; }
+  return { ok: true, data: o, code: checkCode(tvPublicKey, epk) };
+}
+
+/** API-key envelope: plaintext JSON { v: 1, p: provider, k: key }. */
+export function openEnvelope(env: unknown, tvPublicKey: Uint8Array, tvSecretKey: Uint8Array, provider: string): PairOpenResult {
+  const r = openSealed(env, tvPublicKey, tvSecretKey);
+  if (!r.ok) { return r; }
+  const o = r.data;
+  if (typeof o.k !== 'string' || !o.k) { return { ok: false, reason: 'bad-payload' }; }
   if (o.p !== provider) { return { ok: false, reason: 'wrong-provider' }; }
-  return { ok: true, key: o.k.replace(/^\s+|\s+$/g, ''), code: checkCode(tvPublicKey, epk) };
+  return { ok: true, key: o.k.replace(/^\s+|\s+$/g, ''), code: r.code };
 }

@@ -17,6 +17,9 @@ import type { LiveFormat, PlaylistDef } from '../models/content.ts';
 import type { KeyboardMode, KeyboardParams } from './keyboard-overlay.ts';
 import type { Translate } from '../i18n/strings.ts';
 import { maskUrl } from './format.ts';
+import { PHONE_PAIR_SCREEN } from './ai-phone-pair-screen.ts';
+import { XTREAM_PAIR_KIND } from './xtream-pair.ts';
+import type { XtreamDetails } from './xtream-pair.ts';
 import { h } from '../utils/dom.ts';
 
 export type FormMode = 'add-m3u' | 'add-xtream' | 'edit';
@@ -34,12 +37,13 @@ export interface FormParams {
   id?: string;
 }
 
-type FieldId = 'name' | 'url' | 'server' | 'username' | 'password' | 'epg' | 'format';
+type FieldId = 'phone' | 'name' | 'url' | 'server' | 'username' | 'password' | 'epg' | 'format';
 
 interface Field {
   id: FieldId;
   label: string;
-  kind: KeyboardMode | 'choice';
+  /** 'action': the "Fill in with phone (QR)" row (Xtream only, when phone pairing is available). */
+  kind: KeyboardMode | 'choice' | 'action';
   max: number;
   /** For edit: credential fields start as "unchanged". */
   credential: boolean;
@@ -50,7 +54,11 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
   const existing: PlaylistDef | null = p.mode === 'edit' && p.id ? d.playlists.get(p.id) : null;
   const kind = p.mode === 'add-xtream' || (existing && existing.kind === 'xtream') ? 'xtream' : 'm3u';
   const editing = p.mode === 'edit';
-  const fields: Field[] = [{ id: 'name', label: t('form.name'), kind: 'text', max: 64, credential: false }];
+  const fields: Field[] = [];
+  if (kind === 'xtream' && nav.isRegistered(PHONE_PAIR_SCREEN)) {
+    fields.push({ id: 'phone', label: t('form.phoneQr'), kind: 'action', max: 0, credential: false });
+  }
+  fields.push({ id: 'name', label: t('form.name'), kind: 'text', max: 64, credential: false });
   if (kind === 'm3u') {
     fields.push({ id: 'url', label: t('form.url'), kind: 'url', max: 2048, credential: true });
   } else {
@@ -71,11 +79,15 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
     format = existing.liveFormat;
   }
   let saving = false;
+  let filledFromPhone = false;
   let frame: Frame | null = null;
   const list = createRowList(d.doc, 'ss-rows--form');
   const buttons = createButtonList(d.doc, [t('common.save'), t('common.cancel')], true);
 
   function display(f: Field): Row {
+    if (f.kind === 'action') {
+      return { primary: f.label, secondary: t('form.phoneQrHint') };
+    }
     if (f.kind === 'choice') {
       return { primary: f.label, secondary: format === 'ts' ? t('form.format.ts') : t('form.format.m3u8') };
     }
@@ -102,8 +114,25 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
     list.setRows(rows);
   }
 
+  /** Details from the phone (after the check code was confirmed on the TV): fill in, the user saves. */
+  function fillFromPhone(v: XtreamDetails): void {
+    values.server = v.server;
+    values.username = v.username;
+    values.password = v.password;
+    touched.server = true;
+    touched.username = true;
+    touched.password = true;
+    if (v.name && !values.name) { values.name = v.name; }
+    filledFromPhone = true;
+    render();
+  }
+
   function edit(i: number): void {
     const f = fields[i];
+    if (f.kind === 'action') {
+      nav.push(PHONE_PAIR_SCREEN, { kind: XTREAM_PAIR_KIND, fill: fillFromPhone });
+      return;
+    }
     if (f.kind === 'choice') {
       format = format === 'ts' ? 'm3u8' : 'ts';
       render();
@@ -208,7 +237,15 @@ export function createPlaylistForm(d: FormDeps, p: FormParams, nav: Router): Scr
       render();
       focus.focus('fields', 0);
     },
-    onShow: function () { render(); },
+    onShow: function () {
+      render();
+      if (filledFromPhone && frame) {
+        filledFromPhone = false;
+        setMessage(frame.message, t('form.phoneFilled'));
+        // Focus Save: the details are in, the user checks the rows and confirms.
+        focus.focus('buttons', 0);
+      }
+    },
     onHide: function () { /* nothing running */ },
     onKey: function (e: RemoteKeyEvent) {
       if (e.key === 'up' || e.key === 'down' || e.key === 'left' || e.key === 'right') {

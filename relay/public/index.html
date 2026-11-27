@@ -10,24 +10,40 @@
 <body>
 <main>
   <h1>EliteStream</h1>
-  <p class="sub">Send your API key to your TV, end-to-end encrypted.</p>
+  <p class="sub">Send details to your TV, end-to-end encrypted.</p>
 
   <section id="bad" hidden>
-    <p class="err">This link is not valid. Open AI Intelligence on the TV and scan the QR code again.</p>
+    <p class="err">This link is not valid. Scan the QR code on the TV again.</p>
   </section>
 
   <section id="form" hidden>
-    <p>Provider: <strong id="provider"></strong></p>
-    <label for="key">API key</label>
-    <div class="row">
-      <input id="key" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="200">
-      <button id="show" type="button">Show</button>
+    <p>For: <strong id="provider"></strong></p>
+    <div id="keyBox">
+      <label for="key">API key</label>
+      <div class="row">
+        <input id="key" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="200">
+        <button id="show" type="button">Show</button>
+      </div>
+      <button id="paste" type="button" class="secondary">Paste from clipboard</button>
     </div>
-    <button id="paste" type="button" class="secondary">Paste from clipboard</button>
-    <p class="code">The TV will show check code <strong id="code"></strong>. Only save on the TV if it matches.</p>
+    <div id="xtBox" hidden>
+      <label for="xtServer">Server address</label>
+      <input id="xtServer" type="url" inputmode="url" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="2048" placeholder="example.com:8080">
+      <p class="fine">You can also paste the whole link from your provider (…/get.php?username=…&amp;password=…); it is split automatically.</p>
+      <label for="xtUser">Username</label>
+      <input id="xtUser" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="256">
+      <label for="xtPass">Password</label>
+      <div class="row">
+        <input id="xtPass" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="256">
+        <button id="xtShow" type="button">Show</button>
+      </div>
+      <label for="xtName">Name on the TV (optional)</label>
+      <input id="xtName" type="text" autocomplete="off" maxlength="64">
+    </div>
+    <p class="code">The TV will show check code <strong id="code"></strong>. Only choose "<span id="confirm"></span>" on the TV if it matches.</p>
     <button id="send" type="button">Send to TV</button>
     <p id="msg" role="status"></p>
-    <p class="fine">The key is encrypted on this phone with the TV's one-time public key before it is sent. The relay only passes on the sealed message and deletes it once the TV has it, or after 5 minutes. Nothing is stored on this phone.</p>
+    <p class="fine">Everything is encrypted on this phone with the TV's one-time public key before it is sent. The relay only passes on the sealed message and deletes it once the TV has it, or after 5 minutes. Nothing is stored on this phone.</p>
   </section>
 
   <section id="done" hidden>

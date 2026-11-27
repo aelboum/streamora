@@ -37,6 +37,26 @@ Crypto library: **TweetNaCl 1.0.3** (public domain, audited by Cure53).
 - It is plain ES5 and needs only `crypto.getRandomValues`, not WebCrypto.subtle, so it suits Tizen 3.0 and old WebViews.
 - The phone page uses the identical npm file, vendored as `relay/public/vendor/nacl-fast.min.js`, SHA-256 `3ec535c0…a5131`. A test checks that it matches the npm copy byte for byte.
 
+## 1b. Xtream login with the phone (added 2026-11-27, after the user asked for it)
+
+**Physically verified by the user on 2026-11-27** on the Samsung. Fill in with phone (QR), then send from the phone, then Use these details, then Save: the playlist loads. After the upgrade install, the TV kept running the old app instance until it was restarted (`was_kill`, then `tv:run`).
+
+- **On the TV:** Playlists → Add Xtream account (or Edit) → the first row is **"Fill in with phone (QR)"**. It appears only when phone pairing is available.
+- **The QR link:** `…/#2.<TV public key>.xtream`, with the same relay, encryption and check code as the key flow.
+- **The phone page** shows Server address, Username, Password (with Show) and an optional Name.
+  - A whole provider link such as `http://host:port/get.php?username=…&password=…&type=m3u_plus`, pasted into the server field, is split automatically. `player_api.php` and `xmltv.php` links are split too.
+  - Payload: `{ v: 1, p: 'xtream', x: { s, u, w, n } }`, at most about 1,100 bytes.
+- **On the TV:** `parseXtreamPayload` (`src/screens/xtream-pair.ts`) accepts only complete details:
+  - the server is an http(s) address with no user info;
+  - username and password are not empty;
+  - no control characters; at most 256 characters (64 for the name).
+- **The confirmation screen** shows the check code, the server, and only the *lengths* of the username and password. The confirm button is **"Use these details"**.
+- **The details are not stored by the pairing screen.** They fill the form: the server, username, password and, if empty, the name. The form shows "Filled in from your phone…", with Save focused. Saving goes through the normal `PlaylistService` validation and the existing secure storage.
+- **Code:**
+  - the screen is shared: `ai-phone-pair-screen.ts` takes a `PairPurpose` (`keyPurpose`, `xtreamPurpose`);
+  - `pair-crypto.ts` `openSealed` / `openRaw` return the decrypted payload; `openEnvelope` (keys) is built on it.
+- **Tests:** payload rules, and the API-key screen and Xtream screen each refusing the other's payload. A full run goes: form, then QR, then the real phone page splitting a `get.php` link, then the relay (which saw only ciphertext), then the same check code with no credentials on the TV, then Use, then the form filled, then Save.
+
 ## 2. Security properties, and what they do not cover
 
 **What the design guarantees** (tested where marked [T]):

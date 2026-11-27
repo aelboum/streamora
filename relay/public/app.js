@@ -1,11 +1,16 @@
 // EliteStream phone pairing page (docs/AI-02-PHONE-PAIRING.md).
-// Reads the session id, the TV public key and the provider from the URL fragment (never sent to
-// a server), encrypts {provider, key} to the TV public key with nacl.box (fresh phone key pair and
-// nonce) and posts only the sealed envelope. No storage, cookies, analytics or third-party code.
+// Reads the TV public key and the kind from the URL fragment (never sent to a server), encrypts the
+// details ({p, k: API key} or {p: 'xtream', x: {s, u, w, n}}) to the TV public key with nacl.box
+// (fresh phone key pair and nonce) and posts only the sealed envelope. No storage, cookies,
+// analytics or third-party code.
 (function () {
   'use strict';
   var nacl = window.nacl;
-  var PROVIDERS = { gemini: 'Google Gemini' };
+  // Kinds in the QR link: an AI provider API key, or an Xtream login for the playlist form.
+  var PROVIDERS = { gemini: 'Google Gemini API key', xtream: 'Xtream login' };
+  var CONFIRM = { gemini: 'Save key', xtream: 'Use these details' };
+  var XT_MAX = { s: 256, u: 256, w: 256, n: 64 };
+  var SERVER_RE = /^https?:\/\/[^\s\/?#@]+(?::\d{1,5})?(?:\/[^\s?#]*)?$/i;
   // Same rule as the TV (gemini-provider.ts): standard "AIza…" keys and AI Studio auth keys "AQ.…".
   var KEY_RE = /^(?:AQ\.[A-Za-z0-9_\-.]{17,197}|[A-Za-z0-9_\-]{20,200})$/;
   var B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
@@ -64,9 +69,61 @@
   var sid = m ? sessionIdFor(tvPk) : m1[1];
   var kp = nacl.box.keyPair();
   var sent = false;
+  var xtream = provider === 'xtream';
   $('provider').textContent = PROVIDERS[provider];
   $('code').textContent = checkCode(tvPk, kp.publicKey);
+  $('keyBox').hidden = xtream;
+  $('xtBox').hidden = !xtream;
+  $('confirm').textContent = CONFIRM[provider];
   $('form').hidden = false;
+
+  /**
+   * Many providers hand out one link such as http://host:port/get.php?username=U&password=P&type=m3u_plus
+   * (or player_api.php). Pasted into the server field, it is split into server, username and password.
+   */
+  function splitXtreamLink() {
+    var v = ($('xtServer').value || '').replace(/^\s+|\s+$/g, '');
+    var mm = /^(https?:\/\/[^\s\/?#]+)(\/[^\s?#]*)?\?(.*)$/i.exec(v);
+    if (!mm) { return; }
+    var q = {}, parts = mm[3].split('&');
+    for (var i = 0; i < parts.length; i++) {
+      var kv = parts[i].split('=');
+      try { q[decodeURIComponent(kv[0])] = decodeURIComponent((kv[1] || '').replace(/\+/g, ' ')); } catch (e) { /* skip */ }
+    }
+    if (!q.username || !q.password) { return; }
+    var path = (mm[2] || '').replace(/\/(?:get|player_api|xmltv)\.php$/i, '');
+    $('xtServer').value = mm[1] + path;
+    $('xtUser').value = q.username;
+    $('xtPass').value = q.password;
+    say('The link was split into server, username and password.');
+  }
+  $('xtServer').onchange = splitXtreamLink;
+  $('xtServer').onblur = splitXtreamLink;
+  $('xtShow').onclick = function () {
+    var k = $('xtPass');
+    k.type = k.type === 'password' ? 'text' : 'password';
+    this.textContent = k.type === 'password' ? 'Show' : 'Hide';
+  };
+
+  /** Xtream details from the form, or a message saying what is missing (never showing values). */
+  function xtreamPayload() {
+    splitXtreamLink();
+    var s = ($('xtServer').value || '').replace(/^\s+|\s+$/g, '').replace(/\/+$/, '');
+    var u = ($('xtUser').value || '').replace(/^\s+|\s+$/g, '');
+    var w = $('xtPass').value || '';
+    var n = ($('xtName').value || '').replace(/^\s+|\s+$/g, '');
+    if (!s) { return { error: 'Enter the server address.' }; }
+    if (!/^https?:\/\//i.test(s)) { s = 'http://' + s; }
+    if (!SERVER_RE.test(s)) { return { error: 'The server address does not look right. Example: http://example.com:8080' }; }
+    if (!u) { return { error: 'Enter the username.' }; }
+    if (!w) { return { error: 'Enter the password.' }; }
+    var x = { s: s, u: u, w: w, n: n };
+    for (var f in XT_MAX) {
+      if (x[f].length > XT_MAX[f]) { return { error: 'One of the fields is too long.' }; }
+      if (/[\u0000-\u001f\u007f]/.test(x[f])) { return { error: 'One of the fields contains a line break or another control character.' }; }
+    }
+    return { x: x };
+  }
 
   function say(text, bad) { $('msg').textContent = text; $('msg').className = bad ? 'err' : ''; }
 
@@ -108,23 +165,36 @@
   function watch(until) {
     if (Date.now() > until) { return; }
     fetch('/v1/s/' + sid + '/status', { cache: 'no-store', credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (j) {
-      if (j && j.state === 'delivered') { finish('The TV received it. Check that the TV shows code ' + $('code').textContent + ', then choose Save on the TV.'); return; }
-      if (j && (j.state === 'cancelled' || j.state === 'expired')) { finish('The TV closed this pairing. Nothing was saved.'); return; }
+      if (j && j.state === 'delivered') { finish('The TV received it. Check that the TV shows code ' + $('code').textContent + ', then choose "' + CONFIRM[provider] + '" on the TV.'); return; }
+      if (j && (j.state === 'cancelled' || j.state === 'expired')) { finish('The TV closed this pairing. Nothing was used.'); return; }
       setTimeout(function () { watch(until); }, 2000);
     }, function () { setTimeout(function () { watch(until); }, 3000); });
   }
 
   $('send').onclick = function () {
     if (sent) { return; }
-    var key = cleanKey($('key').value);
-    if (!KEY_RE.test(key)) { say(keyProblem(key), true); return; }
-    var msg = new TextEncoder().encode(JSON.stringify({ v: 1, p: provider, k: key }));
+    var payload;
+    if (xtream) {
+      var xp = xtreamPayload();
+      if (xp.error) { say(xp.error, true); return; }
+      payload = { v: 1, p: provider, x: xp.x };
+    } else {
+      var key = cleanKey($('key').value);
+      if (!KEY_RE.test(key)) { say(keyProblem(key), true); return; }
+      payload = { v: 1, p: provider, k: key };
+      key = '';
+    }
+    var msg = new TextEncoder().encode(JSON.stringify(payload));
+    payload = null;
+    // The relay accepts sealed messages up to about 1,200 bytes.
+    if (msg.length > 1100) { wipe(msg); say('The details are too long to send.', true); return; }
     var nonce = nacl.randomBytes(24);
     var box = nacl.box(msg, nonce, tvPk, kp.secretKey);
     wipe(msg);
     wipe(kp.secretKey);
-    key = '';
     $('key').value = '';
+    $('xtPass').value = '';
+    $('xtUser').value = '';
     sent = true;
     $('send').disabled = true;
     say('Sending…');
@@ -138,8 +208,8 @@
         var e = j && j.error;
         finish(e === 'expired' ? 'This QR code has expired. Show a new code on the TV.' :
           e === 'cancelled' ? 'The TV closed this pairing.' :
-          e === 'ready' || e === 'delivered' ? 'A key was already sent for this code. Show a new code on the TV.' :
-          'The key could not be sent (' + (e || r.status) + '). Show a new code on the TV and try again.');
+          e === 'ready' || e === 'delivered' ? 'Something was already sent for this code. Show a new code on the TV.' :
+          'It could not be sent (' + (e || r.status) + '). Show a new code on the TV and try again.');
       });
     }).catch(function () { finish('No connection. Show a new code on the TV and try again.'); });
   };

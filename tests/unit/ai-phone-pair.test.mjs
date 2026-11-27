@@ -12,9 +12,11 @@ import nacl from 'tweetnacl';
 import {
   b64url, fromB64url, createPairSession, pairUrl, checkCode, openEnvelope, sessionIdFor, SID_RE, PAIR_TTL_MS
 } from '../../src/ai/pairing/pair-crypto.ts';
-import { createPhonePairScreen, PHONE_PAIR_SCREEN, maskKey } from '../../src/screens/ai-phone-pair-screen.ts';
+import { createPhonePairScreen, keyPurpose, PHONE_PAIR_SCREEN, maskKey } from '../../src/screens/ai-phone-pair-screen.ts';
 import { createAiEngine } from '../../src/ai/ai-engine.ts';
 import { qrMatrix, qrImage } from '../../src/components/qr-code.ts';
+import { parseXtreamPayload, xtreamPurpose } from '../../src/screens/xtream-pair.ts';
+import { createPlaylistForm } from '../../src/screens/playlist-form-screen.ts';
 import worker, { validEnvelope, TTL_MS, MAX_FAILED_POSTS } from '../../relay/src/worker.js';
 import { localEnv } from '../../relay/local-relay.mjs';
 import { createRouter } from '../../src/navigation/router.ts';
@@ -256,10 +258,14 @@ function tvEnv(relayEnv, onSave) {
   const saved = [];
   router.register('home', () => ({ mount() {}, onShow() {}, onHide() {}, onKey: () => false, onBack: () => false, destroy() {} }));
   router.register(PHONE_PAIR_SCREEN, (_p, nav) => createPhonePairScreen({
-    doc, t, http: engine.pairing.http, baseUrl: engine.pairing.baseUrl, provider: 'gemini', providerName: 'Google Gemini',
-    validKey: (k) => /^[A-Za-z0-9_\-]{20,200}$/.test(k),
-    saveKey: (k) => { saved.push(k); return onSave ? onSave(k) : Promise.resolve(); },
-    onSaved: () => { saved.push('onSaved'); }, now: () => Date.now(), pollMs: 5,
+    doc, t, http: engine.pairing.http, baseUrl: engine.pairing.baseUrl,
+    purpose: keyPurpose(t, {
+      provider: 'gemini', providerName: 'Google Gemini',
+      validKey: (k) => /^[A-Za-z0-9_\-]{20,200}$/.test(k),
+      saveKey: (k) => { saved.push(k); return onSave ? onSave(k) : Promise.resolve(); },
+      onSaved: () => { saved.push('onSaved'); }
+    }),
+    now: () => Date.now(), pollMs: 5,
     setTimer: (fn, ms) => setTimeout(fn, Math.min(ms, 20)), clearTimer: (h) => clearTimeout(h)
   }, nav));
   router.resetTo('home');
@@ -286,7 +292,9 @@ test('phone pairing, full run: QR on the TV → real phone page encrypts → rel
   const phone = runPhonePage(relay, qr.slice(qr.indexOf('#')));
   assert.equal(phone.el('form').hidden, false, 'phone form shown');
   assert.equal(phone.el('bad').hidden, true);
-  assert.equal(phone.el('provider').textContent, 'Google Gemini');
+  assert.equal(phone.el('provider').textContent, 'Google Gemini API key');
+  assert.equal(phone.el('keyBox').hidden, false, 'key field shown');
+  assert.equal(phone.el('xtBox').hidden, true, 'Xtream fields hidden');
   assert.equal(phone.ctx.location.hash, '', 'fragment removed from the address bar');
   const phoneCode = phone.el('code').textContent;
   assert.match(phoneCode, /^\d{3} \d{3}$/);
@@ -401,8 +409,9 @@ test('phone pairing: TV expires the code after 5 minutes and offers a new one', 
   const engine = createAiEngine({ kv: kvStore(), keyStore: createMemoryKeyStore(), files: null, xhrFactory: workerXhr(relay, log), log: createLogger(10), now: () => now, setTimer: (fn, ms) => setTimeout(fn, ms), clearTimer: (h) => clearTimeout(h), pairingUrl: BASE });
   router.register('home', () => ({ mount() {}, onShow() {}, onHide() {}, onKey: () => false, onBack: () => false, destroy() {} }));
   router.register(PHONE_PAIR_SCREEN, (_p, nav) => createPhonePairScreen({
-    doc, t, http: engine.pairing.http, baseUrl: engine.pairing.baseUrl, provider: 'gemini', providerName: 'Google Gemini', validKey: () => true,
-    saveKey: () => Promise.resolve(), onSaved() {}, now: () => now,
+    doc, t, http: engine.pairing.http, baseUrl: engine.pairing.baseUrl,
+    purpose: keyPurpose(t, { provider: 'gemini', providerName: 'Google Gemini', validKey: () => true, saveKey: () => Promise.resolve(), onSaved() {} }),
+    now: () => now,
     setTimer: (fn, ms) => { const x = { fn, at: now + ms, done: false }; timers.push(x); return x; }, clearTimer: (x) => { if (x) { x.done = true; } }
   }, nav));
   router.resetTo('home');
@@ -429,4 +438,95 @@ test('AI engine: pairing only when configured (https); its client reaches only t
   assert.equal(e.pairing.baseUrl, BASE);
   const r = await e.pairing.http.request({ method: 'GET', url: 'https://generativelanguage.googleapis.com/v1beta/models', timeoutMs: 1000, maxChars: 100 }).promise;
   assert.equal(r.kind, 'invalid-url', 'the pairing client cannot reach other origins');
+});
+
+// ---- Xtream login with the phone ----------------------------------------------------------------
+
+test('Xtream payload: only complete, plain details are accepted', () => {
+  const ok = { p: 'xtream', x: { s: ' http://line.example.test:8080/ ', u: ' alice ', w: ' pw with space ', n: 'Home' } };
+  assert.deepEqual(parseXtreamPayload(ok), { server: 'http://line.example.test:8080', username: 'alice', password: ' pw with space ', name: 'Home' });
+  const bad = [
+    { p: 'gemini', x: ok.x },
+    { p: 'xtream' },
+    { p: 'xtream', x: { s: 'ftp://h', u: 'a', w: 'b' } },
+    { p: 'xtream', x: { s: 'http://user@h', u: 'a', w: 'b' } },
+    { p: 'xtream', x: { s: 'http://h', u: '', w: 'b' } },
+    { p: 'xtream', x: { s: 'http://h', u: 'a', w: '' } },
+    { p: 'xtream', x: { s: 'http://h', u: 'a\nb', w: 'c' } },
+    { p: 'xtream', x: { s: 'http://h', u: 'a', w: 'c', n: 'x'.repeat(65) } },
+    { p: 'xtream', x: { s: 'http://h', u: 'a'.repeat(257), w: 'c' } }
+  ];
+  for (const b of bad) { assert.equal(parseXtreamPayload(b), null, JSON.stringify(b).slice(0, 80)); }
+  // The API-key screen refuses an Xtream payload and the other way round.
+  const kp = keyPurpose(t, { provider: 'gemini', providerName: 'G', validKey: () => true, saveKey: () => Promise.resolve(), onSaved() {} });
+  assert.equal(kp.accept({ p: 'xtream', x: ok.x }).ok, false);
+  assert.equal(xtreamPurpose(t, () => {}).accept({ p: 'gemini', k: FAKE_KEY }).ok, false);
+});
+
+test('Xtream with the phone, full run: form → QR → phone page splits a get.php link → TV code → form filled → Save', async () => {
+  const relay = localEnv();
+  const doc = createFakeDocument();
+  const router = createRouter(createDomHost(doc, doc.body), createLogger(50));
+  const log = [];
+  const engine = createAiEngine({
+    kv: kvStore(), keyStore: createMemoryKeyStore(), files: null, xhrFactory: workerXhr(relay, log), log: createLogger(10),
+    now: () => Date.now(), setTimer: (fn, ms) => setTimeout(fn, ms), clearTimer: (h) => clearTimeout(h), pairingUrl: BASE
+  });
+  const added = [];
+  const playlists = {
+    add(def) { added.push(def); return Promise.resolve({ ok: true, playlist: { id: 'p1' } }); },
+    update() { return Promise.resolve({ ok: true, playlist: { id: 'p1' } }); },
+    get() { return null; },
+    credentialsPersistent() { return true; }
+  };
+  const blank = () => ({ mount() {}, onShow() {}, onHide() {}, onKey: () => false, onBack: () => false, destroy() {} });
+  router.register('home', blank);
+  router.register('playlist-details', blank);
+  router.register('playlist-form', (p, nav) => createPlaylistForm({ doc, playlists, t }, p, nav));
+  router.register(PHONE_PAIR_SCREEN, (p, nav) => createPhonePairScreen({
+    doc, t, http: engine.pairing.http, baseUrl: engine.pairing.baseUrl, purpose: xtreamPurpose(t, p.fill),
+    now: () => Date.now(), pollMs: 5, setTimer: (fn, ms) => setTimeout(fn, Math.min(ms, 20)), clearTimer: (h) => clearTimeout(h)
+  }, nav));
+  router.resetTo('home');
+  const wait = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+  const key = (k) => router.handleKey({ key: k });
+
+  router.push('playlist-form', { mode: 'add-xtream' });
+  assert.match(doc.body.textContent, /Fill in with phone \(QR\)/);
+  key('ok'); // first row: Fill in with phone
+  await wait();
+  assert.equal(router.stack().slice(-1)[0], PHONE_PAIR_SCREEN);
+  assert.match(doc.body.textContent, /Xtream login with phone/);
+  const qr = decodeQrDataUri(doc.body.findAll('ss-pair__qr')[0].attributes.src);
+  assert.match(qr, /^https:\/\/pair\.example\.test\/#2\.[A-Za-z0-9_-]{43}\.xtream$/);
+
+  const phone = runPhonePage(relay, qr.slice(qr.indexOf('#')));
+  assert.equal(phone.el('provider').textContent, 'Xtream login');
+  assert.equal(phone.el('xtBox').hidden, false);
+  assert.equal(phone.el('keyBox').hidden, true);
+  phone.el('xtServer').value = 'http://line.example.test:8080/get.php?username=alice&password=s3cret%21&type=m3u_plus&output=ts';
+  phone.el('xtName').value = 'Home';
+  phone.el('send').onclick();
+  assert.equal(phone.el('xtServer').value, 'http://line.example.test:8080', 'link split into the server');
+  assert.equal(phone.el('xtPass').value, '', 'password field cleared after sealing');
+  await wait(200);
+
+  const tvText = doc.body.textContent;
+  assert.match(tvText, /Login received: server http:\/\/line\.example\.test:8080, username 5 characters, password 7 characters/);
+  assert.ok(tvText.indexOf(phone.el('code').textContent) >= 0, 'TV shows the same check code as the phone');
+  assert.equal(/alice|s3cret/.test(tvText), false, 'username and password never shown');
+  const posted = phone.fetches.filter((f) => f.init && f.init.method === 'POST').map((f) => f.init.body).join('');
+  assert.equal(/alice|s3cret|line\.example/.test(posted), false, 'the relay only sees ciphertext');
+
+  key('right'); // Discard → Use these details
+  key('ok');
+  await wait();
+  assert.equal(router.stack().slice(-1)[0], 'playlist-form', 'back on the form');
+  assert.match(doc.body.textContent, /Filled in from your phone/);
+  assert.equal(/s3cret/.test(doc.body.textContent), false, 'password shown as dots on the form');
+  assert.match(doc.body.textContent, /alice/, 'username shown on the form, as when typed');
+  key('ok'); // Save is focused
+  await wait();
+  assert.deepEqual(added.map((a) => [a.kind, a.server, a.username, a.password, a.name]),
+    [['xtream', 'http://line.example.test:8080', 'alice', 's3cret!', 'Home']]);
 });

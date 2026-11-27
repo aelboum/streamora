@@ -180,6 +180,7 @@ test('add M3U with the on-screen keyboard, HTTP warning, import, details; no cre
   env.press('ok'); // Continue
   assert.equal(env.router.overlay(), 'import-dialog');
   await until(() => /Updated: 10 channels in 8 categories/.test(env.layer().textContent), 10000, 'import result');
+  assert.equal(env.focusedText(), 'Close', 'the new Close button is shown focused (phone taps rely on it)');
   env.press('ok'); // Close
   assert.equal(env.router.overlay(), null);
   await until(() => /Live channels/.test(bodyText(env)), 2000, 'details metadata');

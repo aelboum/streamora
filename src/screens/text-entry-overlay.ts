@@ -75,7 +75,13 @@ export function createTextEntryOverlay(d: TextEntryDeps, p: KeyboardParams, nav:
       return;
     }
     setEditing(true);
-    try { input.focus(); } catch (e) { setEditing(false); }
+    try { input.focus(); } catch (e) { setEditing(false); return; }
+    // The focus can be refused without an error (Android WebView, when not started by a touch).
+    // Then nobody is typing: give the keys back to the buttons, or Done and Cancel stop working.
+    if (d.doc.activeElement !== (input as unknown as Element)) {
+      setEditing(false);
+      focus.focus('buttons', 0);
+    }
   }
 
   function stopEditing(): void {

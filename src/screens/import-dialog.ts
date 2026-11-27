@@ -64,6 +64,10 @@ export function createImportDialog(d: ImportDialogDeps, p: ImportDialogParams, n
     buttonBox.appendChild(buttons.element);
     focus.refresh('buttons');
     focus.focus('buttons', 0);
+    // The focus was already on button 0 of the old list, so focus.focus() repaints nothing: mark
+    // the new first button ourselves. Without it Close showed no focus after an update (and a
+    // tap on the phone steered towards the screen behind the dialog).
+    buttons.setFocused(0, true);
   }
 
   function seconds(): string {

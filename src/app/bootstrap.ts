@@ -490,8 +490,9 @@ export function startApp(ctx: AppContext, host: ScreenHost, doc: Document, now: 
     router.resetTo('home');
     router.push('settings');
   }
-  // Stage 5 keyboard strategy: the Samsung IME where available, the app keyboard otherwise.
-  const preferIme = ctx.platform.name === 'tizen' && ctx.config.ui.keyboard === 'auto';
+  // Stage 5 keyboard strategy: the system keyboard where available (Samsung IME on Tizen, the
+  // Android keyboard, which also offers Paste), the app keyboard otherwise.
+  const preferIme = (ctx.platform.name === 'tizen' || ctx.platform.name === 'android') && ctx.config.ui.keyboard === 'auto';
   if (ctx.playlists) {
     // AI-02: the Add M3U / Add Xtream forms show the phone pairing QR code next to the fields.
     const formPairing = ctx.ai.pairing && pairingCryptoAvailable() ? ctx.ai.pairing : null;

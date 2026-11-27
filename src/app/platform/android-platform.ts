@@ -69,9 +69,17 @@ export function bridgeKeyStore(b: AndroidPlatformBridge): KeyStore {
   };
 }
 
-/** Elements the focus engines mark with is-focused (tap targets). */
-const FOCUSABLE = ['ss-tile', 'ss-bar__item', 'ss-rail__item', 'ss-cat', 'ss-ch', 'ss-card', 'ss-button', 'ss-row', 'ss-ep',
-  'ss-key', 'ss-find__row', 'ss-find__field', 'ss-ime__field'];
+/**
+ * Elements the focus engines mark with is-focused (tap targets). A test checks that every class
+ * a screen renders with is-focused is listed here (the seek bar track is left out on purpose:
+ * a tap there must not press OK).
+ */
+export const FOCUSABLE = ['ss-tile', 'ss-bar__item', 'ss-rail__item', 'ss-cat', 'ss-ch', 'ss-card', 'ss-button', 'ss-row', 'ss-ep',
+  'ss-key', 'ss-find__row', 'ss-find__field', 'ss-ime__field',
+  // Settings and AI settings rows, Continue watching, TV guide, PIN pad, search, category manager,
+  // next-episode prompt and the Sort button (missing before 0.3.5: taps on them did nothing).
+  'ss-set__row', 'ss-cont__card', 'ss-cont__item', 'ss-guide__cell', 'ss-pin__key', 'ss-srch__chip', 'ss-srch__box',
+  'ss-catman__restore', 'ss-nextep__button', 'ss-vod__sortbtn'];
 
 function focusableOf(el: Element | null): HTMLElement | null {
   let n: Element | null = el;
@@ -90,6 +98,18 @@ function centre(el: HTMLElement): { x: number; y: number } {
   return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
 }
 
+const ID_ATTRS = ['data-row', 'data-key', 'data-index', 'data-tile', 'data-section', 'data-cont', 'data-ch', 'data-bar', 'data-kind'];
+
+/** A selector that finds the same item again after its screen re-rendered it ('' when it has no id). */
+export function identity(el: Element): string {
+  const base = String(el.className || '').split(' ')[0];
+  for (let i = 0; i < ID_ATTRS.length; i++) {
+    const v = el.getAttribute(ID_ATTRS[i]);
+    if (v !== null && base) { return '.' + base + '[' + ID_ATTRS[i] + '="' + v.replace(/["\\]/g, '\\$&') + '"]'; }
+  }
+  return '';
+}
+
 /** The focused element (last visible one in DOM order = the top-most layer). */
 function focusedElement(doc: Document): HTMLElement | null {
   const all = doc.querySelectorAll('.is-focused');
@@ -100,16 +120,59 @@ function focusedElement(doc: Document): HTMLElement | null {
   return null;
 }
 
+/** An <input> or <textarea>: touches on it are left to the WebView. */
+export function isTextField(t: EventTarget | null): boolean {
+  const n = t as { nodeName?: string } | null;
+  const name = n && typeof n.nodeName === 'string' ? n.nodeName.toUpperCase() : '';
+  return name === 'INPUT' || name === 'TEXTAREA';
+}
+
 export function installTouch(doc: Document, press: (code: number) => void): () => void {
   let sx = 0, sy = 0, st = 0, active = false;
   const STEP = 120;
 
   function tap(x: number, y: number): void {
-    const target = focusableOf(doc.elementFromPoint(x, y));
-    if (!target) {
+    const first = focusableOf(doc.elementFromPoint(x, y));
+    if (!first) {
       return;
     }
+    let target: HTMLElement = first;
+    const sel = identity(first);
+    // While a text field has the focus the key router lets only Back through, so the steps
+    // below would be swallowed (Done / Cancel next to the field did nothing). Leave the field
+    // first; the text entry dialog then hands the focus to its buttons.
+    const field = doc.activeElement as (HTMLElement & { blur?: () => void }) | null;
+    if (field && isTextField(field) && typeof field.blur === 'function') {
+      try { field.blur(); } catch (e) { /* ignore */ }
+    }
+    // Some screens (Settings) rebuild their rows on every focus move: find the tapped item again
+    // by its data attribute, or stop rather than steer towards a detached element (whose
+    // centre is 0,0 and pulled the focus into the side menu).
+    function resolve(): boolean {
+      if (target.isConnected) { return true; }
+      const again = sel ? doc.querySelector(sel) as HTMLElement | null : null;
+      if (!again) { return false; }
+      target = again;
+      return true;
+    }
+    function distance(el: HTMLElement): number {
+      const p = centre(el), q = centre(target);
+      return Math.sqrt((p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y));
+    }
+    function stepCloser(code: number): boolean {
+      const from = focusedElement(doc);
+      if (!from) { return false; }
+      const before = distance(from);
+      press(code);
+      const now = focusedElement(doc);
+      if (!now || now === from) { return false; } // blocked: nothing moved
+      if (!resolve()) { return false; }
+      if (distance(now) < before - 1) { return true; }
+      press(code === 37 ? 39 : code === 39 ? 37 : code === 38 ? 40 : 38); // undo
+      return false;
+    }
     for (let guard = 0; guard < 40; guard++) {
+      if (!resolve()) { return; }
       const f = focusedElement(doc);
       if (!f) { return; }
       const a = centre(f), b = centre(target);
@@ -119,19 +182,19 @@ export function installTouch(doc: Document, press: (code: number) => void): () =
       }
       const dx = b.x - a.x, dy = b.y - a.y;
       const horizontal = Math.abs(dx) > Math.abs(dy);
-      press(horizontal ? (dx > 0 ? 39 : 37) : (dy > 0 ? 40 : 38));
-      if (focusedElement(doc) === f) {
-        // Blocked on that axis (zone edge): try the other axis once, then give up.
-        const other = horizontal ? (dy > 0 ? 40 : dy < 0 ? 38 : 0) : (dx > 0 ? 39 : dx < 0 ? 37 : 0);
-        if (!other) { return; }
-        press(other);
-        if (focusedElement(doc) === f) { return; }
-      }
+      const main = horizontal ? (dx > 0 ? 39 : 37) : (dy > 0 ? 40 : 38);
+      const other = horizontal ? (dy > 0 ? 40 : dy < 0 ? 38 : 0) : (dx > 0 ? 39 : dx < 0 ? 37 : 0);
+      // A step counts only when it brings the focus closer to the target. Otherwise it is undone
+      // and the other axis is tried: Save below the form fields is down-left of them, and "left"
+      // jumped to the QR panel and back for ever (0.3.5 phone finding).
+      if (!stepCloser(main) && (!other || !stepCloser(other))) { return; }
     }
   }
 
   function onStart(e: TouchEvent): void {
-    if (!e.touches || e.touches.length !== 1) { active = false; return; }
+    // Text fields keep the native behaviour: a tap places the cursor and raises the Android
+    // keyboard, a long press opens the Paste menu.
+    if (!e.touches || e.touches.length !== 1 || isTextField(e.target)) { active = false; return; }
     sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now(); active = true;
   }
   function onEnd(e: TouchEvent): void {

@@ -1,0 +1,25 @@
+# EliteStream website (docs/WEBSITE.md). Free plan: Workers static assets + a tiny Worker.
+# Build first (npm run build), then deploy — only after the owner's approval:
+#   cd website && npx wrangler@4 deploy
+name = "elitestream-site"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+# Custom domains (Cloudflare creates the DNS records and certificates). The zone has no records
+# for these names today (audited 2026-11-27), so nothing existing is overwritten.
+routes = [
+  { pattern = "elitestreamplayer.com", custom_domain = true },
+  { pattern = "www.elitestreamplayer.com", custom_domain = true }
+]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+# The Worker runs for every request: www → apex redirect and the security/cache headers.
+run_worker_first = true
+
+[observability]
+enabled = false

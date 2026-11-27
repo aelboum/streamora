@@ -19,3 +19,6 @@ probe/dist/
 probe2/media/
 probe2/dist/
 probe2/results/next-cmd.txt
+
+# wrangler local state (relay deploys)
+.wrangler/

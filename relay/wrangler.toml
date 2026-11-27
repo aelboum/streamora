@@ -1,0 +1,29 @@
+# EliteStream phone-pairing relay (docs/AI-02-PHONE-PAIRING.md).
+# Free plan: Workers + SQLite-backed Durable Objects + static assets. No paid feature is used.
+# Deploy (by the domain owner, after review):  cd relay && npx wrangler@4 deploy
+name = "elitestream-pair"
+main = "src/worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+# Custom domain on the elitestreamplayer.com zone (Cloudflare creates the DNS record and certificate).
+routes = [
+  { pattern = "pair.elitestreamplayer.com", custom_domain = true }
+]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+# /v1/* goes to the Worker; everything else is the static phone page.
+run_worker_first = ["/v1/*"]
+
+[[durable_objects.bindings]]
+name = "PAIR"
+class_name = "PairSession"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PairSession"]
+
+[observability]
+enabled = false

@@ -137,6 +137,11 @@ export function createSettingsScreen(d: SettingsDeps, nav: Router): Screen {
       id: 'clear-searches', label: t('set.clearSearches'), value: '',
       act: function () { confirm(t('set.clearSearchesTitle'), t('set.clearSearchesText'), t('set.clear'), function () { d.kv.remove('search.recent'); }); }
     });
+    // AI-02: Settings → AI Intelligence (only where the screen is registered).
+    if (nav.isRegistered('ai-settings')) {
+      group(t('set.aiRow'));
+      rows.push({ id: 'ai', label: t('set.aiRow'), value: '', act: function () { nav.push('ai-settings'); } });
+    }
     group(t('set.about'));
     // S1: one focusable row opens the About screen (version shown as its value); the details moved there.
     const info = d.about();

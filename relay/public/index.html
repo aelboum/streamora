@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>EliteStream – Pair with TV</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<main>
+  <h1>EliteStream</h1>
+  <p class="sub">Send your API key to your TV, end-to-end encrypted.</p>
+
+  <section id="bad" hidden>
+    <p class="err">This link is not valid. Open AI Intelligence on the TV and scan the QR code again.</p>
+  </section>
+
+  <section id="form" hidden>
+    <p>Provider: <strong id="provider"></strong></p>
+    <label for="key">API key</label>
+    <div class="row">
+      <input id="key" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="200">
+      <button id="show" type="button">Show</button>
+    </div>
+    <button id="paste" type="button" class="secondary">Paste from clipboard</button>
+    <p class="code">The TV will show check code <strong id="code"></strong>. Only save on the TV if it matches.</p>
+    <button id="send" type="button">Send to TV</button>
+    <p id="msg" role="status"></p>
+    <p class="fine">The key is encrypted on this phone with the TV's one-time public key before it is sent. The relay only passes on the sealed message and deletes it once the TV has it, or after 5 minutes. Nothing is stored on this phone.</p>
+  </section>
+
+  <section id="done" hidden>
+    <p class="ok" id="doneMsg"></p>
+  </section>
+</main>
+<script src="/vendor/nacl-fast.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

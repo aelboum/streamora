@@ -35,6 +35,11 @@ import type { KeyRouter } from '../navigation/key-router.ts';
 import { TIZEN_KEY_NAMES } from '../navigation/keys.ts';
 import { createDiagnosticsScreen } from '../screens/diagnostics-screen.ts';
 import { createAboutScreen } from '../screens/about-screen.ts';
+import { createAiSettingsScreen } from '../screens/ai-settings-screen.ts';
+import { createPhonePairScreen, PHONE_PAIR_SCREEN } from '../screens/ai-phone-pair-screen.ts';
+import { pairingCryptoAvailable } from '../ai/pairing/pair-crypto.ts';
+import { createAiEngine } from '../ai/ai-engine.ts';
+import type { AiEngine } from '../ai/ai-engine.ts';
 import { createResumeToast } from '../screens/resume-toast.ts';
 import type { ResumeToastParams } from '../screens/resume-toast.ts';
 import { createResumeLive } from '../services/resume-live.ts';
@@ -129,6 +134,8 @@ export interface AppContext {
   /** True while a text field owns the remote keys (system IME). */
   textInput: TextInputState;
   lifecycle: Lifecycle;
+  /** AI-02: AI Intelligence Engine (idle until the user enables it; nothing depends on it). */
+  ai: AiEngine;
   /** Start-up findings for diagnostics (capabilities missing, config fixes). */
   warnings: string[];
   startedAt: number;
@@ -293,6 +300,13 @@ export function createAppContext(deps: AppDeps): AppContext {
     platform: platform, build: deps.build, log: log, config: config, kv: kv,
     catalogue: catalogue, secrets: secrets, pin: pin, parental: pin ? createParental(pin, kv, deps.now) : null, http: http, playlists: playlists, epg: epg, vod: vod, lists: lists, myList: myList, catPrefs: catPrefs, memory: memory, diag: diag, accounts: accounts, progress: progress, trackPrefs: trackPrefs, engine: engine,
     textInput: { active: false }, lifecycle: lifecycle,
+    // AI-02: created idle; provider credentials live in the platform key store (ai_key_* /
+    // ai_session_*), switches, consent and routes in KV ai.settings, the cache in the file store
+    // (ai-cache.json). All off by default.
+    ai: createAiEngine({
+      kv: kv, keyStore: platform.keyStore, files: platform.fileStore, xhrFactory: platform.xhrFactory,
+      log: log.child('ai'), now: deps.now, setTimer: deps.setTimer, clearTimer: deps.clearTimer
+    }),
     warnings: warnings, startedAt: startedAt
   };
 }
@@ -535,6 +549,28 @@ export function startApp(ctx: AppContext, host: ScreenHost, doc: Document, now: 
         }
       }, nav);
     });
+    // AI-02: Settings → AI Intelligence.
+    router.register('ai-settings', function (_p, nav) {
+      return createAiSettingsScreen({ doc: doc, t: t, ai: ctx.ai, openText: textOpener(preferIme) }, nav);
+    });
+    // AI-02: API key with the phone (QR, end-to-end encrypted). Only with a configured relay and a
+    // cryptographic random source.
+    const pairing = ctx.ai.pairing;
+    if (pairing && pairingCryptoAvailable()) {
+      router.register(PHONE_PAIR_SCREEN, function (p, nav) {
+        const provider = String(p && p.provider || '');
+        const adapter = ctx.ai.registry.adapter(provider);
+        const desc = ctx.ai.registry.descriptor(provider);
+        const valid = adapter && adapter.validKey ? adapter.validKey : function () { return false; };
+        const onSaved = p && typeof p.onSaved === 'function' ? p.onSaved as () => void : function () { /* none */ };
+        return createPhonePairScreen({
+          doc: doc, t: t, http: pairing.http, baseUrl: pairing.baseUrl, provider: provider, providerName: desc ? desc.name : provider,
+          validKey: valid,
+          saveKey: function (key: string) { return ctx.ai.settings.setCredential(provider, 'api-key', key, valid); },
+          onSaved: onSaved, now: now, setTimer: tm.setTimer, clearTimer: tm.clearTimer
+        }, nav);
+      });
+    }
     router.register('settings', function (_p, nav) {
       return createSettingsScreen({
         resumeLast: resume ? { get: function () { return resume.enabled(); }, set: function (on: boolean) { resume.setEnabled(on); } } : undefined,
